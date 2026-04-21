@@ -1,0 +1,12 @@
+{
+  "name": "martech-scanner",
+  "version": "1.0.0",
+  "description": "Playwright-based martech scanner POC",
+  "main": "src/scanner.js",
+  "scripts": {
+    "scan": "node src/scanner.js"
+  },
+  "dependencies": {
+    "playwright": "^1.42.0"
+  }
+}
