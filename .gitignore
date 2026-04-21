@@ -1,7 +1,10 @@
 /node_modules/
+/output/
+/coverage/
+
 *.log
 .DS_Store
 Thumbs.db
+
 /.vscode/
 /.idea/
-/coverage/
