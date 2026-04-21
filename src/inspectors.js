@@ -50,6 +50,34 @@ async function collectThirdPartyScripts(page, baseUrl) {
 
 async function inspectPageGlobals(page) {
   return page.evaluate(() => {
+    function createPageSafePreviewReplacer() {
+      const seen = new WeakSet();
+
+      return (key, value) => {
+        if (typeof value === 'bigint') return value.toString();
+        if (typeof value === 'function') return `[Function ${value.name || 'anonymous'}]`;
+
+        if (value && typeof value === 'object') {
+          if (seen.has(value)) return '[Circular]';
+          seen.add(value);
+        }
+
+        return value;
+      };
+    }
+
+    function pageSafePreview(value, limit = 3000) {
+      try {
+        return JSON.stringify(value, createPageSafePreviewReplacer()).slice(0, limit);
+      } catch {
+        try {
+          return String(value).slice(0, limit);
+        } catch {
+          return '[unserializable]';
+        }
+      }
+    }
+
     const out = {
       title: document.title || '',
       location: window.location.href,
@@ -71,7 +99,7 @@ async function inspectPageGlobals(page) {
       present: Array.isArray(dataLayer),
       length: Array.isArray(dataLayer) ? dataLayer.length : null,
       preview: Array.isArray(dataLayer)
-        ? safePreview(dataLayer.slice(0, 10))
+        ? pageSafePreview(dataLayer.slice(0, 10))
         : null,
     };
 
@@ -79,14 +107,14 @@ async function inspectPageGlobals(page) {
       present: Array.isArray(adobeDataLayer),
       length: Array.isArray(adobeDataLayer) ? adobeDataLayer.length : null,
       preview: Array.isArray(adobeDataLayer)
-        ? safePreview(adobeDataLayer.slice(0, 10))
+        ? pageSafePreview(adobeDataLayer.slice(0, 10))
         : null,
     };
 
     out.globals.digitalData = {
       present: typeof digitalData !== 'undefined',
       preview: typeof digitalData !== 'undefined'
-        ? safePreview(digitalData)
+        ? pageSafePreview(digitalData)
         : null,
     };
 
@@ -98,21 +126,21 @@ async function inspectPageGlobals(page) {
     out.globals.utag_data = {
       present: typeof utagData !== 'undefined',
       preview: typeof utagData !== 'undefined'
-        ? safePreview(utagData)
+        ? pageSafePreview(utagData)
         : null,
     };
 
     out.globals.__NEXT_DATA__ = {
       present: typeof nextData !== 'undefined',
       preview: typeof nextData !== 'undefined'
-        ? safePreview(nextData)
+        ? pageSafePreview(nextData)
         : null,
     };
 
     out.globals.__INITIAL_STATE__ = {
       present: typeof initialState !== 'undefined',
       preview: typeof initialState !== 'undefined'
-        ? safePreview(initialState)
+        ? pageSafePreview(initialState)
         : null,
     };
 
@@ -152,6 +180,34 @@ async function inspectPageGlobals(page) {
 
 async function inspectPageSourceSignals(page) {
   return page.evaluate(() => {
+    function createPageSafePreviewReplacer() {
+      const seen = new WeakSet();
+
+      return (key, value) => {
+        if (typeof value === 'bigint') return value.toString();
+        if (typeof value === 'function') return `[Function ${value.name || 'anonymous'}]`;
+
+        if (value && typeof value === 'object') {
+          if (seen.has(value)) return '[Circular]';
+          seen.add(value);
+        }
+
+        return value;
+      };
+    }
+
+    function pageSafePreview(value, limit = 3000) {
+      try {
+        return JSON.stringify(value, createPageSafePreviewReplacer()).slice(0, limit);
+      } catch {
+        try {
+          return String(value).slice(0, limit);
+        } catch {
+          return '[unserializable]';
+        }
+      }
+    }
+
     const html = document.documentElement ? document.documentElement.outerHTML : '';
 
     const inlineScripts = Array.from(document.querySelectorAll('script:not([src])'))
@@ -175,7 +231,7 @@ async function inspectPageSourceSignals(page) {
       gtag: typeof window.gtag !== 'undefined',
       dataLayerPresent: Array.isArray(window.dataLayer),
       dataLayerPreview: Array.isArray(window.dataLayer)
-        ? safePreview(window.dataLayer.slice(0, 10))
+        ? pageSafePreview(window.dataLayer.slice(0, 10))
         : '',
     };
 

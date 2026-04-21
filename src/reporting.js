@@ -1,5 +1,13 @@
 const { dedupeBy } = require('./utils');
 
+function pageHasId(report, type) {
+  return (
+    (report.sourceSignals?.htmlIds || []).some(x => x.type === type) ||
+    (report.sourceSignals?.inlineScriptIds || []).some(x => x.type === type) ||
+    (report.sourceSignals?.noscriptIds || []).some(x => x.type === type)
+  );
+}
+
 function summarizeVendors(pageReports) {
   const all = [];
 
@@ -22,17 +30,16 @@ function summarizeVendors(pageReports) {
       }
     }
 
-    const hasGA4Id =
-      (report.sourceSignals?.htmlIds || []).some(x => x.type === 'GA4 Measurement ID') ||
-      (report.sourceSignals?.inlineScriptIds || []).some(x => x.type === 'GA4 Measurement ID') ||
-      (report.sourceSignals?.noscriptIds || []).some(x => x.type === 'GA4 Measurement ID');
-
+    const hasGA4Id = pageHasId(report, 'GA4 Measurement ID');
+    const hasUAId = pageHasId(report, 'UA Property ID');
     const hasAdsId =
-      (report.sourceSignals?.htmlIds || []).some(x => x.type === 'Google Ads ID') ||
-      (report.sourceSignals?.inlineScriptIds || []).some(x => x.type === 'Google Ads ID') ||
-      (report.sourceSignals?.noscriptIds || []).some(x => x.type === 'Google Ads ID');
+      pageHasId(report, 'Google Ads ID') ||
+      pageHasId(report, 'DoubleClick Advertiser ID');
+    const hasMetaId = pageHasId(report, 'Facebook Pixel ID');
+    const hasTikTokId = pageHasId(report, 'TikTok Pixel ID');
+    const hasTradeDeskId = pageHasId(report, 'The Trade Desk Advertiser ID');
 
-    if (hasGA4Id) {
+    if (hasGA4Id || hasUAId) {
       all.push({
         name: 'Google Analytics',
         category: 'analytics',
@@ -43,6 +50,30 @@ function summarizeVendors(pageReports) {
     if (hasAdsId) {
       all.push({
         name: 'Google Ads / DoubleClick',
+        category: 'media_pixel',
+        source: 'source_code',
+      });
+    }
+
+    if (hasMetaId) {
+      all.push({
+        name: 'Meta Pixel',
+        category: 'media_pixel',
+        source: 'source_code',
+      });
+    }
+
+    if (hasTikTokId) {
+      all.push({
+        name: 'TikTok Pixel',
+        category: 'media_pixel',
+        source: 'source_code',
+      });
+    }
+
+    if (hasTradeDeskId) {
+      all.push({
+        name: 'The Trade Desk',
         category: 'media_pixel',
         source: 'source_code',
       });

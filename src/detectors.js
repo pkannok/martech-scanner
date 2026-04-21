@@ -35,11 +35,27 @@ function extractIdsFromTextBlock(text) {
     },
     {
       type: 'GA4 Measurement ID',
-      re: /['"](G-[A-Z0-9]+)['"]/gi,
+      re: /['"](G-[A-Z0-9]{6,})['"]/g,
     },
     {
       type: 'Google Ads ID',
       re: /['"](AW-\d+)['"]/gi,
+    },
+    {
+      type: 'DoubleClick Advertiser ID',
+      re: /['"](DC-\d+)['"]/gi,
+    },
+    {
+      type: 'Facebook Pixel ID',
+      re: /fbq\s*\(\s*['"]init['"]\s*,\s*['"](\d{5,})['"]\s*\)/gi,
+    },
+    {
+      type: 'TikTok Pixel ID',
+      re: /ttq\s*\.\s*load\s*\(\s*['"]([A-Za-z0-9]{8,})['"]\s*\)/gi,
+    },
+    {
+      type: 'The Trade Desk Advertiser ID',
+      re: /(?:advertiser_id|ttd_pid)\s*[:=]\s*['"]?([A-Za-z0-9_-]{3,})['"]?/gi,
     },
   ];
 
@@ -168,7 +184,10 @@ function detectVendorFromUrl(text) {
   // TikTok
   if (
     hostMatches(hostname, /(^|\.)analytics\.tiktok\.com$/) ||
-    hostMatches(hostname, /(^|\.)business-api\.tiktok\.com$/)
+    hostMatches(hostname, /(^|\.)business-api\.tiktok\.com$/) ||
+    hostMatches(hostname, /(^|\.)tiktok\.com$/) ||
+    hostMatches(hostname, /(^|\.)tiktokcdn\.com$/) ||
+    hasIdType(ids, 'TikTok Pixel ID')
   ) {
     push('TikTok Pixel', 'media_pixel');
   }
@@ -187,6 +206,14 @@ function detectVendorFromUrl(text) {
     hostMatches(hostname, /(^|\.)everesttech\.net$/)
   ) {
     push('Adobe Analytics / Experience Cloud', 'analytics');
+  }
+
+  // The Trade Desk
+  if (
+    hostMatches(hostname, /(^|\.)adsrvr\.org$/) ||
+    hasIdType(ids, 'The Trade Desk Advertiser ID')
+  ) {
+    push('The Trade Desk', 'media_pixel');
   }
 
   // Consent

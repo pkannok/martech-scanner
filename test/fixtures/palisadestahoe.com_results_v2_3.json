@@ -1,0 +1,172 @@
+{
+  "domain": "https://palisadestahoe.com",
+  "scannedAt": "2026-04-21T18:35:54.318Z",
+  "config": {
+    "headless": true,
+    "timeout": 45000,
+    "maxPages": 6,
+    "enableConsentClick": true
+  },
+  "scanUrls": [
+    "https://palisadestahoe.com",
+    "https://blog.palisadestahoe.com/",
+    "https://future.palisadestahoe.com/",
+    "https://retail.palisadestahoe.com/",
+    "https://palisadestahoe.com/plan-your-visit",
+    "https://palisadestahoe.com/plan-your-visit/lodging"
+  ],
+  "pageReports": [
+    {
+      "url": "https://palisadestahoe.com",
+      "status": "failed",
+      "statusCode": 200,
+      "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "title": "",
+      "consentClicks": [],
+      "networkFindings": [],
+      "scriptFindings": [],
+      "cookies": [],
+      "pageGlobals": {
+        "globals": {},
+        "ecommerceHints": {},
+        "cmsHints": {},
+        "authHints": {}
+      },
+      "sourceSignals": {
+        "externalScripts": [],
+        "iframes": [],
+        "inlineScriptIds": [],
+        "htmlIds": [],
+        "noscriptIds": [],
+        "googleGlobals": {}
+      }
+    },
+    {
+      "url": "https://blog.palisadestahoe.com/",
+      "status": "failed",
+      "statusCode": 200,
+      "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "title": "",
+      "consentClicks": [],
+      "networkFindings": [],
+      "scriptFindings": [],
+      "cookies": [],
+      "pageGlobals": {
+        "globals": {},
+        "ecommerceHints": {},
+        "cmsHints": {},
+        "authHints": {}
+      },
+      "sourceSignals": {
+        "externalScripts": [],
+        "iframes": [],
+        "inlineScriptIds": [],
+        "htmlIds": [],
+        "noscriptIds": [],
+        "googleGlobals": {}
+      }
+    },
+    {
+      "url": "https://future.palisadestahoe.com/",
+      "status": "failed",
+      "statusCode": 200,
+      "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "title": "",
+      "consentClicks": [],
+      "networkFindings": [],
+      "scriptFindings": [],
+      "cookies": [],
+      "pageGlobals": {
+        "globals": {},
+        "ecommerceHints": {},
+        "cmsHints": {},
+        "authHints": {}
+      },
+      "sourceSignals": {
+        "externalScripts": [],
+        "iframes": [],
+        "inlineScriptIds": [],
+        "htmlIds": [],
+        "noscriptIds": [],
+        "googleGlobals": {}
+      }
+    },
+    {
+      "url": "https://retail.palisadestahoe.com/",
+      "status": "failed",
+      "statusCode": 200,
+      "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "title": "",
+      "consentClicks": [],
+      "networkFindings": [],
+      "scriptFindings": [],
+      "cookies": [],
+      "pageGlobals": {
+        "globals": {},
+        "ecommerceHints": {},
+        "cmsHints": {},
+        "authHints": {}
+      },
+      "sourceSignals": {
+        "externalScripts": [],
+        "iframes": [],
+        "inlineScriptIds": [],
+        "htmlIds": [],
+        "noscriptIds": [],
+        "googleGlobals": {}
+      }
+    },
+    {
+      "url": "https://palisadestahoe.com/plan-your-visit",
+      "status": "failed",
+      "statusCode": 200,
+      "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "title": "",
+      "consentClicks": [],
+      "networkFindings": [],
+      "scriptFindings": [],
+      "cookies": [],
+      "pageGlobals": {
+        "globals": {},
+        "ecommerceHints": {},
+        "cmsHints": {},
+        "authHints": {}
+      },
+      "sourceSignals": {
+        "externalScripts": [],
+        "iframes": [],
+        "inlineScriptIds": [],
+        "htmlIds": [],
+        "noscriptIds": [],
+        "googleGlobals": {}
+      }
+    },
+    {
+      "url": "https://palisadestahoe.com/plan-your-visit/lodging",
+      "status": "failed",
+      "statusCode": 200,
+      "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "title": "",
+      "consentClicks": [],
+      "networkFindings": [],
+      "scriptFindings": [],
+      "cookies": [],
+      "pageGlobals": {
+        "globals": {},
+        "ecommerceHints": {},
+        "cmsHints": {},
+        "authHints": {}
+      },
+      "sourceSignals": {
+        "externalScripts": [],
+        "iframes": [],
+        "inlineScriptIds": [],
+        "htmlIds": [],
+        "noscriptIds": [],
+        "googleGlobals": {}
+      }
+    }
+  ],
+  "vendors": [],
+  "ids": []
+}

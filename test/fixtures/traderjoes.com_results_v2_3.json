@@ -1,0 +1,3912 @@
+{
+  "domain": "https://traderjoes.com",
+  "scannedAt": "2026-03-31T16:58:19.278Z",
+  "config": {
+    "headless": false,
+    "timeout": 45000,
+    "maxPages": 6,
+    "enableConsentClick": true
+  },
+  "scanUrls": [
+    "https://traderjoes.com",
+    "https://locations.traderjoes.com/",
+    "https://traderjoes.com/home/products/category/meat-seafood-and-plant-based-122",
+    "https://traderjoes.com/home/products/category/flowers-and-plants-203",
+    "https://traderjoes.com/home/store-search",
+    "https://traderjoes.com/home/about-us"
+  ],
+  "pageReports": [
+    {
+      "url": "https://traderjoes.com",
+      "status": "ok",
+      "statusCode": 200,
+      "error": null,
+      "title": "Home | Trader Joe's",
+      "consentClicks": [
+        "got it"
+      ],
+      "networkFindings": [
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:54.364Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:54.969Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/id?d_visid_ver=5.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&d_nsid=0&ts=1774976215268",
+          "method": "GET",
+          "resourceType": "xhr",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.274Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.275Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.275Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.533Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/analytics.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.533Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.demdex.net/dest5.html?d_nsid=0",
+          "method": "GET",
+          "resourceType": "document",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.635Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://cm.everesttech.net/cm/dd?d_uuid=21061893688585281671738827152748970700",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.678Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.112.2o7.net/b/ss/traderjoesprod/1/JS-2.22.3-LBWB/s96907332556893?AQB=1&ndh=1&pf=1&t=31%2F2%2F2026%2010%3A56%3A55%202%20360&mid=17054625919477097381346641392892302913&aamlh=7&ce=UTF-8&pageName=www.traderjoes.com%7Chome&g=https%3A%2F%2Fwww.traderjoes.com%2Fhome&c.&getPreviousValue=3.0&apl=4.0&getPageName=4.2&getPageLoadTime=2.0.1&getNewRepeat=3.0&getVisitNum=4.2&getTimeParting=6.3&getPercentPageViewed=5.0&getVisitDuration=2.1&getTimeSinceLastVisit=2.0&.c&cc=USD&events=event14&aamb=6G1ynYcLPuiQxYZrsz_pkqfLG9yMXBpb2zX5dvJdYQJzPXImdj0y&c1=en-US&v1=D%3Dg&c2=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%20Safari%20PlaywrightScanner%2F2.1&v3=%2B1&v5=New&v6=1&v7=First%20Visit&v8=year%3D2026%20%7C%20month%3DMarch%20%7C%20date%3D31%20%7C%20day%3DTuesday%20%7C%20time%3D9%3A56%20AM&v10=first%20hit%20of%20visit&v11=New%20Visitor&v12=03%2F31%2F2026&v14=Visitor%20API%20Present&v15=www.traderjoes.com&v16=%2Fhome&v17=www.traderjoes.com%2Fhome&v23=AppMeasurement%20JS%7C2.22.3%7CLBWB%7C5.3.0%7CClient%20Side%20ID%7CTraderJoes.com%7C2022-01-06T18%3A29%3A00Z%7Cproduction&v25=Home%20%7C%20Trader%20Joe%27s&v27=%2B1&s=1440x960&c=32&j=1.6&v=N&k=Y&bw=1440&bh=960&mcorgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&AQE=1",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.679Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-2HMPBJHQ41&gtm=45je63u0v9121346349z8830460603za20gzb830460603zd830460603&_p=1774976214965&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=47432634.1774976216&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_s=1&tag_exp=0~115938465~115938468~116133312~116991817~117484252~117884344~118317690&sid=1774976215&sct=1&seg=0&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome&dt=Home%20%7C%20Trader%20Joe%27s&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=2146",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.935Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/j/collect?v=1&_v=j102&a=1782089293&t=pageview&_s=1&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome&ul=en-us&dt=Home%20%7C%20Trader%20Joe%27s&sr=1440x960&vp=1425x960&_u=YADAAAABAAAAAC~&jid=593208603&gjid=1544145997&cid=47432634.1774976216&tid=UA-15671700-1&_gid=1553466162.1774976216&_r=1&_slc=1&gtm=45He63u0n81PK37XV6v830460603za200zd830460603&gcd=13l3l3l3l1l1&dma=0&tag_exp=0~115938465~115938469~116991816~117266401~117384406~117484252~118317690&z=661507522",
+          "method": "POST",
+          "resourceType": "xhr",
+          "ids": [
+            {
+              "type": "UA Property ID",
+              "value": "UA-15671700-1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:55.991Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/ibs:dpid=411&dpuuid=acv81gAAADa6HAOx",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:56.035Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/demconf.jpg?et:ibs%7cdata:dpid=411&dpuuid=acv81gAAADa6HAOx",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:56:56.191Z"
+        }
+      ],
+      "scriptFindings": [
+        {
+          "src": "https://www.google-analytics.com/analytics.js",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ]
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "detectedVendors": [
+            {
+              "name": "Google Tag Manager",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ]
+        },
+        {
+          "src": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        }
+      ],
+      "cookies": [
+        {
+          "name": "AMCVS_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "gpv_c51",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978026,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "https%3A%2F%2Fwww.traderjoes.com%2Fhome"
+        },
+        {
+          "name": "s_vncm",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775023199,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1775023199640%26vn%3D1"
+        },
+        {
+          "name": "s_ivc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978026,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "s_lv_s",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978026,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "First%20Visit"
+        },
+        {
+          "name": "s_visit",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978026,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "s_ips",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "960"
+        },
+        {
+          "name": "s_dur",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978026,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976215658"
+        },
+        {
+          "name": "s_inv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978026,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0"
+        },
+        {
+          "name": "s_cc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "_ga_2HMPBJHQ41",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536215.904124,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.1.s1774976215$o1$g0$t1774976215$j60$l0$h0"
+        },
+        {
+          "name": "_ga",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536215.95019,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.47432634.1774976216"
+        },
+        {
+          "name": "_gid",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775062615,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.1553466162.1774976216"
+        },
+        {
+          "name": "_gat_UA-15671700-1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774976275,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "__kla_id",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": 1809536216.176636,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "eyJjaWQiOiJOMk0yTW1RNE9XRXROemM1WVMwMFltVTJMV0l6WmpJdFlXRXpZelJrTmpRMlptUTMifQ=="
+        },
+        {
+          "name": "AMCV_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536216.260202,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "-2121179033%7CMCIDTS%7C20544%7CMCMID%7C17054625919477097381346641392892302913%7CMCAAMLH-1775581015%7C7%7CMCAAMB-17755810"
+        },
+        {
+          "name": "affinity",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"0859c7cdf381417e\""
+        },
+        {
+          "name": "s_tp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "6021"
+        },
+        {
+          "name": "s_ppv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%257Chome%2C16%2C16%2C960%2C1%2C6"
+        },
+        {
+          "name": "s_plt",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "7.18"
+        },
+        {
+          "name": "s_pltp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%7Chome"
+        },
+        {
+          "name": "s_ptc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0.47%5E%5E0.00%5E%5E0.00%5E%5E0.00%5E%5E0.10%5E%5E0.00%5E%5E6.60%5E%5E0.00%5E%5E7.18"
+        },
+        {
+          "name": "s_nr30",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1777568226,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976226484-New"
+        },
+        {
+          "name": "s_lv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536226.48601,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976226485"
+        },
+        {
+          "name": "s_tslv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536226.487972,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976226487"
+        },
+        {
+          "name": "s_sq",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "traderjoesprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dwww.traderjoes.com%25257Chome%2526link%253DGOT%252520IT%25"
+        },
+        {
+          "name": "s_tps",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "17"
+        },
+        {
+          "name": "s_pvs",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "20"
+        }
+      ],
+      "pageGlobals": {
+        "title": "Home | Trader Joe's",
+        "location": "https://www.traderjoes.com/home",
+        "globals": {
+          "dataLayer": {
+            "present": true,
+            "length": 3,
+            "preview": "[{\"gtm.start\":1774976214965,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+          },
+          "adobeDataLayer": {
+            "present": true,
+            "length": 0,
+            "preview": "[]"
+          },
+          "digitalData": {
+            "present": false,
+            "preview": null
+          },
+          "utag": {
+            "present": false,
+            "keys": []
+          },
+          "utag_data": {
+            "present": false,
+            "preview": null
+          },
+          "__NEXT_DATA__": {
+            "present": false,
+            "preview": null
+          },
+          "__INITIAL_STATE__": {
+            "present": false,
+            "preview": null
+          }
+        },
+        "ecommerceHints": {
+          "shopify": false,
+          "cartLinks": true
+        },
+        "cmsHints": {
+          "wordpress": false,
+          "drupal": false,
+          "webflow": false
+        },
+        "authHints": {
+          "loginUiPresent": false
+        }
+      },
+      "sourceSignals": {
+        "externalScripts": [
+          "https://www.google-analytics.com/analytics.js",
+          "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YyBHyr",
+          "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "https://www.traderjoes.com/.rum/@adobe/helix-rum-js@%5E2/dist/micro.js",
+          "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/3.7f742c99.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/34.7dd0be24.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/131.bf0f807b.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/49.46e5579d.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/53.03ea9e38.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/91.5f785a89.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/87.699ecd8b.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/81.25bb2bc3.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/102.4f3ef0ef.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/120.0fc61708.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/20.85787e93.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/61.a830df32.chunk.js",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/fender_analytics.e5aba8b3a52dc623782c.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/static.05920b16793f2a456e22.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/runtime.04857a4ccaba8b6bc510.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/sharedUtils.46b909313cee11709de1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~reviews~atlas.0201e888d834a3782e3a.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms.a899b049d575de74ade1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/default~in_app_forms~signup_forms.a9953a1681e0d8106e3e.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/signup_forms.b91963e01b14e3963e32.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/post_identification_sync.e290d099b5bfa48fdae0.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/event_adapter.4f7be3f375ef0d59c121.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/telemetry.252f3f2a5777c4acc847.js?cb=2",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/23.4c9ae104.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/100.255de38c.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/98.fc438f77.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/121.5dff1b89.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react.lc-2f733596ad7dd4c39f9ea2d9338ed99b-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/core/wcm/components/commons/site/clientlibs/container.lc-0a6aff292f5cc42142779cde92054524-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-base.lc-f54bcc9456cf289fb257b9499b24226e-lc.min.js"
+        ],
+        "iframes": [
+          "https://traderjoes.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fwww.traderjoes.com"
+        ],
+        "inlineScriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "htmlIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-2HMPBJHQ41"
+          }
+        ],
+        "noscriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "googleGlobals": {
+          "google_tag_manager": true,
+          "gtag": false,
+          "dataLayerPresent": true,
+          "dataLayerPreview": "[{\"gtm.start\":1774976214965,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+        }
+      }
+    },
+    {
+      "url": "https://locations.traderjoes.com/",
+      "status": "ok",
+      "statusCode": 200,
+      "error": null,
+      "title": "Trader Joe's Store Directory | Grocery Store",
+      "consentClicks": [],
+      "networkFindings": [
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-PVSN19270R",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-PVSN19270R"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:14.109Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://analytics.google.com/g/collect?v=2&tid=G-PVSN19270R&gtm=45je63u0h1v868823102za200zd868823102&_p=1774976234105&_gaz=1&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=1708529442.1774976234&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_eu=AAAAAGA&_s=1&tag_exp=0~115938466~115938468~116133312~116991816~117484252~117884344&sid=1774976234&sct=1&seg=0&dl=https%3A%2F%2Flocations.traderjoes.com%2F&dt=Trader%20Joe%27s%20Store%20Directory%20%7C%20Grocery%20Store&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=557",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-PVSN19270R"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:14.457Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://stats.g.doubleclick.net/g/collect?v=2&_ng=1&tid=G-PVSN19270R&cid=1708529442.1774976234&gtm=45je63u0h1v868823102za200zd868823102&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=0~115938466~115938468~116133312~116991816~117484252~117884344",
+          "method": "POST",
+          "resourceType": "ping",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-PVSN19270R"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:14.457Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Ads / DoubleClick",
+            "category": "media_pixel"
+          },
+          "url": "https://stats.g.doubleclick.net/g/collect?v=2&_ng=1&tid=G-PVSN19270R&cid=1708529442.1774976234&gtm=45je63u0h1v868823102za200zd868823102&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=0~115938466~115938468~116133312~116991816~117484252~117884344",
+          "method": "POST",
+          "resourceType": "ping",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-PVSN19270R"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:14.457Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TZMMWGR",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-TZMMWGR"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:14.578Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/analytics.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:14.767Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/j/collect?v=1&_v=j102&a=401529641&t=pageview&_s=1&dl=https%3A%2F%2Flocations.traderjoes.com%2F&ul=en-us&dt=Trader%20Joe%27s%20Store%20Directory%20%7C%20Grocery%20Store&sr=1440x960&vp=1425x960&_u=YADAAEABAAAAACAAI~&jid=309898437&gjid=996802946&cid=1708529442.1774976234&tid=UA-100422848-1&_gid=2092484203.1774976235&_r=1&_slc=1&gtm=45He63u0h1n81TZMMWGRza200&gcd=13l3l3l3l1l1&dma=0&tag_exp=0~115616985~115938466~115938469~116991817~117484252~118089341&z=134997799",
+          "method": "POST",
+          "resourceType": "xhr",
+          "ids": [
+            {
+              "type": "UA Property ID",
+              "value": "UA-100422848-1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:15.073Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-2KLNSNQXP1&cx=c&_slc=1",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2KLNSNQXP1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:15.310Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-2KLNSNQXP1&gtm=45je63u0v9124790170za20g&_p=1774976234105&gcd=13l3l3l3l2l1&npa=0&_ng=1&dma=0&ul=en-us&sr=1440x960&cid=1708529442.1774976234&ir=1&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_eu=EBAI&_s=1&tag_exp=0~115616985~115938466~115938468~116133314~116991817~117266402~117484252~117884344&dl=https%3A%2F%2Flocations.traderjoes.com%2F&dt=Trader%20Joe%27s%20Store%20Directory%20%7C%20Grocery%20Store&sid=1774976235&sct=1&seg=0&_tu=wAQ&en=page_view&_fv=1&_ss=1&_ee=1&tfd=1602",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2KLNSNQXP1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:15.535Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://analytics.google.com/g/collect?v=2&tid=G-PVSN19270R&gtm=45je63u0h1v868823102za200zd868823102&_p=1774976234105&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=1708529442.1774976234&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_eu=AEAAAGQ&_s=2&tag_exp=0~115938466~115938468~116133312~116991816~117484252~117884344&sid=1774976234&sct=1&seg=0&dl=https%3A%2F%2Flocations.traderjoes.com%2F&dt=Trader%20Joe%27s%20Store%20Directory%20%7C%20Grocery%20Store&en=scroll&epn.percent_scrolled=90&_et=30&tfd=5604",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-PVSN19270R"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:19.490Z"
+        }
+      ],
+      "scriptFindings": [
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-2KLNSNQXP1&cx=c&_slc=1",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2KLNSNQXP1"
+            }
+          ]
+        },
+        {
+          "src": "https://www.google-analytics.com/analytics.js",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtm.js?id=GTM-TZMMWGR",
+          "detectedVendors": [
+            {
+              "name": "Google Tag Manager",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-TZMMWGR"
+            }
+          ]
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-PVSN19270R",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-PVSN19270R"
+            }
+          ]
+        }
+      ],
+      "cookies": [
+        {
+          "name": "_ga_PVSN19270R",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536234.472804,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.1.s1774976234$o1$g0$t1774976234$j60$l0$h0"
+        },
+        {
+          "name": "_ga",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536235.051865,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.1708529442.1774976234"
+        },
+        {
+          "name": "_gid",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775062635,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.2092484203.1774976235"
+        },
+        {
+          "name": "_gat_UA-100422848-1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774976295,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "_ga_2KLNSNQXP1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536235.48311,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.2.s1774976235$o1$g0$t1774976235$j60$l0$h0"
+        }
+      ],
+      "pageGlobals": {
+        "title": "Trader Joe's Store Directory | Grocery Store",
+        "location": "https://locations.traderjoes.com/",
+        "globals": {
+          "dataLayer": {
+            "present": true,
+            "length": 10,
+            "preview": "[{\"0\":\"js\",\"1\":\"2026-03-31T16:57:14.105Z\",\"gtm.uniqueEventId\":3},{\"0\":\"config\",\"1\":\"G-PVSN19270R\"},{\"event\":\"gtm.scrollDepth\",\"gtm.scrollThreshold\":90,\"gtm.scrollUnits\":\"percent\",\"gtm.scrollDirection\":\"vertical\",\"gtm.triggers\":\"7\",\"gtm.uniqueEventId\":10},{\"gtm.start\":1774976234576,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":11},{\"gtm.start\":1774976235307,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":15},{\"0\":\"config\",\"1\":\"G-2KLNSNQXP1\",\"2\":{\"is_legacy_loaded\":true}},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":17},{\"0\":\"event\",\"1\":\"page_view\",\"2\":{\"page_location\":\"https://locations.traderjoes.com/\",\"language\":\"en-us\",\"page_title\":\"Trader Joe's Store Directory | Grocery Store\",\"screen_resolution\":\"1440x960\",\"client_id\":\"1708529442.1774976234\",\"allow_display_features\":true,\"allow_ad_personalization_signals\":true,\"cookie_domain\":\"traderjoes.com\",\"cookie_expires\":63072000,\"cookie_flags\":\"\",\"cookie_path\":\"/\",\"cookie_update\":true,\"is_legacy_converted\":true,\"send_to\":[\"G-2KLNSNQXP1\"]}},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":19},{\"event\":\"gtm.historyChange-v2\",\"gtm.historyChangeSource\":\"replaceState\",\"gtm.oldUrlFragment\":\"\",\"gtm.newUrlFragment\":\"\",\"gtm.oldHistoryState\":null,\"gtm.newHistoryState\":{\"idx\":0},\"gtm.oldUrl\":\"https://locations.traderjoes.com/\",\"gtm.newUrl\":\"https://locations.traderjoes.com/\",\"gtm.triggers\":\"6\",\"gtm.uniqueEventId\":20}]"
+          },
+          "adobeDataLayer": {
+            "present": true,
+            "length": 0,
+            "preview": "[]"
+          },
+          "digitalData": {
+            "present": false,
+            "preview": null
+          },
+          "utag": {
+            "present": false,
+            "keys": []
+          },
+          "utag_data": {
+            "present": false,
+            "preview": null
+          },
+          "__NEXT_DATA__": {
+            "present": false,
+            "preview": null
+          },
+          "__INITIAL_STATE__": {
+            "present": false,
+            "preview": null
+          }
+        },
+        "ecommerceHints": {
+          "shopify": false,
+          "cartLinks": true
+        },
+        "cmsHints": {
+          "wordpress": false,
+          "drupal": false,
+          "webflow": false
+        },
+        "authHints": {
+          "loginUiPresent": false
+        }
+      },
+      "sourceSignals": {
+        "externalScripts": [
+          "https://www.googletagmanager.com/gtag/js?id=G-2KLNSNQXP1&cx=c&_slc=1",
+          "https://www.google-analytics.com/analytics.js",
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TZMMWGR",
+          "https://www.googletagmanager.com/gtag/js?id=G-PVSN19270R",
+          "https://llp-assets.meetsoci.com/live/assets/traderjoes/local/scripts/core-vendors.js",
+          "https://llp-assets.meetsoci.com/live/assets/traderjoes/local/Base_files/container.js",
+          "https://llp-assets.meetsoci.com/live/assets/traderjoes/local/Base_files/clientlib-base.js",
+          "https://llp-assets.meetsoci.com/live/assets/traderjoes/local/Base_files/clientlib-react.js",
+          "https://llp-assets.meetsoci.com/libs/javascript/backbone/bb/lib/jquery.js"
+        ],
+        "iframes": [],
+        "inlineScriptIds": [
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-PVSN19270R"
+          },
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-TZMMWGR"
+          }
+        ],
+        "htmlIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-TZMMWGR"
+          },
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-2KLNSNQXP1"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-PVSN19270R"
+          }
+        ],
+        "noscriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-TZMMWGR"
+          },
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "googleGlobals": {
+          "google_tag_manager": true,
+          "gtag": true,
+          "dataLayerPresent": true,
+          "dataLayerPreview": "[{\"0\":\"js\",\"1\":\"2026-03-31T16:57:14.105Z\",\"gtm.uniqueEventId\":3},{\"0\":\"config\",\"1\":\"G-PVSN19270R\"},{\"event\":\"gtm.scrollDepth\",\"gtm.scrollThreshold\":90,\"gtm.scrollUnits\":\"percent\",\"gtm.scrollDirection\":\"vertical\",\"gtm.triggers\":\"7\",\"gtm.uniqueEventId\":10},{\"gtm.start\":1774976234576,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":11},{\"gtm.start\":1774976235307,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":15},{\"0\":\"config\",\"1\":\"G-2KLNSNQXP1\",\"2\":{\"is_legacy_loaded\":true}},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":17},{\"0\":\"event\",\"1\":\"page_view\",\"2\":{\"page_location\":\"https://locations.traderjoes.com/\",\"language\":\"en-us\",\"page_title\":\"Trader Joe's Store Directory | Grocery Store\",\"screen_resolution\":\"1440x960\",\"client_id\":\"1708529442.1774976234\",\"allow_display_features\":true,\"allow_ad_personalization_signals\":true,\"cookie_domain\":\"traderjoes.com\",\"cookie_expires\":63072000,\"cookie_flags\":\"\",\"cookie_path\":\"/\",\"cookie_update\":true,\"is_legacy_converted\":true,\"send_to\":[\"G-2KLNSNQXP1\"]}},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":19},{\"event\":\"gtm.historyChange-v2\",\"gtm.historyChangeSource\":\"replaceState\",\"gtm.oldUrlFragment\":\"\",\"gtm.newUrlFragment\":\"\",\"gtm.oldHistoryState\":null,\"gtm.newHistoryState\":{\"idx\":0},\"gtm.oldUrl\":\"https://locations.traderjoes.com/\",\"gtm.newUrl\":\"https://locations.traderjoes.com/\",\"gtm.triggers\":\"6\",\"gtm.uniqueEventId\":20}]"
+        }
+      }
+    },
+    {
+      "url": "https://traderjoes.com/home/products/category/meat-seafood-and-plant-based-122",
+      "status": "ok",
+      "statusCode": 200,
+      "error": null,
+      "title": "Meat, Seafood & Plant-based | Trader Joe's",
+      "consentClicks": [
+        "got it"
+      ],
+      "networkFindings": [
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:21.553Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:21.863Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.153Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/analytics.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.153Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/id?d_visid_ver=5.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&d_nsid=0&ts=1774976242447",
+          "method": "GET",
+          "resourceType": "xhr",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.454Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.454Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.454Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-2HMPBJHQ41&gtm=45je63u0v9121346349z8830460603za20gzb830460603zd830460603&_p=1774976241862&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=1524050358.1774976242&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_s=1&tag_exp=0~115938466~115938469~116991817~117384405~117484252&sid=1774976242&sct=1&seg=0&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fmeat-seafood-and-plant-based-122&dt=Category%20%7C%20Trader%20Joe%27s&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=1494",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.495Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/j/collect?v=1&_v=j102&a=839672769&t=pageview&_s=1&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fmeat-seafood-and-plant-based-122&ul=en-us&dt=Category%20%7C%20Trader%20Joe%27s&sr=1440x960&vp=1425x960&_u=YADAAAABAAAAAC~&jid=1638757688&gjid=712635123&cid=1524050358.1774976242&tid=UA-15671700-1&_gid=668423613.1774976243&_r=1&_slc=1&gtm=45He63u0n81PK37XV6v830460603za200zd830460603&gcd=13l3l3l3l1l1&dma=0&tag_exp=0~115938466~115938468~116991816~117484252&z=985035701",
+          "method": "POST",
+          "resourceType": "xhr",
+          "ids": [
+            {
+              "type": "UA Property ID",
+              "value": "UA-15671700-1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.519Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.demdex.net/dest5.html?d_nsid=0",
+          "method": "GET",
+          "resourceType": "document",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.762Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://cm.everesttech.net/cm/dd?d_uuid=91659732088118513233983918007221131804",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.802Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.112.2o7.net/b/ss/traderjoesprod/1/JS-2.22.3-LBWB/s91574350514719?AQB=1&ndh=1&pf=1&t=31%2F2%2F2026%2010%3A57%3A22%202%20360&mid=84773591118918847264456326616858250897&aamlh=7&ce=UTF-8&pageName=www.traderjoes.com%7Chome%7Cproducts%7Ccategory%7Cmeat-seafood-and-plant-based-122&g=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fmeat-seafood-and-plant-based-122&c.&getPreviousValue=3.0&apl=4.0&getPageName=4.2&getPageLoadTime=2.0.1&getNewRepeat=3.0&getVisitNum=4.2&getTimeParting=6.3&getPercentPageViewed=5.0&getVisitDuration=2.1&getTimeSinceLastVisit=2.0&.c&cc=USD&events=event14&aamb=6G1ynYcLPuiQxYZrsz_pkqfLG9yMXBpb2zX5dvJdYQJzPXImdj0y&c1=en-US&v1=D%3Dg&c2=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%20Safari%20PlaywrightScanner%2F2.1&v3=%2B1&v5=New&v6=1&v7=First%20Visit&v8=year%3D2026%20%7C%20month%3DMarch%20%7C%20date%3D31%20%7C%20day%3DTuesday%20%7C%20time%3D9%3A57%20AM&v10=first%20hit%20of%20visit&v11=New%20Visitor&v12=03%2F31%2F2026&v14=Visitor%20API%20Present&v15=www.traderjoes.com&v16=%2Fhome%2Fproducts%2Fcategory%2Fmeat-seafood-and-plant-based-122&v17=www.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fmeat-seafood-and-plant-based-122&v19=home&v23=AppMeasurement%20JS%7C2.22.3%7CLBWB%7C5.3.0%7CClient%20Side%20ID%7CTraderJoes.com%7C2022-01-06T18%3A29%3A00Z%7Cproduction&v25=Category%20%7C%20Trader%20Joe%27s&v27=%2B1&s=1440x960&c=32&j=1.6&v=N&k=Y&bw=1440&bh=960&mcorgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&AQE=1",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:22.803Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/ibs:dpid=411&dpuuid=acv88QAAABlTOwNP",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:23.082Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/demconf.jpg?et:ibs%7cdata:dpid=411&dpuuid=acv88QAAABlTOwNP",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:23.168Z"
+        }
+      ],
+      "scriptFindings": [
+        {
+          "src": "https://www.google-analytics.com/analytics.js",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ]
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "detectedVendors": [
+            {
+              "name": "Google Tag Manager",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ]
+        },
+        {
+          "src": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        }
+      ],
+      "cookies": [
+        {
+          "name": "affinity",
+          "domain": "traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"91e2c00266be87e2\""
+        },
+        {
+          "name": "affinity",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"c3c1ee5ec5f8597d\""
+        },
+        {
+          "name": "_ga_2HMPBJHQ41",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536242.489091,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.1.s1774976242$o1$g0$t1774976242$j60$l0$h0"
+        },
+        {
+          "name": "_ga",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536242.504389,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.1524050358.1774976242"
+        },
+        {
+          "name": "_gid",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775062642,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.668423613.1774976243"
+        },
+        {
+          "name": "_gat_UA-15671700-1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774976302,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "__kla_id",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": 1809536242.743023,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "eyJjaWQiOiJZMlpsTVRKbU1HSXRZVE5qTUMwME9EaGhMVGhqWkRRdE5ETmhaRGMxTWpFeFpqQm0ifQ=="
+        },
+        {
+          "name": "AMCVS_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "gpv_c51",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978048,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fmeat-seafood-and-plant-based-122"
+        },
+        {
+          "name": "s_vncm",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775023199,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1775023199767%26vn%3D1"
+        },
+        {
+          "name": "s_ivc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978048,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "s_lv_s",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978048,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "First%20Visit"
+        },
+        {
+          "name": "s_visit",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978048,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "s_ips",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "960"
+        },
+        {
+          "name": "s_dur",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978048,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976242793"
+        },
+        {
+          "name": "s_inv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978048,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0"
+        },
+        {
+          "name": "s_cc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "AMCV_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536243.236552,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "-2121179033%7CMCIDTS%7C20544%7CMCMID%7C84773591118918847264456326616858250897%7CMCAAMLH-1775581042%7C7%7CMCAAMB-17755810"
+        },
+        {
+          "name": "s_plt",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "2.25"
+        },
+        {
+          "name": "s_pltp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%7Chome%7Cproducts%7Ccategory%7Cmeat-seafood-and-plant-based-122"
+        },
+        {
+          "name": "s_ptc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0.28%5E%5E0.00%5E%5E0.02%5E%5E0.11%5E%5E0.12%5E%5E0.02%5E%5E1.70%5E%5E0.00%5E%5E2.25"
+        },
+        {
+          "name": "s_nr30",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1777568248,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976248280-New"
+        },
+        {
+          "name": "s_lv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536248.281696,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976248281"
+        },
+        {
+          "name": "s_tslv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536248.283517,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976248283"
+        },
+        {
+          "name": "s_sq",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "traderjoesprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dwww.traderjoes.com%25257Chome%25257Cproducts%25257Ccategor"
+        },
+        {
+          "name": "s_tp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "4228"
+        },
+        {
+          "name": "s_ppv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%257Chome%257Cproducts%257Ccategory%257Cmeat-seafood-and-plant-based-122%2C23%2C23%2C960%2C1%2C4"
+        },
+        {
+          "name": "s_tps",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "11"
+        },
+        {
+          "name": "s_pvs",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "15"
+        }
+      ],
+      "pageGlobals": {
+        "title": "Meat, Seafood & Plant-based | Trader Joe's",
+        "location": "https://www.traderjoes.com/home/products/category/meat-seafood-and-plant-based-122",
+        "globals": {
+          "dataLayer": {
+            "present": true,
+            "length": 3,
+            "preview": "[{\"gtm.start\":1774976241862,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+          },
+          "adobeDataLayer": {
+            "present": true,
+            "length": 0,
+            "preview": "[]"
+          },
+          "digitalData": {
+            "present": false,
+            "preview": null
+          },
+          "utag": {
+            "present": false,
+            "keys": []
+          },
+          "utag_data": {
+            "present": false,
+            "preview": null
+          },
+          "__NEXT_DATA__": {
+            "present": false,
+            "preview": null
+          },
+          "__INITIAL_STATE__": {
+            "present": false,
+            "preview": null
+          }
+        },
+        "ecommerceHints": {
+          "shopify": false,
+          "cartLinks": true
+        },
+        "cmsHints": {
+          "wordpress": false,
+          "drupal": false,
+          "webflow": false
+        },
+        "authHints": {
+          "loginUiPresent": false
+        }
+      },
+      "sourceSignals": {
+        "externalScripts": [
+          "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YyBHyr",
+          "https://www.google-analytics.com/analytics.js",
+          "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "https://www.traderjoes.com/.rum/@adobe/helix-rum-js@%5E2/dist/micro.js",
+          "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/3.7f742c99.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/25.f7e4a1a8.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/102.4f3ef0ef.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/4.ca0e0377.chunk.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/fender_analytics.e5aba8b3a52dc623782c.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/static.05920b16793f2a456e22.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/runtime.04857a4ccaba8b6bc510.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/sharedUtils.46b909313cee11709de1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~reviews~atlas.0201e888d834a3782e3a.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms.a899b049d575de74ade1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/default~in_app_forms~signup_forms.a9953a1681e0d8106e3e.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/signup_forms.b91963e01b14e3963e32.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/post_identification_sync.e290d099b5bfa48fdae0.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/event_adapter.4f7be3f375ef0d59c121.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/telemetry.252f3f2a5777c4acc847.js?cb=2",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/0.ec03c44d.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/39.6571ee9d.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/121.5dff1b89.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/100.255de38c.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/98.fc438f77.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/44.2d2564f8.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/51.cd520ecf.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/29.c3850bb7.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react.lc-2f733596ad7dd4c39f9ea2d9338ed99b-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/core/wcm/components/commons/site/clientlibs/container.lc-0a6aff292f5cc42142779cde92054524-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-base.lc-f54bcc9456cf289fb257b9499b24226e-lc.min.js"
+        ],
+        "iframes": [
+          "https://traderjoes.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fwww.traderjoes.com"
+        ],
+        "inlineScriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "htmlIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-2HMPBJHQ41"
+          }
+        ],
+        "noscriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "googleGlobals": {
+          "google_tag_manager": true,
+          "gtag": false,
+          "dataLayerPresent": true,
+          "dataLayerPreview": "[{\"gtm.start\":1774976241862,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+        }
+      }
+    },
+    {
+      "url": "https://traderjoes.com/home/products/category/flowers-and-plants-203",
+      "status": "ok",
+      "statusCode": 200,
+      "error": null,
+      "title": "Flowers & Plants | Trader Joe's",
+      "consentClicks": [
+        "got it"
+      ],
+      "networkFindings": [
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.179Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.544Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.870Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/analytics.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.871Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/id?d_visid_ver=5.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&d_nsid=0&ts=1774976256993",
+          "method": "GET",
+          "resourceType": "xhr",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.996Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.997Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:36.997Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-2HMPBJHQ41&gtm=45je63u0v9121346349z8830460603za20gzb830460603zd830460603&_p=1774976256542&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=639249938.1774976257&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_s=1&tag_exp=0~115938465~115938468~116133314~116991817~117484252~118317691&sid=1774976257&sct=1&seg=0&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fflowers-and-plants-203&dt=Category%20%7C%20Trader%20Joe%27s&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=1586",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.035Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/j/collect?v=1&_v=j102&a=983684882&t=pageview&_s=1&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fflowers-and-plants-203&ul=en-us&dt=Category%20%7C%20Trader%20Joe%27s&sr=1440x960&vp=1425x960&_u=YADAAAABAAAAAC~&jid=68683146&gjid=1294211336&cid=639249938.1774976257&tid=UA-15671700-1&_gid=1634845218.1774976257&_r=1&_slc=1&gtm=45He63u0n81PK37XV6v830460603za200zd830460603&gcd=13l3l3l3l1l1&dma=0&tag_exp=0~115938465~115938468~116991816~117484252~118317691&z=2082004170",
+          "method": "POST",
+          "resourceType": "xhr",
+          "ids": [
+            {
+              "type": "UA Property ID",
+              "value": "UA-15671700-1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.074Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.demdex.net/dest5.html?d_nsid=0",
+          "method": "GET",
+          "resourceType": "document",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.305Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://cm.everesttech.net/cm/dd?d_uuid=85574035438918239032934968015645902978",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.342Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.112.2o7.net/b/ss/traderjoesprod/1/JS-2.22.3-LBWB/s99330822249146?AQB=1&ndh=1&pf=1&t=31%2F2%2F2026%2010%3A57%3A37%202%20360&mid=89587020486621003702461970358701644815&aamlh=7&ce=UTF-8&pageName=www.traderjoes.com%7Chome%7Cproducts%7Ccategory%7Cflowers-and-plants-203&g=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fflowers-and-plants-203&c.&getPreviousValue=3.0&apl=4.0&getPageName=4.2&getPageLoadTime=2.0.1&getNewRepeat=3.0&getVisitNum=4.2&getTimeParting=6.3&getPercentPageViewed=5.0&getVisitDuration=2.1&getTimeSinceLastVisit=2.0&.c&cc=USD&events=event14&aamb=6G1ynYcLPuiQxYZrsz_pkqfLG9yMXBpb2zX5dvJdYQJzPXImdj0y&c1=en-US&v1=D%3Dg&c2=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%20Safari%20PlaywrightScanner%2F2.1&v3=%2B1&v5=New&v6=1&v7=First%20Visit&v8=year%3D2026%20%7C%20month%3DMarch%20%7C%20date%3D31%20%7C%20day%3DTuesday%20%7C%20time%3D9%3A57%20AM&v10=first%20hit%20of%20visit&v11=New%20Visitor&v12=03%2F31%2F2026&v14=Visitor%20API%20Present&v15=www.traderjoes.com&v16=%2Fhome%2Fproducts%2Fcategory%2Fflowers-and-plants-203&v17=www.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fflowers-and-plants-203&v19=home&v23=AppMeasurement%20JS%7C2.22.3%7CLBWB%7C5.3.0%7CClient%20Side%20ID%7CTraderJoes.com%7C2022-01-06T18%3A29%3A00Z%7Cproduction&v25=Category%20%7C%20Trader%20Joe%27s&v27=%2B1&s=1440x960&c=32&j=1.6&v=N&k=Y&bw=1440&bh=960&mcorgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&AQE=1",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.342Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/ibs:dpid=411&dpuuid=acv9AAAAAB23QwNv",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.602Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/demconf.jpg?et:ibs%7cdata:dpid=411&dpuuid=acv9AAAAAB23QwNv",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:37.661Z"
+        }
+      ],
+      "scriptFindings": [
+        {
+          "src": "https://www.google-analytics.com/analytics.js",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ]
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "detectedVendors": [
+            {
+              "name": "Google Tag Manager",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ]
+        },
+        {
+          "src": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        }
+      ],
+      "cookies": [
+        {
+          "name": "affinity",
+          "domain": "traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"88f9f4e4d7930077\""
+        },
+        {
+          "name": "affinity",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"cbe69750033ef2e8\""
+        },
+        {
+          "name": "_ga_2HMPBJHQ41",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536257.030202,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.1.s1774976257$o1$g0$t1774976257$j60$l0$h0"
+        },
+        {
+          "name": "_ga",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536257.063946,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.639249938.1774976257"
+        },
+        {
+          "name": "_gid",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775062657,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.1634845218.1774976257"
+        },
+        {
+          "name": "_gat_UA-15671700-1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774976317,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "__kla_id",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": 1809536257.25539,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "eyJjaWQiOiJNRGhrWXpaa056VXROMkk1WkMwME4yWTVMV0UyWmpndFlqVTNPRGhtWm1VellqQTEifQ=="
+        },
+        {
+          "name": "AMCVS_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "gpv_c51",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978062,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fproducts%2Fcategory%2Fflowers-and-plants-203"
+        },
+        {
+          "name": "s_vncm",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775023199,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1775023199308%26vn%3D1"
+        },
+        {
+          "name": "s_ivc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978062,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "s_lv_s",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978062,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "First%20Visit"
+        },
+        {
+          "name": "s_visit",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978062,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "s_ips",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "960"
+        },
+        {
+          "name": "s_dur",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978062,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976257333"
+        },
+        {
+          "name": "s_inv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978062,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0"
+        },
+        {
+          "name": "s_cc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "AMCV_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536257.753577,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "-2121179033%7CMCIDTS%7C20544%7CMCMID%7C89587020486621003702461970358701644815%7CMCAAMLH-1775581057%7C7%7CMCAAMB-17755810"
+        },
+        {
+          "name": "s_plt",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "2.31"
+        },
+        {
+          "name": "s_pltp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%7Chome%7Cproducts%7Ccategory%7Cflowers-and-plants-203"
+        },
+        {
+          "name": "s_ptc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0.32%5E%5E0.00%5E%5E0.04%5E%5E0.12%5E%5E0.24%5E%5E0.00%5E%5E1.58%5E%5E0.00%5E%5E2.31"
+        },
+        {
+          "name": "s_nr30",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1777568262,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976262709-New"
+        },
+        {
+          "name": "s_lv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536262.709906,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976262709"
+        },
+        {
+          "name": "s_tslv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536262.711382,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976262711"
+        },
+        {
+          "name": "s_sq",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "traderjoesprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dwww.traderjoes.com%25257Chome%25257Cproducts%25257Ccategor"
+        },
+        {
+          "name": "s_tp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "3488"
+        },
+        {
+          "name": "s_ppv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%257Chome%257Cproducts%257Ccategory%257Cflowers-and-plants-203%2C28%2C28%2C960%2C1%2C3"
+        },
+        {
+          "name": "s_tps",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "11"
+        },
+        {
+          "name": "s_pvs",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "15"
+        }
+      ],
+      "pageGlobals": {
+        "title": "Flowers & Plants | Trader Joe's",
+        "location": "https://www.traderjoes.com/home/products/category/flowers-and-plants-203",
+        "globals": {
+          "dataLayer": {
+            "present": true,
+            "length": 3,
+            "preview": "[{\"gtm.start\":1774976256542,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+          },
+          "adobeDataLayer": {
+            "present": true,
+            "length": 0,
+            "preview": "[]"
+          },
+          "digitalData": {
+            "present": false,
+            "preview": null
+          },
+          "utag": {
+            "present": false,
+            "keys": []
+          },
+          "utag_data": {
+            "present": false,
+            "preview": null
+          },
+          "__NEXT_DATA__": {
+            "present": false,
+            "preview": null
+          },
+          "__INITIAL_STATE__": {
+            "present": false,
+            "preview": null
+          }
+        },
+        "ecommerceHints": {
+          "shopify": false,
+          "cartLinks": true
+        },
+        "cmsHints": {
+          "wordpress": false,
+          "drupal": false,
+          "webflow": false
+        },
+        "authHints": {
+          "loginUiPresent": false
+        }
+      },
+      "sourceSignals": {
+        "externalScripts": [
+          "https://www.google-analytics.com/analytics.js",
+          "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YyBHyr",
+          "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "https://www.traderjoes.com/.rum/@adobe/helix-rum-js@%5E2/dist/micro.js",
+          "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/3.7f742c99.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/25.f7e4a1a8.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/4.ca0e0377.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/102.4f3ef0ef.chunk.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/fender_analytics.e5aba8b3a52dc623782c.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/static.05920b16793f2a456e22.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/runtime.04857a4ccaba8b6bc510.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/sharedUtils.46b909313cee11709de1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~reviews~atlas.0201e888d834a3782e3a.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms.a899b049d575de74ade1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/default~in_app_forms~signup_forms.a9953a1681e0d8106e3e.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/signup_forms.b91963e01b14e3963e32.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/post_identification_sync.e290d099b5bfa48fdae0.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/event_adapter.4f7be3f375ef0d59c121.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/telemetry.252f3f2a5777c4acc847.js?cb=2",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/0.ec03c44d.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/39.6571ee9d.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/121.5dff1b89.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/100.255de38c.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/98.fc438f77.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/44.2d2564f8.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/51.cd520ecf.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/29.c3850bb7.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react.lc-2f733596ad7dd4c39f9ea2d9338ed99b-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/core/wcm/components/commons/site/clientlibs/container.lc-0a6aff292f5cc42142779cde92054524-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-base.lc-f54bcc9456cf289fb257b9499b24226e-lc.min.js"
+        ],
+        "iframes": [
+          "https://traderjoes.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fwww.traderjoes.com"
+        ],
+        "inlineScriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "htmlIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-2HMPBJHQ41"
+          }
+        ],
+        "noscriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "googleGlobals": {
+          "google_tag_manager": true,
+          "gtag": false,
+          "dataLayerPresent": true,
+          "dataLayerPreview": "[{\"gtm.start\":1774976256542,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+        }
+      }
+    },
+    {
+      "url": "https://traderjoes.com/home/store-search",
+      "status": "ok",
+      "statusCode": 200,
+      "error": null,
+      "title": "Store Search | Trader Joe's",
+      "consentClicks": [
+        "got it"
+      ],
+      "networkFindings": [
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:50.281Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:50.788Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/id?d_visid_ver=5.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&d_nsid=0&ts=1774976271063",
+          "method": "GET",
+          "resourceType": "xhr",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.070Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.070Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.070Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u1h2",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.089Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/analytics.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.090Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-2HMPBJHQ41&gtm=45je63u1h2v9121346349z8830460603za20gzb830460603zd830460603&_p=1774976270787&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=723561660.1774976271&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_s=1&tag_exp=0~115938465~115938469~116991817~117384405~117484252&sid=1774976271&sct=1&seg=0&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fstore-search&dt=Store%20Search%20%7C%20Trader%20Joe%27s&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=1679",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.220Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/j/collect?v=1&_v=j102&a=1864296375&t=pageview&_s=1&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fstore-search&ul=en-us&dt=Store%20Search%20%7C%20Trader%20Joe%27s&sr=1440x960&vp=1425x960&_u=YADAAAABAAAAAC~&jid=488941584&gjid=1174299727&cid=723561660.1774976271&tid=UA-15671700-1&_gid=1142931605.1774976271&_r=1&_slc=1&gtm=45He63u1h2n81PK37XV6v830460603za200zd830460603&gcd=13l3l3l3l1l1&dma=0&tag_exp=0~115938465~115938468~116991817~117484252~118089342&z=913863642",
+          "method": "POST",
+          "resourceType": "xhr",
+          "ids": [
+            {
+              "type": "UA Property ID",
+              "value": "UA-15671700-1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.289Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.demdex.net/dest5.html?d_nsid=0",
+          "method": "GET",
+          "resourceType": "document",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.386Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-Y0LZ6ZMCVR",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-Y0LZ6ZMCVR"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.410Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://cm.everesttech.net/cm/dd?d_uuid=20253228707918179252198108463635119431",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.448Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.112.2o7.net/b/ss/traderjoesprod/1/JS-2.22.3-LBWB/s93273494749293?AQB=1&ndh=1&pf=1&t=31%2F2%2F2026%2010%3A57%3A51%202%20360&mid=16243407269367394001445925011100985802&aamlh=7&ce=UTF-8&pageName=www.traderjoes.com%7Chome%7Cstore-search&g=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fstore-search&c.&getPreviousValue=3.0&apl=4.0&getPageName=4.2&getPageLoadTime=2.0.1&getNewRepeat=3.0&getVisitNum=4.2&getTimeParting=6.3&getPercentPageViewed=5.0&getVisitDuration=2.1&getTimeSinceLastVisit=2.0&.c&cc=USD&events=event14&aamb=6G1ynYcLPuiQxYZrsz_pkqfLG9yMXBpb2zX5dvJdYQJzPXImdj0y&c1=en-US&v1=D%3Dg&c2=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%20Safari%20PlaywrightScanner%2F2.1&v3=%2B1&v5=New&v6=1&v7=First%20Visit&v8=year%3D2026%20%7C%20month%3DMarch%20%7C%20date%3D31%20%7C%20day%3DTuesday%20%7C%20time%3D9%3A57%20AM&v10=first%20hit%20of%20visit&v11=New%20Visitor&v12=03%2F31%2F2026&v14=Visitor%20API%20Present&v15=www.traderjoes.com&v16=%2Fhome%2Fstore-search&v17=www.traderjoes.com%2Fhome%2Fstore-search&v19=home&v23=AppMeasurement%20JS%7C2.22.3%7CLBWB%7C5.3.0%7CClient%20Side%20ID%7CTraderJoes.com%7C2022-01-06T18%3A29%3A00Z%7Cproduction&v25=Store%20Search%20%7C%20Trader%20Joe%27s&v27=%2B1&s=1440x960&c=32&j=1.6&v=N&k=Y&bw=1440&bh=960&mcorgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&AQE=1",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.448Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TZMMWGR",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-TZMMWGR"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:51.772Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/ibs:dpid=411&dpuuid=acv9DgAAAFyNUAMv",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:52.209Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/demconf.jpg?et:ibs%7cdata:dpid=411&dpuuid=acv9DgAAAFyNUAMv",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:57:52.282Z"
+        }
+      ],
+      "scriptFindings": [
+        {
+          "src": "https://www.google-analytics.com/analytics.js",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u1h2",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ]
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "detectedVendors": [
+            {
+              "name": "Google Tag Manager",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ]
+        },
+        {
+          "src": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        }
+      ],
+      "cookies": [
+        {
+          "name": "affinity",
+          "domain": "traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"4eea8bd9fb1c3cc9\""
+        },
+        {
+          "name": "_ga_2HMPBJHQ41",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536271.214821,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.1.s1774976271$o1$g0$t1774976271$j60$l0$h0"
+        },
+        {
+          "name": "_ga",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536271.282806,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.723561660.1774976271"
+        },
+        {
+          "name": "_gid",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775062671,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.1142931605.1774976271"
+        },
+        {
+          "name": "_gat_UA-15671700-1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774976331,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "AMCVS_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "gpv_c51",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978078,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fstore-search"
+        },
+        {
+          "name": "s_vncm",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775023199,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1775023199408%26vn%3D1"
+        },
+        {
+          "name": "s_ivc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978078,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "s_lv_s",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978078,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "First%20Visit"
+        },
+        {
+          "name": "s_visit",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978078,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "s_ips",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "960"
+        },
+        {
+          "name": "s_ppv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%257Chome%257Cstore-search%2C44%2C44%2C960%2C1%2C2"
+        },
+        {
+          "name": "s_dur",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978078,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976271432"
+        },
+        {
+          "name": "s_inv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978078,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0"
+        },
+        {
+          "name": "s_cc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "__kla_id",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": 1809536271.491108,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "eyJjaWQiOiJaVGs1WmpWak1UY3RNVFkxTkMwME1tWmtMV0ZqWlRNdE5UaGxOekl6WkdKbE1qZzEifQ=="
+        },
+        {
+          "name": "AMCV_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536272.35926,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "-2121179033%7CMCIDTS%7C20544%7CMCMID%7C16243407269367394001445925011100985802%7CMCAAMLH-1775581071%7C7%7CMCAAMB-17755810"
+        },
+        {
+          "name": "s_tp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "2187"
+        },
+        {
+          "name": "s_plt",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "3.97"
+        },
+        {
+          "name": "s_pltp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%7Chome%7Cstore-search"
+        },
+        {
+          "name": "s_ptc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0.30%5E%5E0.00%5E%5E0.04%5E%5E0.15%5E%5E0.24%5E%5E0.01%5E%5E3.23%5E%5E0.00%5E%5E3.97"
+        },
+        {
+          "name": "s_nr30",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1777568278,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976278509-New"
+        },
+        {
+          "name": "s_lv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536278.510965,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976278510"
+        },
+        {
+          "name": "s_tslv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536278.513329,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976278513"
+        },
+        {
+          "name": "s_sq",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "traderjoesprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dwww.traderjoes.com%25257Chome%25257Cstore-search%2526link%"
+        },
+        {
+          "name": "s_tps",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "13"
+        },
+        {
+          "name": "s_pvs",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "17"
+        }
+      ],
+      "pageGlobals": {
+        "title": "Store Search | Trader Joe's",
+        "location": "https://www.traderjoes.com/home/store-search",
+        "globals": {
+          "dataLayer": {
+            "present": true,
+            "length": 3,
+            "preview": "[{\"gtm.start\":1774976270787,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+          },
+          "adobeDataLayer": {
+            "present": true,
+            "length": 0,
+            "preview": "[]"
+          },
+          "digitalData": {
+            "present": false,
+            "preview": null
+          },
+          "utag": {
+            "present": false,
+            "keys": []
+          },
+          "utag_data": {
+            "present": false,
+            "preview": null
+          },
+          "__NEXT_DATA__": {
+            "present": false,
+            "preview": null
+          },
+          "__INITIAL_STATE__": {
+            "present": false,
+            "preview": null
+          }
+        },
+        "ecommerceHints": {
+          "shopify": false,
+          "cartLinks": true
+        },
+        "cmsHints": {
+          "wordpress": false,
+          "drupal": false,
+          "webflow": false
+        },
+        "authHints": {
+          "loginUiPresent": false
+        }
+      },
+      "sourceSignals": {
+        "externalScripts": [
+          "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YyBHyr",
+          "https://www.google-analytics.com/analytics.js",
+          "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u1h2",
+          "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "https://www.traderjoes.com/.rum/@adobe/helix-rum-js@%5E2/dist/micro.js",
+          "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/3.7f742c99.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/102.4f3ef0ef.chunk.js",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/fender_analytics.e5aba8b3a52dc623782c.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/static.05920b16793f2a456e22.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/runtime.04857a4ccaba8b6bc510.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/sharedUtils.46b909313cee11709de1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~reviews~atlas.0201e888d834a3782e3a.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms.a899b049d575de74ade1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/default~in_app_forms~signup_forms.a9953a1681e0d8106e3e.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/signup_forms.b91963e01b14e3963e32.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/post_identification_sync.e290d099b5bfa48fdae0.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/event_adapter.4f7be3f375ef0d59c121.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/telemetry.252f3f2a5777c4acc847.js?cb=2",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react.lc-2f733596ad7dd4c39f9ea2d9338ed99b-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/core/wcm/components/commons/site/clientlibs/container.lc-0a6aff292f5cc42142779cde92054524-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-base.lc-f54bcc9456cf289fb257b9499b24226e-lc.min.js"
+        ],
+        "iframes": [
+          "https://hosted.where2getit.com/traderjoes/locator.html",
+          "https://traderjoes.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fwww.traderjoes.com"
+        ],
+        "inlineScriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "htmlIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-2HMPBJHQ41"
+          }
+        ],
+        "noscriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "googleGlobals": {
+          "google_tag_manager": true,
+          "gtag": false,
+          "dataLayerPresent": true,
+          "dataLayerPreview": "[{\"gtm.start\":1774976270787,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+        }
+      }
+    },
+    {
+      "url": "https://traderjoes.com/home/about-us",
+      "status": "ok",
+      "statusCode": 200,
+      "error": null,
+      "title": "About Us | Trader Joe's",
+      "consentClicks": [
+        "got it"
+      ],
+      "networkFindings": [
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:05.793Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Tag Manager",
+            "category": "tag_manager"
+          },
+          "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.469Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.825Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/analytics.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.825Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/id?d_visid_ver=5.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&d_nsid=0&ts=1774976286915",
+          "method": "GET",
+          "resourceType": "xhr",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.919Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.919Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Launch",
+            "category": "tag_manager"
+          },
+          "url": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "method": "GET",
+          "resourceType": "script",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.919Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-2HMPBJHQ41&gtm=45je63u0v9121346349z8830460603za20gzb830460603zd830460603&_p=1774976286467&gcd=13l3l3l3l1l1&npa=0&_ng=1&dma=0&cid=228142596.1774976287&ul=en-us&sr=1440x960&uaa=x86&uab=64&uafvl=Chromium%3B145.0.7632.6%7CNot%253AA-Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&frm=0&pscdl=noapi&_s=1&tag_exp=0~115938466~115938469~116991816~117484252~118089341&sid=1774976286&sct=1&seg=0&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fabout-us&dt=About%20Us%20%7C%20Trader%20Joe%27s&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=1969",
+          "method": "POST",
+          "resourceType": "fetch",
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:06.962Z"
+        },
+        {
+          "vendor": {
+            "name": "Google Analytics",
+            "category": "analytics"
+          },
+          "url": "https://www.google-analytics.com/j/collect?v=1&_v=j102&a=1712908481&t=pageview&_s=1&dl=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fabout-us&ul=en-us&dt=About%20Us%20%7C%20Trader%20Joe%27s&sr=1440x960&vp=1425x960&_u=YADAAAABAAAAAC~&jid=1239323041&gjid=1030881911&cid=228142596.1774976287&tid=UA-15671700-1&_gid=1135007543.1774976287&_r=1&_slc=1&gtm=45He63u0n81PK37XV6v830460603za200zd830460603&gcd=13l3l3l3l1l1&dma=0&tag_exp=0~115938466~115938468~116133312~116991817~117384405~117484252&z=637483961",
+          "method": "POST",
+          "resourceType": "xhr",
+          "ids": [
+            {
+              "type": "UA Property ID",
+              "value": "UA-15671700-1"
+            }
+          ],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:07.324Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.demdex.net/dest5.html?d_nsid=0",
+          "method": "GET",
+          "resourceType": "document",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:07.566Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://cm.everesttech.net/cm/dd?d_uuid=38601284203333066340320004170484252361",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:07.603Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://traderjoes.112.2o7.net/b/ss/traderjoesprod/1/JS-2.22.3-LBWB/s9144101369424?AQB=1&ndh=1&pf=1&t=31%2F2%2F2026%2010%3A58%3A7%202%20360&mid=45397290119047146311072234099724102212&aamlh=7&ce=UTF-8&pageName=www.traderjoes.com%7Chome%7Cabout-us&g=https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fabout-us&c.&getPreviousValue=3.0&apl=4.0&getPageName=4.2&getPageLoadTime=2.0.1&getNewRepeat=3.0&getVisitNum=4.2&getTimeParting=6.3&getPercentPageViewed=5.0&getVisitDuration=2.1&getTimeSinceLastVisit=2.0&.c&cc=USD&events=event14&aamb=6G1ynYcLPuiQxYZrsz_pkqfLG9yMXBpb2zX5dvJdYQJzPXImdj0y&c1=en-US&v1=D%3Dg&c2=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%20Safari%20PlaywrightScanner%2F2.1&v3=%2B1&v5=New&v6=1&v7=First%20Visit&v8=year%3D2026%20%7C%20month%3DMarch%20%7C%20date%3D31%20%7C%20day%3DTuesday%20%7C%20time%3D9%3A58%20AM&v10=first%20hit%20of%20visit&v11=New%20Visitor&v12=03%2F31%2F2026&v14=Visitor%20API%20Present&v15=www.traderjoes.com&v16=%2Fhome%2Fabout-us&v17=www.traderjoes.com%2Fhome%2Fabout-us&v19=home&v23=AppMeasurement%20JS%7C2.22.3%7CLBWB%7C5.3.0%7CClient%20Side%20ID%7CTraderJoes.com%7C2022-01-06T18%3A29%3A00Z%7Cproduction&v25=About%20Us%20%7C%20Trader%20Joe%27s&v27=%2B1&s=1440x960&c=32&j=1.6&v=N&k=Y&bw=1440&bh=960&mcorgid=B5B4708F5F4CE8D80A495ED9%40AdobeOrg&AQE=1",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:07.603Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/ibs:dpid=411&dpuuid=acv9HgAAADyivQN_",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:08.113Z"
+        },
+        {
+          "vendor": {
+            "name": "Adobe Analytics / Experience Cloud",
+            "category": "analytics"
+          },
+          "url": "https://dpm.demdex.net/demconf.jpg?et:ibs%7cdata:dpid=411&dpuuid=acv9HgAAADyivQN_",
+          "method": "GET",
+          "resourceType": "image",
+          "ids": [],
+          "postDataPreview": "",
+          "timestamp": "2026-03-31T16:58:08.219Z"
+        }
+      ],
+      "scriptFindings": [
+        {
+          "src": "https://www.google-analytics.com/analytics.js",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "detectedVendors": [
+            {
+              "name": "Google Analytics",
+              "category": "analytics"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GA4 Measurement ID",
+              "value": "G-2HMPBJHQ41"
+            }
+          ]
+        },
+        {
+          "src": "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "detectedVendors": [
+            {
+              "name": "Google Tag Manager",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": [
+            {
+              "type": "GTM Container ID",
+              "value": "GTM-PK37XV6"
+            }
+          ]
+        },
+        {
+          "src": "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        },
+        {
+          "src": "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "detectedVendors": [
+            {
+              "name": "Adobe Launch",
+              "category": "tag_manager"
+            }
+          ],
+          "ids": []
+        }
+      ],
+      "cookies": [
+        {
+          "name": "affinity",
+          "domain": "traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "valuePreview": "\"186b87e9a034c9d9\""
+        },
+        {
+          "name": "_ga_2HMPBJHQ41",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536286.956731,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GS2.1.s1774976286$o1$g0$t1774976286$j60$l0$h0"
+        },
+        {
+          "name": "_ga",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536287.315678,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.228142596.1774976287"
+        },
+        {
+          "name": "_gid",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775062687,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "GA1.2.1135007543.1774976287"
+        },
+        {
+          "name": "_gat_UA-15671700-1",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774976347,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "__kla_id",
+          "domain": "www.traderjoes.com",
+          "path": "/",
+          "expires": 1809536287.500324,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "eyJjaWQiOiJOR1EyTmprMVl6VXRZVFpoT0MwME1ETmtMVGs1TmpNdE56TTBaR0ZtT0RReFltWTEifQ=="
+        },
+        {
+          "name": "AMCVS_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "gpv_c51",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978092,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "https%3A%2F%2Fwww.traderjoes.com%2Fhome%2Fabout-us"
+        },
+        {
+          "name": "s_vncm",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1775023199,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1775023199572%26vn%3D1"
+        },
+        {
+          "name": "s_ivc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978092,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "s_lv_s",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978092,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "First%20Visit"
+        },
+        {
+          "name": "s_visit",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978092,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1"
+        },
+        {
+          "name": "s_ips",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "960"
+        },
+        {
+          "name": "s_tp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "2672"
+        },
+        {
+          "name": "s_ppv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%257Chome%257Cabout-us%2C36%2C36%2C960%2C1%2C2"
+        },
+        {
+          "name": "s_dur",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978092,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976287594"
+        },
+        {
+          "name": "s_inv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1774978092,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0"
+        },
+        {
+          "name": "s_cc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "true"
+        },
+        {
+          "name": "AMCV_B5B4708F5F4CE8D80A495ED9%40AdobeOrg",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536288.303855,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "-2121179033%7CMCIDTS%7C20544%7CMCMID%7C45397290119047146311072234099724102212%7CMCAAMLH-1775581087%7C7%7CMCAAMB-17755810"
+        },
+        {
+          "name": "s_plt",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "3.38"
+        },
+        {
+          "name": "s_pltp",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "www.traderjoes.com%7Chome%7Cabout-us"
+        },
+        {
+          "name": "s_ptc",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "0.37%5E%5E0.00%5E%5E0.19%5E%5E0.12%5E%5E0.11%5E%5E0.00%5E%5E2.59%5E%5E0.00%5E%5E3.38"
+        },
+        {
+          "name": "s_nr30",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1777568292,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976292754-New"
+        },
+        {
+          "name": "s_lv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536292.75566,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976292755"
+        },
+        {
+          "name": "s_tslv",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": 1809536292.757433,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "1774976292757"
+        },
+        {
+          "name": "s_sq",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "traderjoesprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dwww.traderjoes.com%25257Chome%25257Cabout-us%2526link%253D"
+        },
+        {
+          "name": "s_tps",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "11"
+        },
+        {
+          "name": "s_pvs",
+          "domain": ".traderjoes.com",
+          "path": "/",
+          "expires": -1,
+          "httpOnly": false,
+          "secure": false,
+          "sameSite": "Lax",
+          "valuePreview": "15"
+        }
+      ],
+      "pageGlobals": {
+        "title": "About Us | Trader Joe's",
+        "location": "https://www.traderjoes.com/home/about-us",
+        "globals": {
+          "dataLayer": {
+            "present": true,
+            "length": 3,
+            "preview": "[{\"gtm.start\":1774976286467,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+          },
+          "adobeDataLayer": {
+            "present": true,
+            "length": 0,
+            "preview": "[]"
+          },
+          "digitalData": {
+            "present": false,
+            "preview": null
+          },
+          "utag": {
+            "present": false,
+            "keys": []
+          },
+          "utag_data": {
+            "present": false,
+            "preview": null
+          },
+          "__NEXT_DATA__": {
+            "present": false,
+            "preview": null
+          },
+          "__INITIAL_STATE__": {
+            "present": false,
+            "preview": null
+          }
+        },
+        "ecommerceHints": {
+          "shopify": false,
+          "cartLinks": true
+        },
+        "cmsHints": {
+          "wordpress": false,
+          "drupal": false,
+          "webflow": false
+        },
+        "authHints": {
+          "loginUiPresent": false
+        }
+      },
+      "sourceSignals": {
+        "externalScripts": [
+          "https://www.google-analytics.com/analytics.js",
+          "https://www.googletagmanager.com/gtag/js?id=G-2HMPBJHQ41&cx=c&gtm=4e63u0",
+          "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YyBHyr",
+          "https://www.googletagmanager.com/gtm.js?id=GTM-PK37XV6",
+          "https://www.traderjoes.com/.rum/@adobe/helix-rum-js@%5E2/dist/micro.js",
+          "https://assets.adobedtm.com/6e431df7a05d/5db4ef24a88a/launch-d59077aff956.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/3.7f742c99.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/4.ca0e0377.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/80.0a3f9c04.chunk.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react/resources/static/js/102.4f3ef0ef.chunk.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement.min.js",
+          "https://assets.adobedtm.com/extensions/EPb56e12d7054b4acea984e91c910051cc/AppMeasurement_Module_ActivityMap.min.js",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/fender_analytics.e5aba8b3a52dc623782c.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/static.05920b16793f2a456e22.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/runtime.04857a4ccaba8b6bc510.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/sharedUtils.46b909313cee11709de1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~static~in_app_forms~signup_forms~post_identification_sync~web_personalization~client_identity~reviews~telemetry~customerHubRoot~renderFavoritesButton~renderFavoritesIconButton~FavoritesButtonElement~renderFaqWidget~.2cc0e8eaac59e1064c76.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~reviews~atlas.0201e888d834a3782e3a.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms.a899b049d575de74ade1.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/default~in_app_forms~signup_forms.a9953a1681e0d8106e3e.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/signup_forms.b91963e01b14e3963e32.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/post_identification_sync.e290d099b5bfa48fdae0.js?cb=2",
+          "https://static.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/event_adapter.4f7be3f375ef0d59c121.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/vendors~in_app_forms~signup_forms~client_identity~telemetry~onsite-triggering-v2~onsite-triggering~.00140035a0ee1bdef5e1.js?cb=2",
+          "https://static-tracking.klaviyo.com/onsite/js/build-preview/commit-3ff41a9518f1b4c12bf958f12f9a9c05fc0668c0/telemetry.252f3f2a5777c4acc847.js?cb=2",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-react.lc-2f733596ad7dd4c39f9ea2d9338ed99b-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/core/wcm/components/commons/site/clientlibs/container.lc-0a6aff292f5cc42142779cde92054524-lc.min.js",
+          "https://www.traderjoes.com/etc.clientlibs/trjo/clientlibs/clientlib-base.lc-f54bcc9456cf289fb257b9499b24226e-lc.min.js"
+        ],
+        "iframes": [
+          "https://traderjoes.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fwww.traderjoes.com"
+        ],
+        "inlineScriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "htmlIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          },
+          {
+            "type": "GA4 Measurement ID",
+            "value": "G-2HMPBJHQ41"
+          }
+        ],
+        "noscriptIds": [
+          {
+            "type": "GTM Container ID",
+            "value": "GTM-PK37XV6"
+          }
+        ],
+        "googleGlobals": {
+          "google_tag_manager": true,
+          "gtag": false,
+          "dataLayerPresent": true,
+          "dataLayerPreview": "[{\"gtm.start\":1774976286467,\"event\":\"gtm.js\",\"gtm.uniqueEventId\":3},{\"event\":\"gtm.dom\",\"gtm.uniqueEventId\":5},{\"event\":\"gtm.load\",\"gtm.uniqueEventId\":6}]"
+        }
+      }
+    }
+  ],
+  "vendors": [
+    {
+      "name": "Adobe Launch",
+      "category": "tag_manager",
+      "source": "network"
+    },
+    {
+      "name": "Google Tag Manager",
+      "category": "tag_manager",
+      "source": "network"
+    },
+    {
+      "name": "Adobe Analytics / Experience Cloud",
+      "category": "analytics",
+      "source": "network"
+    },
+    {
+      "name": "Google Analytics",
+      "category": "analytics",
+      "source": "network"
+    },
+    {
+      "name": "Google Analytics",
+      "category": "analytics",
+      "source": "script"
+    },
+    {
+      "name": "Google Tag Manager",
+      "category": "tag_manager",
+      "source": "script"
+    },
+    {
+      "name": "Adobe Launch",
+      "category": "tag_manager",
+      "source": "script"
+    },
+    {
+      "name": "Google Analytics",
+      "category": "analytics",
+      "source": "source_code"
+    },
+    {
+      "name": "Google Tag Manager",
+      "category": "tag_manager",
+      "source": "source_code"
+    },
+    {
+      "name": "Google Ads / DoubleClick",
+      "category": "media_pixel",
+      "source": "network"
+    }
+  ],
+  "ids": [
+    {
+      "type": "GTM Container ID",
+      "value": "GTM-PK37XV6"
+    },
+    {
+      "type": "GA4 Measurement ID",
+      "value": "G-2HMPBJHQ41"
+    },
+    {
+      "type": "UA Property ID",
+      "value": "UA-15671700-1"
+    },
+    {
+      "type": "GA4 Measurement ID",
+      "value": "G-PVSN19270R"
+    },
+    {
+      "type": "GTM Container ID",
+      "value": "GTM-TZMMWGR"
+    },
+    {
+      "type": "UA Property ID",
+      "value": "UA-100422848-1"
+    },
+    {
+      "type": "GA4 Measurement ID",
+      "value": "G-2KLNSNQXP1"
+    },
+    {
+      "type": "GA4 Measurement ID",
+      "value": "G-Y0LZ6ZMCVR"
+    }
+  ]
+}

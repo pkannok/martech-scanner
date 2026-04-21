@@ -39,6 +39,7 @@ const {
   createScanContext,
   safeGoto,
   clickConsentButtons,
+  stimulatePageActivity,
 } = require('./browser');
 
 const {
@@ -47,10 +48,57 @@ const {
   buildSummaryMarkdown,
 } = require('./reporting');
 
-async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsentClick) {
-  const context = await createScanContext(browser);
+function pageArtifactSlug(urlString) {
+  const url = new URL(urlString);
+  const raw = [url.hostname, url.pathname || 'root', url.hash || '']
+    .join('_')
+    .replace(/[^a-z0-9]+/gi, '_')
+    .replace(/^_+|_+$/g, '')
+    .toLowerCase();
+
+  return raw || 'page';
+}
+
+function evidenceScore(report) {
+  const sourceIdCount =
+    (report.sourceSignals?.htmlIds?.length || 0) +
+    (report.sourceSignals?.inlineScriptIds?.length || 0) +
+    (report.sourceSignals?.noscriptIds?.length || 0);
+
+  const googleSignalCount = Object.values(report.sourceSignals?.googleGlobals || {}).filter(Boolean).length;
+  const globalSignalCount = Object.values(report.pageGlobals?.globals || {}).filter(info => info?.present).length;
+
+  return (
+    (report.networkFindings?.length || 0) * 10 +
+    (report.scriptFindings?.length || 0) * 5 +
+    sourceIdCount * 2 +
+    googleSignalCount +
+    globalSignalCount
+  );
+}
+
+function shouldRetryThinPage(report) {
+  if (report.status !== 'ok') return false;
+  if (report.statusCode !== null && report.statusCode >= 400) return false;
+  if ((report.networkFindings?.length || 0) > 0) return false;
+  if ((report.scriptFindings?.length || 0) > 0) return false;
+  return true;
+}
+
+async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentClick, options = {}) {
+  const context = await createScanContext(browser, {
+    recordHarPath: options.harPath,
+  });
   const page = await context.newPage();
   const rawNetworkEvents = [];
+
+  if (options.tracePath) {
+    await context.tracing.start({
+      screenshots: true,
+      snapshots: true,
+      sources: true,
+    });
+  }
 
   page.on('request', request => {
     const url = request.url();
@@ -86,6 +134,13 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
     error: null,
     title: '',
     consentClicks: [],
+    diagnostics: {
+      retriedThinPage: options.retryMode === 'thin-page',
+      retryReason: options.retryReason || null,
+      retryMode: options.retryMode || null,
+      tracePath: options.tracePath || null,
+      harPath: options.harPath || null,
+    },
     networkFindings: [],
     scriptFindings: [],
     cookies: [],
@@ -294,6 +349,80 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
       }
     }
 
+    // Stimulate the page so deferred/lazy page-view tags have a chance to fire.
+    await stimulatePageActivity(page, { rich: options.richInteractions === true });
+
+    const postActivityGlobals = await inspectPageGlobals(page);
+    const postActivitySourceSignals = await inspectPageSourceSignals(page);
+
+    for (const [key, value] of Object.entries(postActivityGlobals.globals || {})) {
+      const baselineValue = pageReport.pageGlobals.globals[key];
+
+      if (!baselineValue?.present && value?.present) {
+        pageReport.pageGlobals.globals[key] = value;
+      }
+    }
+
+    pageReport.sourceSignals.googleGlobals = {
+      ...pageReport.sourceSignals.googleGlobals,
+      ...(postActivitySourceSignals.globals || {}),
+    };
+
+    pageReport.sourceSignals.htmlIds = dedupeBy(
+      [
+        ...pageReport.sourceSignals.htmlIds,
+        ...extractIdsFromTextBlock(postActivitySourceSignals.htmlSnippet || ''),
+      ],
+      x => `${x.type}|${x.value}`
+    );
+
+    const postActivityInlineIds = [];
+    for (const scriptText of postActivitySourceSignals.inlineScripts || []) {
+      postActivityInlineIds.push(...extractIdsFromTextBlock(scriptText));
+    }
+
+    pageReport.sourceSignals.inlineScriptIds = dedupeBy(
+      [...pageReport.sourceSignals.inlineScriptIds, ...postActivityInlineIds],
+      x => `${x.type}|${x.value}`
+    );
+
+    const postActivityNoscriptIds = [];
+    for (const text of postActivitySourceSignals.noscriptText || []) {
+      postActivityNoscriptIds.push(...extractIdsFromTextBlock(text));
+    }
+
+    pageReport.sourceSignals.noscriptIds = dedupeBy(
+      [...pageReport.sourceSignals.noscriptIds, ...postActivityNoscriptIds],
+      x => `${x.type}|${x.value}`
+    );
+
+    const postActivityHtmlIds = [];
+    for (const iframeSrc of postActivitySourceSignals.iframes || []) {
+      postActivityHtmlIds.push(...extractIdsFromTextBlock(iframeSrc));
+    }
+    for (const extSrc of postActivitySourceSignals.externalScripts || []) {
+      postActivityHtmlIds.push(...extractIdsFromTextBlock(extSrc));
+    }
+
+    for (const key of [
+      'dataLayer',
+      'adobeDataLayer',
+      'digitalData',
+      'utag_data',
+      '__NEXT_DATA__',
+      '__INITIAL_STATE__',
+    ]) {
+      const preview = postActivityGlobals?.globals?.[key]?.preview;
+      if (preview) {
+        postActivityHtmlIds.push(...extractIdsFromTextBlock(preview));
+      }
+    }
+
+    pageReport.sourceSignals.htmlIds = dedupeBy(
+      [...pageReport.sourceSignals.htmlIds, ...postActivityHtmlIds],
+      x => `${x.type}|${x.value}`
+    );
+
     // Third-party scripts
     const scripts = await collectThirdPartyScripts(page, baseUrl);
 	pageReport.scriptFindings = dedupeBy(
@@ -334,14 +463,68 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
       x => `${x.vendor.name}|${x.method}|${x.url}`
     );
 
+    if (options.tracePath) {
+      await context.tracing.stop({ path: options.tracePath }).catch(() => {});
+    }
+
     await context.close();
     return pageReport;
   } catch (error) {
     pageReport.status = 'failed';
     pageReport.error = error.message;
+
+    if (options.tracePath) {
+      await context.tracing.stop({ path: options.tracePath }).catch(() => {});
+    }
+
     await context.close();
     return pageReport;
   }
+}
+
+async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsentClick, artifactsDir) {
+  const initialReport = await runScanPass(
+    browser,
+    baseUrl,
+    targetUrl,
+    timeout,
+    enableConsentClick
+  );
+
+  if (!shouldRetryThinPage(initialReport)) {
+    return initialReport;
+  }
+
+  const artifactSlug = pageArtifactSlug(targetUrl);
+  const retryReport = await runScanPass(
+    browser,
+    baseUrl,
+    targetUrl,
+    timeout,
+    enableConsentClick,
+    {
+      richInteractions: true,
+      retryMode: 'thin-page',
+      retryReason: 'Source IDs were present but no network or third-party script findings were captured.',
+      tracePath: path.join(artifactsDir, `${artifactSlug}_retry_trace.zip`),
+      harPath: path.join(artifactsDir, `${artifactSlug}_retry.har`),
+    }
+  );
+
+  if (evidenceScore(retryReport) >= evidenceScore(initialReport)) {
+    return retryReport;
+  }
+
+  initialReport.diagnostics = {
+    ...(initialReport.diagnostics || {}),
+    retriedThinPage: true,
+    retryMode: 'thin-page',
+    retryReason: 'Source IDs were present but no network or third-party script findings were captured.',
+    tracePath: retryReport.diagnostics?.tracePath || null,
+    harPath: retryReport.diagnostics?.harPath || null,
+  };
+
+  return initialReport;
 }
 
 async function main() {
@@ -354,6 +537,8 @@ async function main() {
   const enableConsentClick = String(args.enableConsentClick || 'true').toLowerCase() !== 'false';
 
   ensureDir(outDir);
+  const artifactsDir = path.join(outDir, 'artifacts');
+  ensureDir(artifactsDir);
 
   const browser = await chromium.launch({ headless });
 
@@ -362,7 +547,7 @@ async function main() {
 
   const pageReports = [];
   for (const url of scanUrls) {
-    const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick);
+    const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir);
     pageReports.push(report);
   }
 
