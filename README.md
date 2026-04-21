@@ -7,7 +7,7 @@ This project is designed as a practical scanner for onboarding and technical rev
 - discover a small set of relevant pages
 - open them in a real browser session
 - inspect network calls, scripts, cookies, and page globals
-- extract common IDs such as `GTM-...`, `G-...`, and `AW-...`
+- extract common IDs such as `GTM-...`, `G-...`, `AW-...`, `DC-...`, TikTok pixel codes, and selected The Trade Desk identifiers
 - summarize detected vendors and evidence in JSON and Markdown
 
 ## What it is
@@ -43,6 +43,9 @@ Examples of things it can detect include:
 - Google Tag Manager
 - Google Analytics / GA4
 - Google Ads / DoubleClick
+- Meta Pixel
+- TikTok Pixel
+- The Trade Desk
 - Adobe-related endpoints
 - common consent platforms
 - WordPress
@@ -53,6 +56,7 @@ Examples of things it can detect include:
 ```text
 martech-scanner/
   package.json
+  README.md
   src/
     scanner.js
     config.js
@@ -62,6 +66,9 @@ martech-scanner/
     inspectors.js
     browser.js
     reporting.js
+  test/
+    fixtures/
+    *.test.js
 ```
 
 ### What each file does
@@ -85,7 +92,7 @@ martech-scanner/
   Captures page-level evidence such as scripts, globals, cookies, HTML, and inline source signals.
 
 - `browser.js`
-  Handles Playwright-specific browser actions such as creating contexts, navigating pages, and clicking consent buttons.
+  Handles Playwright-specific browser actions such as creating contexts, navigating pages, clicking consent buttons, and stimulating pages so deferred tags can fire.
 
 - `reporting.js`
   Builds the final summaries, vendor rollups, ID rollups, and Markdown output.
@@ -110,16 +117,16 @@ npx playwright install chromium
 Basic usage:
 
 ```bash
-npm run scan -- --domain=https://example.com
+node src/scanner.js --domain=https://example.com
 ```
 
 Useful variants:
 
 ```bash
-npm run scan -- --domain=https://example.com --headless=false
-npm run scan -- --domain=https://example.com --maxPages=8
-npm run scan -- --domain=https://example.com --enableConsentClick=false
-npm run scan -- --domain=https://example.com --out=./scan-output
+node src/scanner.js --domain=https://example.com --headless=false
+node src/scanner.js --domain=https://example.com --maxPages=8
+node src/scanner.js --domain=https://example.com --enableConsentClick=false
+node src/scanner.js --domain=https://example.com --out=./scan-output
 ```
 
 ### Command options
@@ -148,6 +155,8 @@ Each scan writes:
 
 By default these are written to `./output`.
 
+When a page looks unusually thin, the scanner can also write retry artifacts such as HAR and trace files to `./output/artifacts`.
+
 Typical filenames look like:
 
 - `example.com_results_v2_3.json`
@@ -175,8 +184,10 @@ Depending on the page and scenario, the scanner may use:
 4. Capture requests and source signals
 5. Optionally click common consent buttons
 6. Re-check the page after consent
-7. Extract IDs and classify vendors
-8. Write JSON and Markdown output
+7. Stimulate the page with lightweight interactions so deferred tags have a chance to fire
+8. Retry especially thin pages with richer interactions and artifact capture when needed
+9. Extract IDs and classify vendors
+10. Write JSON and Markdown output
 
 ## Detection notes
 
@@ -187,6 +198,9 @@ Examples:
 - GTM container IDs in script or iframe URLs
 - GA4 IDs in `gtag` config calls, script URLs, or request evidence
 - Google Ads IDs in `gtag` config calls, script URLs, or request evidence
+- DoubleClick advertiser IDs in source or request evidence
+- TikTok pixel codes in script URLs, inline code, or request payloads
+- The Trade Desk advertiser IDs in request URLs or payloads
 - WordPress signals in paths like `/wp-content/`
 
 ## Current limitations
@@ -198,11 +212,11 @@ Known limitations:
 - It only sees what is exposed through public browser activity.
 - It can miss tools hidden behind login, geo targeting, or deeper user flows.
 - It may miss deferred or conditionally fired tags.
-- It does not yet do full HAR export.
 - It does not yet analyze response bodies.
 - It does not yet do comprehensive request-payload parsing for every vendor.
 - It does not yet run multiple fully separated scenarios like baseline vs post-consent vs conversion flow.
 - It does not yet provide formal confidence scoring.
+- HAR/trace capture is currently used for thin-page retry/debugging rather than exported for every page by default.
 
 ## Configuration
 
@@ -226,15 +240,23 @@ This project has already gone through a few iterations to improve:
 
 Because the rules will evolve, it is a good idea to maintain a small regression set of known domains and expected detections.
 
+The checked-in regression fixture set lives in `test/fixtures/`.
+
+Run the test suite with:
+
+```bash
+npm test
+```
+
 ## Suggested next steps
 
 Good next improvements for team use:
 
-- add a regression test set of known sites
 - add confidence levels to findings
 - distinguish `observed firing` vs `present in source` vs `inferred`
 - add scenario-based scans
-- add HAR export and screenshots
+- add an explicit CLI switch for forced HAR/trace export on healthy scans
+- add screenshots for fixture/debug capture
 - make vendor rules easier to maintain
 - standardize report schema for onboarding use
 
@@ -247,7 +269,7 @@ It should be used within normal browsing boundaries and not as a penetration-tes
 ## Example
 
 ```bash
-npm run scan -- --domain=https://example.com --headless=false
+node src/scanner.js --domain=https://example.com --headless=false
 ```
 
 This runs the scanner against `https://example.com` and shows the browser while scanning.
@@ -258,4 +280,4 @@ Update this section with your team or owner information.
 
 ---
 
-If you expand this into a standard team tool, a good next milestone is to define a stable output schema and a regression suite of known sites.
+If you expand this into a standard team tool, a good next milestone is to define a stable output schema and keep the regression fixture set current as detector rules evolve.
