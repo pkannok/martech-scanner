@@ -1,4 +1,32 @@
-const { getHostnameSafe } = require('./utils');
+const { getHostnameSafe, sameSiteHost } = require('./utils');
+
+function createSafePreviewReplacer() {
+  const seen = new WeakSet();
+
+  return (key, value) => {
+    if (typeof value === 'bigint') return value.toString();
+    if (typeof value === 'function') return `[Function ${value.name || 'anonymous'}]`;
+
+    if (value && typeof value === 'object') {
+      if (seen.has(value)) return '[Circular]';
+      seen.add(value);
+    }
+
+    return value;
+  };
+}
+
+function safePreview(value, limit = 3000) {
+  try {
+    return JSON.stringify(value, createSafePreviewReplacer()).slice(0, limit);
+  } catch {
+    try {
+      return String(value).slice(0, limit);
+    } catch {
+      return '[unserializable]';
+    }
+  }
+}
 
 async function collectThirdPartyScripts(page, baseUrl) {
   return page.evaluate((origin) => {
@@ -43,7 +71,7 @@ async function inspectPageGlobals(page) {
       present: Array.isArray(dataLayer),
       length: Array.isArray(dataLayer) ? dataLayer.length : null,
       preview: Array.isArray(dataLayer)
-        ? JSON.stringify(dataLayer.slice(0, 10)).slice(0, 3000)
+        ? safePreview(dataLayer.slice(0, 10))
         : null,
     };
 
@@ -51,14 +79,14 @@ async function inspectPageGlobals(page) {
       present: Array.isArray(adobeDataLayer),
       length: Array.isArray(adobeDataLayer) ? adobeDataLayer.length : null,
       preview: Array.isArray(adobeDataLayer)
-        ? JSON.stringify(adobeDataLayer.slice(0, 10)).slice(0, 3000)
+        ? safePreview(adobeDataLayer.slice(0, 10))
         : null,
     };
 
     out.globals.digitalData = {
       present: typeof digitalData !== 'undefined',
       preview: typeof digitalData !== 'undefined'
-        ? JSON.stringify(digitalData).slice(0, 3000)
+        ? safePreview(digitalData)
         : null,
     };
 
@@ -70,21 +98,21 @@ async function inspectPageGlobals(page) {
     out.globals.utag_data = {
       present: typeof utagData !== 'undefined',
       preview: typeof utagData !== 'undefined'
-        ? JSON.stringify(utagData).slice(0, 3000)
+        ? safePreview(utagData)
         : null,
     };
 
     out.globals.__NEXT_DATA__ = {
       present: typeof nextData !== 'undefined',
       preview: typeof nextData !== 'undefined'
-        ? JSON.stringify(nextData).slice(0, 3000)
+        ? safePreview(nextData)
         : null,
     };
 
     out.globals.__INITIAL_STATE__ = {
       present: typeof initialState !== 'undefined',
       preview: typeof initialState !== 'undefined'
-        ? JSON.stringify(initialState).slice(0, 3000)
+        ? safePreview(initialState)
         : null,
     };
 
@@ -147,7 +175,7 @@ async function inspectPageSourceSignals(page) {
       gtag: typeof window.gtag !== 'undefined',
       dataLayerPresent: Array.isArray(window.dataLayer),
       dataLayerPreview: Array.isArray(window.dataLayer)
-        ? JSON.stringify(window.dataLayer.slice(0, 10)).slice(0, 3000)
+        ? safePreview(window.dataLayer.slice(0, 10))
         : '',
     };
 
@@ -171,7 +199,7 @@ async function collectCookies(context, currentUrl) {
       .filter(cookie => {
         if (!host) return true;
         const domain = (cookie.domain || '').replace(/^\./, '');
-        return host === domain || host.endsWith(`.${domain}`) || domain.endsWith(host);
+        return sameSiteHost(host, domain);
       })
       .map(cookie => ({
         name: cookie.name,
@@ -193,4 +221,5 @@ module.exports = {
   inspectPageGlobals,
   inspectPageSourceSignals,
   collectCookies,
+  safePreview,
 };

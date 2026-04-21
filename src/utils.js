@@ -51,11 +51,31 @@ function getHostnameSafe(urlString) {
   }
 }
 
+function normalizeComparableHost(hostname) {
+  return String(hostname || '')
+    .trim()
+    .toLowerCase()
+    .replace(/^\.+/, '')
+    .replace(/^www\./, '');
+}
+
+function sameSiteHost(baseHost, candidateHost) {
+  const normalizedBase = normalizeComparableHost(baseHost);
+  const normalizedCandidate = normalizeComparableHost(candidateHost);
+
+  if (!normalizedBase || !normalizedCandidate) return false;
+
+  return (
+    normalizedCandidate === normalizedBase ||
+    normalizedCandidate.endsWith(`.${normalizedBase}`) ||
+    normalizedBase.endsWith(`.${normalizedCandidate}`)
+  );
+}
+
 function sameSite(baseUrl, candidateUrl) {
   const baseHost = getHostnameSafe(baseUrl);
   const candidateHost = getHostnameSafe(candidateUrl);
-  if (!baseHost || !candidateHost) return false;
-  return candidateHost === baseHost || candidateHost.endsWith(`.${baseHost}`);
+  return sameSiteHost(baseHost, candidateHost);
 }
 
 function slugifyHostname(urlString) {
@@ -71,6 +91,8 @@ module.exports = {
   sleep,
   dedupeBy,
   getHostnameSafe,
+  normalizeComparableHost,
+  sameSiteHost,
   sameSite,
   slugifyHostname,
 };

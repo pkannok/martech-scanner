@@ -1,6 +1,25 @@
 const { DEFAULT_WAIT_AFTER_LOAD_MS, USER_AGENT_DISCOVERY, USER_AGENT_SCAN } = require('./config');
 const { sleep } = require('./utils');
 
+const CONSENT_PHRASES = [
+  'accept',
+  'accept all',
+  'allow all',
+  'i agree',
+  'agree',
+  'consent',
+  'got it',
+];
+
+const CONSENT_SELECTORS = ['button', '[role="button"]', 'input[type="button"]', 'input[type="submit"]'];
+
+function matchesConsentText(text) {
+  const normalizedText = String(text || '').trim().toLowerCase();
+  if (!normalizedText) return false;
+
+  return CONSENT_PHRASES.some(phrase => normalizedText.includes(phrase));
+}
+
 async function createDiscoveryContext(browser) {
   return browser.newContext({
     ignoreHTTPSErrors: true,
@@ -31,21 +50,9 @@ async function safeGoto(page, url, timeout) {
 }
 
 async function clickConsentButtons(page) {
-  const phrases = [
-    'accept',
-    'accept all',
-    'allow all',
-    'i agree',
-    'agree',
-    'consent',
-    'got it',
-    'continue',
-  ];
-
-  const selectors = ['button', '[role="button"]', 'input[type="button"]', 'input[type="submit"]', 'a'];
   const clicked = [];
 
-  for (const selector of selectors) {
+  for (const selector of CONSENT_SELECTORS) {
     const elements = await page.locator(selector).elementHandles();
     for (const element of elements) {
       try {
@@ -55,7 +62,7 @@ async function clickConsentButtons(page) {
         const text = `${rawText} ${valueText} ${ariaLabel}`.trim().toLowerCase();
 
         if (!text) continue;
-        if (!phrases.some(p => text.includes(p))) continue;
+        if (!matchesConsentText(text)) continue;
 
         await element.scrollIntoViewIfNeeded().catch(() => {});
         await element.click({ timeout: 2000 }).catch(() => {});
@@ -77,4 +84,7 @@ module.exports = {
   createScanContext,
   safeGoto,
   clickConsentButtons,
+  CONSENT_PHRASES,
+  CONSENT_SELECTORS,
+  matchesConsentText,
 };

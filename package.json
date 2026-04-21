@@ -4,7 +4,8 @@
   "description": "Playwright-based martech scanner POC",
   "main": "src/scanner.js",
   "scripts": {
-    "scan": "node src/scanner.js"
+    "scan": "node src/scanner.js",
+    "test": "node --test --test-isolation=none"
   },
   "dependencies": {
     "playwright": "^1.42.0"
