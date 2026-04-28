@@ -1,5 +1,42 @@
 const { dedupeBy } = require('./utils');
 
+const VENDOR_CONFIDENCE = {
+  network: {
+    level: 'high',
+    score: 0.95,
+    reason: 'Observed browser request matched a known vendor endpoint.',
+  },
+  script: {
+    level: 'high',
+    score: 0.85,
+    reason: 'Loaded third-party script URL matched a known vendor rule.',
+  },
+  source_code: {
+    level: 'medium',
+    score: 0.65,
+    reason: 'Vendor-specific ID or global was present in page source.',
+  },
+};
+
+function confidenceForSource(source) {
+  return {
+    ...(VENDOR_CONFIDENCE[source] || {
+      level: 'low',
+      score: 0.4,
+      reason: 'Matched a vendor rule with limited supporting evidence.',
+    }),
+  };
+}
+
+function vendorFinding(name, category, source) {
+  return {
+    name,
+    category,
+    source,
+    confidence: confidenceForSource(source),
+  };
+}
+
 function pageHasId(report, type) {
   return (
     (report.sourceSignals?.htmlIds || []).some(x => x.type === type) ||
@@ -13,20 +50,12 @@ function summarizeVendors(pageReports) {
 
   for (const report of pageReports) {
     for (const finding of report.networkFindings || []) {
-      all.push({
-        name: finding.vendor.name,
-        category: finding.vendor.category,
-        source: 'network',
-      });
+      all.push(vendorFinding(finding.vendor.name, finding.vendor.category, 'network'));
     }
 
     for (const script of report.scriptFindings || []) {
       for (const vendor of script.detectedVendors || []) {
-        all.push({
-          name: vendor.name,
-          category: vendor.category,
-          source: 'script',
-        });
+        all.push(vendorFinding(vendor.name, vendor.category, 'script'));
       }
     }
 
@@ -40,43 +69,23 @@ function summarizeVendors(pageReports) {
     const hasTradeDeskId = pageHasId(report, 'The Trade Desk Advertiser ID');
 
     if (hasGA4Id || hasUAId) {
-      all.push({
-        name: 'Google Analytics',
-        category: 'analytics',
-        source: 'source_code',
-      });
+      all.push(vendorFinding('Google Analytics', 'analytics', 'source_code'));
     }
 
     if (hasAdsId) {
-      all.push({
-        name: 'Google Ads / DoubleClick',
-        category: 'media_pixel',
-        source: 'source_code',
-      });
+      all.push(vendorFinding('Google Ads / DoubleClick', 'media_pixel', 'source_code'));
     }
 
     if (hasMetaId) {
-      all.push({
-        name: 'Meta Pixel',
-        category: 'media_pixel',
-        source: 'source_code',
-      });
+      all.push(vendorFinding('Meta Pixel', 'media_pixel', 'source_code'));
     }
 
     if (hasTikTokId) {
-      all.push({
-        name: 'TikTok Pixel',
-        category: 'media_pixel',
-        source: 'source_code',
-      });
+      all.push(vendorFinding('TikTok Pixel', 'media_pixel', 'source_code'));
     }
 
     if (hasTradeDeskId) {
-      all.push({
-        name: 'The Trade Desk',
-        category: 'media_pixel',
-        source: 'source_code',
-      });
+      all.push(vendorFinding('The Trade Desk', 'media_pixel', 'source_code'));
     }
 
     if (
@@ -85,11 +94,7 @@ function summarizeVendors(pageReports) {
         (report.sourceSignals?.inlineScriptIds || []).some(x => x.type === 'GTM Container ID') ||
         (report.sourceSignals?.noscriptIds || []).some(x => x.type === 'GTM Container ID'))
     ) {
-      all.push({
-        name: 'Google Tag Manager',
-        category: 'tag_manager',
-        source: 'source_code',
-      });
+      all.push(vendorFinding('Google Tag Manager', 'tag_manager', 'source_code'));
     }
   }
 
@@ -118,6 +123,12 @@ function collectAllIds(pageReports) {
   return dedupeBy(ids, x => `${x.type}|${x.value}`);
 }
 
+function formatConfidence(confidence) {
+  if (!confidence?.level) return 'unknown';
+  if (typeof confidence.score !== 'number') return confidence.level;
+  return `${confidence.level} (${Math.round(confidence.score * 100)}%)`;
+}
+
 function buildSummaryMarkdown(finalReport) {
   const lines = [];
 
@@ -138,7 +149,7 @@ function buildSummaryMarkdown(finalReport) {
     lines.push('');
   } else {
     for (const vendor of finalReport.vendors) {
-      lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source}`);
+      lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source} - confidence: ${formatConfidence(vendor.confidence)}`);
     }
     lines.push('');
   }
@@ -233,6 +244,7 @@ function buildSummaryMarkdown(finalReport) {
 }
 
 module.exports = {
+  confidenceForSource,
   summarizeVendors,
   collectAllIds,
   buildSummaryMarkdown,

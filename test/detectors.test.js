@@ -64,4 +64,7 @@ test('summarizeVendors infers source-code vendors from non-google IDs', () => {
   assert.ok(keys.has('Meta Pixel|media_pixel|source_code'));
   assert.ok(keys.has('TikTok Pixel|media_pixel|source_code'));
   assert.ok(keys.has('The Trade Desk|media_pixel|source_code'));
+
+  assert.equal(vendors.every(vendor => vendor.confidence?.level === 'medium'), true);
+  assert.equal(vendors.every(vendor => vendor.confidence?.score === 0.65), true);
 });

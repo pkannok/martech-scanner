@@ -162,6 +162,12 @@ Typical filenames look like:
 - `example.com_results_v2_3.json`
 - `example.com_summary_v2_3.md`
 
+Vendor findings include confidence levels derived from the evidence source:
+
+- `high` for observed network requests to known vendor endpoints
+- `high` for loaded third-party scripts that match known vendor rules
+- `medium` for source-only IDs or globals that show configuration but not necessarily firing
+
 ## What the scanner looks at
 
 Depending on the page and scenario, the scanner may use:
@@ -215,7 +221,7 @@ Known limitations:
 - It does not yet analyze response bodies.
 - It does not yet do comprehensive request-payload parsing for every vendor.
 - It does not yet run multiple fully separated scenarios like baseline vs post-consent vs conversion flow.
-- It does not yet provide formal confidence scoring.
+- Confidence scoring is evidence-source based rather than a full probabilistic model.
 - HAR/trace capture is currently used for thin-page retry/debugging rather than exported for every page by default.
 
 ## Configuration
@@ -260,7 +266,6 @@ npm run test:playwright
 
 Good next improvements for team use:
 
-- add confidence levels to findings
 - distinguish `observed firing` vs `present in source` vs `inferred`
 - add scenario-based scans
 - add an explicit CLI switch for forced HAR/trace export on healthy scans

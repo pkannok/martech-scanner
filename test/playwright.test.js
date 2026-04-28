@@ -111,6 +111,10 @@ function keys(items, format) {
   return new Set(items.map(format));
 }
 
+function byKey(items, format) {
+  return new Map(items.map(item => [format(item), item]));
+}
+
 test('normalizeDomain keeps paths and queries while removing hashes and trailing slashes', () => {
   assert.equal(
     normalizeDomain(' Example.com/products/?ref=test#details '),
@@ -206,7 +210,9 @@ test('runScanPass detects vendors and IDs from real Playwright page activity', a
       assert.equal(report.title, 'Scanner Fixture');
       assert.ok(report.cookies.some(cookie => cookie.name === 'fixture_session'));
 
-      const vendorSet = keys(summarizeVendors([report]), vendor => `${vendor.name}|${vendor.category}|${vendor.source}`);
+      const vendors = summarizeVendors([report]);
+      const vendorSet = keys(vendors, vendor => `${vendor.name}|${vendor.category}|${vendor.source}`);
+      const vendorMap = byKey(vendors, vendor => `${vendor.name}|${vendor.category}|${vendor.source}`);
       assert.ok(vendorSet.has('Google Tag Manager|tag_manager|network'));
       assert.ok(vendorSet.has('Google Tag Manager|tag_manager|script'));
       assert.ok(vendorSet.has('Google Tag Manager|tag_manager|source_code'));
@@ -216,6 +222,9 @@ test('runScanPass detects vendors and IDs from real Playwright page activity', a
       assert.ok(vendorSet.has('Meta Pixel|media_pixel|script'));
       assert.ok(vendorSet.has('TikTok Pixel|media_pixel|network'));
       assert.ok(vendorSet.has('The Trade Desk|media_pixel|network'));
+      assert.equal(vendorMap.get('The Trade Desk|media_pixel|network').confidence.level, 'high');
+      assert.equal(vendorMap.get('Google Tag Manager|tag_manager|script').confidence.score, 0.85);
+      assert.equal(vendorMap.get('Google Analytics|analytics|source_code').confidence.level, 'medium');
 
       const idSet = keys(collectAllIds([report]), id => `${id.type}|${id.value}`);
       assert.ok(idSet.has('GTM Container ID|GTM-LOCAL1'));
@@ -225,8 +234,15 @@ test('runScanPass detects vendors and IDs from real Playwright page activity', a
       assert.ok(idSet.has('TikTok Pixel ID|D4T4CDJC77U9L5PIV3O0'));
       assert.ok(idSet.has('The Trade Desk Advertiser ID|abc123'));
 
-      assert.ok(report.networkFindings.some(finding => finding.vendor.name === 'The Trade Desk' && finding.method === 'POST'));
-      assert.ok(report.scriptFindings.some(script => script.src.includes('googletagmanager.com/gtm.js')));
+      assert.ok(report.networkFindings.some(finding =>
+        finding.vendor.name === 'The Trade Desk' &&
+        finding.method === 'POST' &&
+        finding.confidence?.level === 'high'
+      ));
+      assert.ok(report.scriptFindings.some(script =>
+        script.src.includes('googletagmanager.com/gtm.js') &&
+        script.confidence?.score === 0.85
+      ));
     }
   );
 });
@@ -292,7 +308,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
 
   assert.match(markdown, /^# Martech Scan Summary v2\.3/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
-  assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network/);
+  assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - confidence: high \(95%\)/);
   assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345`/);
   assert.match(markdown, /- Consent clicks: accept all/);
   assert.match(markdown, /- Error: net::ERR_CONNECTION_REFUSED/);

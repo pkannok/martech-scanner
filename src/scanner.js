@@ -43,6 +43,7 @@ const {
 } = require('./browser');
 
 const {
+  confidenceForSource,
   summarizeVendors,
   collectAllIds,
   buildSummaryMarkdown,
@@ -117,6 +118,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     for (const vendor of vendors) {
       rawNetworkEvents.push({
         vendor,
+        confidence: confidenceForSource('network'),
         url,
         method: request.method(),
         resourceType: request.resourceType(),
@@ -440,6 +442,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
 					src: script.src,
 					detectedVendors,
 					ids,
+					confidence: confidenceForSource(detectedVendors.length ? 'script' : 'source_code'),
 				};
 			})
 			.filter(item =>
@@ -457,6 +460,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     pageReport.networkFindings = dedupeBy(
       rawNetworkEvents.map(event => ({
         vendor: event.vendor,
+        confidence: event.confidence,
         url: event.url,
         method: event.method,
         resourceType: event.resourceType,
