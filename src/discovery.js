@@ -1,5 +1,5 @@
 const { PRIORITY_KEYWORDS } = require('./config');
-const { sameSite } = require('./utils');
+const { canonicalPageKey, dedupeBy, sameSite } = require('./utils');
 const { safeGoto, createDiscoveryContext } = require('./browser');
 
 function scoreDiscoveredUrl(baseUrl, candidateUrl) {
@@ -66,9 +66,15 @@ async function discoverPages(browser, baseUrl, timeout, maxPages) {
 
   await context.close();
 
-  return results
+  return dedupeBy(results
     .filter(url => sameSite(baseUrl, url))
-    .sort((a, b) => scoreDiscoveredUrl(baseUrl, b) - scoreDiscoveredUrl(baseUrl, a))
+    .map(url => {
+      const parsed = new URL(url);
+      parsed.hash = '';
+      const normalized = parsed.toString();
+      return parsed.pathname === '/' && !parsed.search ? normalized.replace(/\/$/, '') : normalized;
+    })
+    .sort((a, b) => scoreDiscoveredUrl(baseUrl, b) - scoreDiscoveredUrl(baseUrl, a)), canonicalPageKey)
     .slice(0, maxPages);
 }
 

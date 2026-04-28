@@ -43,6 +43,57 @@ function dedupeBy(items, keyFn) {
   return out;
 }
 
+function isTrackingQueryParam(name) {
+  const normalized = String(name || '').toLowerCase();
+  return (
+    normalized.startsWith('utm_') ||
+    [
+      '_ga',
+      '_gl',
+      'fbclid',
+      'gclid',
+      'gbraid',
+      'wbraid',
+      'mc_cid',
+      'mc_eid',
+      'msclkid',
+      'ttclid',
+    ].includes(normalized)
+  );
+}
+
+function canonicalPageKey(urlString) {
+  try {
+    const url = new URL(urlString);
+    const protocol = url.protocol.toLowerCase();
+    const hostname = normalizeComparableHost(url.hostname);
+    const host = url.port ? `${hostname}:${url.port}` : hostname;
+    const pathname = (url.pathname || '/')
+      .replace(/\/{2,}/g, '/')
+      .replace(/\/+$/, '') || '/';
+
+    const params = [];
+    if (pathname !== '/') {
+      for (const [name, value] of url.searchParams.entries()) {
+        if (!isTrackingQueryParam(name)) params.push([name, value]);
+      }
+    }
+
+    params.sort(([nameA, valueA], [nameB, valueB]) => {
+      const nameCompare = nameA.localeCompare(nameB);
+      return nameCompare || valueA.localeCompare(valueB);
+    });
+
+    const search = params.length
+      ? `?${params.map(([name, value]) => `${encodeURIComponent(name)}=${encodeURIComponent(value)}`).join('&')}`
+      : '';
+
+    return `${protocol}//${host}${pathname}${search}`;
+  } catch {
+    return String(urlString || '').trim().toLowerCase();
+  }
+}
+
 function getHostnameSafe(urlString) {
   try {
     return new URL(urlString).hostname;
@@ -90,6 +141,7 @@ module.exports = {
   nowIso,
   sleep,
   dedupeBy,
+  canonicalPageKey,
   getHostnameSafe,
   normalizeComparableHost,
   sameSiteHost,

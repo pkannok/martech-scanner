@@ -130,7 +130,12 @@ test('discoverPages parses browser links and keeps only prioritized same-site UR
       '/': (req, res) => sendHtml(res, `
         <!doctype html>
         <title>Discovery fixture</title>
+        <a href="/">Home slash</a>
+        <a href="/?utm_source=email">Home tracking</a>
+        <a href="#top">Home hash</a>
         <a href="/shop">Shop</a>
+        <a href="/shop/">Shop trailing slash</a>
+        <a href="/shop?utm_campaign=spring">Shop tracking</a>
         <a href="/pricing">Pricing</a>
         <a href="/about?campaign=1#team">About</a>
         <a href="/privacy">Privacy</a>
@@ -146,7 +151,9 @@ test('discoverPages parses browser links and keeps only prioritized same-site UR
       assert.ok(urls.includes(origin));
       assert.ok(urls.includes(`${origin}/shop`));
       assert.ok(urls.includes(`${origin}/pricing`));
-      assert.ok(urls.includes(`${origin}/about?campaign=1#team`));
+      assert.ok(urls.includes(`${origin}/about?campaign=1`));
+      assert.equal(urls.filter(url => url === origin || url === `${origin}/` || url.startsWith(`${origin}/?`)).length, 1);
+      assert.equal(urls.filter(url => url === `${origin}/shop` || url === `${origin}/shop/` || url.startsWith(`${origin}/shop?`)).length, 1);
       assert.equal(urls.some(url => url.includes('external.example')), false);
       assert.equal(urls.some(url => url.startsWith('mailto:')), false);
       assert.equal(urls.some(url => url.includes('/privacy')), false);

@@ -16,6 +16,7 @@ const {
   ensureDir,
   nowIso,
   dedupeBy,
+  canonicalPageKey,
   slugifyHostname,
   sleep,
 } = require('./utils');
@@ -571,8 +572,12 @@ async function main(argv = process.argv, options = {}) {
   try {
     logProgress(logger, 'Discovering pages...');
     const discoveredUrls = await discoverPages(browser, domain, timeout, maxPages);
-    scanUrls = dedupeBy([domain, ...discoveredUrls], x => x).slice(0, maxPages);
-    logProgress(logger, `Discovered ${discoveredUrls.length} candidate URL(s); scanning ${scanUrls.length} page(s).`);
+    scanUrls = dedupeBy([domain, ...discoveredUrls], canonicalPageKey).slice(0, maxPages);
+    const duplicateCount = Math.max(0, discoveredUrls.length + 1 - scanUrls.length);
+    logProgress(logger, `Discovered ${discoveredUrls.length} candidate URL(s); scanning ${scanUrls.length} unique page(s).`);
+    if (duplicateCount) {
+      logProgress(logger, `Skipped ${duplicateCount} duplicate URL variant(s).`);
+    }
 
     for (const [index, url] of scanUrls.entries()) {
       logProgress(logger, `Scanning page ${index + 1}/${scanUrls.length}: ${url}`);
