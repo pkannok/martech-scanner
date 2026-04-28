@@ -248,6 +248,14 @@ Run the test suite with:
 npm test
 ```
 
+The default suite includes fast unit/regression tests plus Playwright-backed tests
+that run Chromium against local HTTP fixtures. To run only the Playwright-backed
+coverage:
+
+```bash
+npm run test:playwright
+```
+
 ## Suggested next steps
 
 Good next improvements for team use:

@@ -161,6 +161,10 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
   };
 
   try {
+    if (typeof options.prepareContext === 'function') {
+      await options.prepareContext(context, page);
+    }
+
     const visit = await safeGoto(page, targetUrl, timeout);
     if (!visit.ok) {
       pageReport.status = 'failed';
@@ -527,8 +531,8 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
   return initialReport;
 }
 
-async function main() {
-  const args = parseArgs(process.argv);
+async function main(argv = process.argv) {
+  const args = parseArgs(argv);
   const domain = normalizeDomain(args.domain);
   const headless = String(args.headless || 'true').toLowerCase() !== 'false';
   const timeout = Number(args.timeout || DEFAULT_TIMEOUT);
@@ -540,18 +544,21 @@ async function main() {
   const artifactsDir = path.join(outDir, 'artifacts');
   ensureDir(artifactsDir);
 
+  const pageReports = [];
+  let scanUrls = [];
   const browser = await chromium.launch({ headless });
 
-  const discoveredUrls = await discoverPages(browser, domain, timeout, maxPages);
-  const scanUrls = dedupeBy([domain, ...discoveredUrls], x => x).slice(0, maxPages);
+  try {
+    const discoveredUrls = await discoverPages(browser, domain, timeout, maxPages);
+    scanUrls = dedupeBy([domain, ...discoveredUrls], x => x).slice(0, maxPages);
 
-  const pageReports = [];
-  for (const url of scanUrls) {
-    const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir);
-    pageReports.push(report);
+    for (const url of scanUrls) {
+      const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir);
+      pageReports.push(report);
+    }
+  } finally {
+    await browser.close();
   }
-
-  await browser.close();
 
   const finalReport = {
     domain,
@@ -575,12 +582,29 @@ async function main() {
   fs.writeFileSync(jsonPath, JSON.stringify(finalReport, null, 2), 'utf8');
   fs.writeFileSync(mdPath, buildSummaryMarkdown(finalReport), 'utf8');
 
-  console.log('Scan complete.');
-  console.log(`JSON: ${jsonPath}`);
-  console.log(`Summary: ${mdPath}`);
+  return {
+    finalReport,
+    jsonPath,
+    mdPath,
+  };
 }
 
-main().catch(error => {
-  console.error('Fatal error:', error.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().then(({ jsonPath, mdPath }) => {
+    console.log('Scan complete.');
+    console.log(`JSON: ${jsonPath}`);
+    console.log(`Summary: ${mdPath}`);
+  }).catch(error => {
+    console.error('Fatal error:', error.message);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  pageArtifactSlug,
+  evidenceScore,
+  shouldRetryThinPage,
+  runScanPass,
+  scanSinglePage,
+  main,
+};

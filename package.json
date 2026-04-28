@@ -5,7 +5,8 @@
   "main": "src/scanner.js",
   "scripts": {
     "scan": "node src/scanner.js",
-    "test": "node --test --test-isolation=none"
+    "test": "node --test --test-isolation=none",
+    "test:playwright": "node --test --test-isolation=none test/playwright.test.js"
   },
   "dependencies": {
     "playwright": "^1.42.0"
