@@ -222,8 +222,11 @@ test('runScanPass detects vendors and IDs from real Playwright page activity', a
       assert.ok(vendorSet.has('Meta Pixel|media_pixel|script'));
       assert.ok(vendorSet.has('TikTok Pixel|media_pixel|network'));
       assert.ok(vendorSet.has('The Trade Desk|media_pixel|network'));
+      assert.equal(vendorMap.get('The Trade Desk|media_pixel|network').evidence.type, 'observed_firing');
       assert.equal(vendorMap.get('The Trade Desk|media_pixel|network').confidence.level, 'high');
+      assert.equal(vendorMap.get('Google Tag Manager|tag_manager|script').evidence.type, 'present_in_source');
       assert.equal(vendorMap.get('Google Tag Manager|tag_manager|script').confidence.score, 0.85);
+      assert.equal(vendorMap.get('Google Analytics|analytics|source_code').evidence.type, 'inferred');
       assert.equal(vendorMap.get('Google Analytics|analytics|source_code').confidence.level, 'medium');
 
       const idSet = keys(collectAllIds([report]), id => `${id.type}|${id.value}`);
@@ -237,10 +240,12 @@ test('runScanPass detects vendors and IDs from real Playwright page activity', a
       assert.ok(report.networkFindings.some(finding =>
         finding.vendor.name === 'The Trade Desk' &&
         finding.method === 'POST' &&
+        finding.evidence?.type === 'observed_firing' &&
         finding.confidence?.level === 'high'
       ));
       assert.ok(report.scriptFindings.some(script =>
         script.src.includes('googletagmanager.com/gtm.js') &&
+        script.evidence?.type === 'present_in_source' &&
         script.confidence?.score === 0.85
       ));
     }
@@ -308,7 +313,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
 
   assert.match(markdown, /^# Martech Scan Summary v2\.3/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
-  assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - confidence: high \(95%\)/);
+  assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - evidence: observed firing - confidence: high \(95%\)/);
   assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345`/);
   assert.match(markdown, /- Consent clicks: accept all/);
   assert.match(markdown, /- Error: net::ERR_CONNECTION_REFUSED/);

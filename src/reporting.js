@@ -18,6 +18,24 @@ const VENDOR_CONFIDENCE = {
   },
 };
 
+const VENDOR_EVIDENCE = {
+  network: {
+    type: 'observed_firing',
+    label: 'observed firing',
+    reason: 'A browser request to a known vendor endpoint was observed during the scan.',
+  },
+  script: {
+    type: 'present_in_source',
+    label: 'present in source',
+    reason: 'A third-party script URL matching a known vendor rule was present on the page.',
+  },
+  source_code: {
+    type: 'inferred',
+    label: 'inferred',
+    reason: 'The vendor was inferred from vendor-specific IDs or globals found in page source.',
+  },
+};
+
 function confidenceForSource(source) {
   return {
     ...(VENDOR_CONFIDENCE[source] || {
@@ -28,11 +46,22 @@ function confidenceForSource(source) {
   };
 }
 
+function evidenceForSource(source) {
+  return {
+    ...(VENDOR_EVIDENCE[source] || {
+      type: 'inferred',
+      label: 'inferred',
+      reason: 'The vendor matched a rule with limited direct evidence.',
+    }),
+  };
+}
+
 function vendorFinding(name, category, source) {
   return {
     name,
     category,
     source,
+    evidence: evidenceForSource(source),
     confidence: confidenceForSource(source),
   };
 }
@@ -129,6 +158,10 @@ function formatConfidence(confidence) {
   return `${confidence.level} (${Math.round(confidence.score * 100)}%)`;
 }
 
+function formatEvidence(evidence) {
+  return evidence?.label || evidence?.type || 'unknown';
+}
+
 function buildSummaryMarkdown(finalReport) {
   const lines = [];
 
@@ -149,7 +182,7 @@ function buildSummaryMarkdown(finalReport) {
     lines.push('');
   } else {
     for (const vendor of finalReport.vendors) {
-      lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source} - confidence: ${formatConfidence(vendor.confidence)}`);
+      lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source} - evidence: ${formatEvidence(vendor.evidence)} - confidence: ${formatConfidence(vendor.confidence)}`);
     }
     lines.push('');
   }
@@ -245,6 +278,7 @@ function buildSummaryMarkdown(finalReport) {
 
 module.exports = {
   confidenceForSource,
+  evidenceForSource,
   summarizeVendors,
   collectAllIds,
   buildSummaryMarkdown,
