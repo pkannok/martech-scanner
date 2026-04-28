@@ -79,6 +79,11 @@ function evidenceScore(report) {
   );
 }
 
+function logProgress(logger, message) {
+  if (!logger || typeof logger.log !== 'function') return;
+  logger.log(`[${nowIso()}] ${message}`);
+}
+
 function shouldRetryThinPage(report) {
   if (report.status !== 'ok') return false;
   if (report.statusCode !== null && report.statusCode >= 400) return false;
@@ -494,7 +499,8 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
   }
 }
 
-async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsentClick, artifactsDir) {
+async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsentClick, artifactsDir, options = {}) {
+  const logger = options.logger || null;
   const initialReport = await runScanPass(
     browser,
     baseUrl,
@@ -508,6 +514,7 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
   }
 
   const artifactSlug = pageArtifactSlug(targetUrl);
+  logProgress(logger, `Retrying thin page with richer interactions: ${targetUrl}`);
   const retryReport = await runScanPass(
     browser,
     baseUrl,
@@ -539,7 +546,8 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
   return initialReport;
 }
 
-async function main(argv = process.argv) {
+async function main(argv = process.argv, options = {}) {
+  const logger = options.logger === false ? null : options.logger || console;
   const args = parseArgs(argv);
   const domain = normalizeDomain(args.domain);
   const headless = String(args.headless || 'true').toLowerCase() !== 'false';
@@ -554,18 +562,36 @@ async function main(argv = process.argv) {
 
   const pageReports = [];
   let scanUrls = [];
+
+  logProgress(logger, `Starting scan for ${domain}`);
+  logProgress(logger, `Config: headless=${headless}, timeout=${timeout}ms, maxPages=${maxPages}, consentClick=${enableConsentClick}`);
+  logProgress(logger, 'Launching Chromium...');
   const browser = await chromium.launch({ headless });
 
   try {
+    logProgress(logger, 'Discovering pages...');
     const discoveredUrls = await discoverPages(browser, domain, timeout, maxPages);
     scanUrls = dedupeBy([domain, ...discoveredUrls], x => x).slice(0, maxPages);
+    logProgress(logger, `Discovered ${discoveredUrls.length} candidate URL(s); scanning ${scanUrls.length} page(s).`);
 
-    for (const url of scanUrls) {
-      const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir);
+    for (const [index, url] of scanUrls.entries()) {
+      logProgress(logger, `Scanning page ${index + 1}/${scanUrls.length}: ${url}`);
+      const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir, { logger });
       pageReports.push(report);
+
+      const pageVendorCount = summarizeVendors([report]).length;
+      const pageIdCount = collectAllIds([report]).length;
+      const httpStatus = report.statusCode === null || report.statusCode === undefined ? 'n/a' : report.statusCode;
+      const retryNote = report.diagnostics?.retriedThinPage ? ', retried=true' : '';
+      const errorNote = report.error ? `, error=${report.error.slice(0, 140)}` : '';
+      logProgress(
+        logger,
+        `Finished page ${index + 1}/${scanUrls.length}: status=${report.status}, http=${httpStatus}, vendors=${pageVendorCount}, ids=${pageIdCount}, network=${report.networkFindings.length}, scripts=${report.scriptFindings.length}${retryNote}${errorNote}`
+      );
     }
   } finally {
     await browser.close();
+    logProgress(logger, 'Closed Chromium.');
   }
 
   const finalReport = {
@@ -587,8 +613,11 @@ async function main(argv = process.argv) {
   const jsonPath = path.join(outDir, `${baseName}_results_v2_3.json`);
   const mdPath = path.join(outDir, `${baseName}_summary_v2_3.md`);
 
+  logProgress(logger, 'Writing report files...');
   fs.writeFileSync(jsonPath, JSON.stringify(finalReport, null, 2), 'utf8');
   fs.writeFileSync(mdPath, buildSummaryMarkdown(finalReport), 'utf8');
+  logProgress(logger, `Wrote JSON report: ${jsonPath}`);
+  logProgress(logger, `Wrote Markdown summary: ${mdPath}`);
 
   return {
     finalReport,
