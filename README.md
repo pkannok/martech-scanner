@@ -274,10 +274,6 @@ node src/scanner.js --domain=https://example.com --headless=false
 
 This runs the scanner against `https://example.com` and shows the browser while scanning.
 
-## Maintainers
-
-Update this section with your team or owner information.
-
 ---
 
 If you expand this into a standard team tool, a good next milestone is to define a stable output schema and keep the regression fixture set current as detector rules evolve.
