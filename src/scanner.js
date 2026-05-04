@@ -17,7 +17,7 @@ const {
   nowIso,
   dedupeBy,
   canonicalPageKey,
-  slugifyHostname,
+  slugifyUrl,
   sleep,
 } = require('./utils');
 
@@ -91,6 +91,38 @@ function shouldRetryThinPage(report) {
   if ((report.networkFindings?.length || 0) > 0) return false;
   if ((report.scriptFindings?.length || 0) > 0) return false;
   return true;
+}
+
+function buildDiscoveredUrlReport(discoveredUrls, scanUrls) {
+  const scannedKeys = new Set(scanUrls.map(canonicalPageKey));
+
+  return discoveredUrls.map((url, index) => ({
+    url,
+    rank: index + 1,
+    scanned: scannedKeys.has(canonicalPageKey(url)),
+  }));
+}
+
+function dateStampFromIso(isoString) {
+  return String(isoString || '').slice(0, 10).replace(/-/g, '');
+}
+
+function buildReportPaths(outDir, normalizedInputUrl, scannedAt, existsSync = fs.existsSync) {
+  const baseName = slugifyUrl(normalizedInputUrl);
+  const dateStamp = dateStampFromIso(scannedAt);
+  let counter = 0;
+
+  while (true) {
+    const suffix = counter === 0 ? '' : `_${String(counter).padStart(2, '0')}`;
+    const jsonPath = path.join(outDir, `${baseName}_results_${dateStamp}${suffix}.json`);
+    const mdPath = path.join(outDir, `${baseName}_summary_${dateStamp}${suffix}.md`);
+
+    if (!existsSync(jsonPath) && !existsSync(mdPath)) {
+      return { jsonPath, mdPath };
+    }
+
+    counter += 1;
+  }
 }
 
 async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentClick, options = {}) {
@@ -563,6 +595,8 @@ async function main(argv = process.argv, options = {}) {
 
   const pageReports = [];
   let scanUrls = [];
+  let discoveredUrls = [];
+  let discoveredUrlReport = [];
 
   logProgress(logger, `Starting scan for ${domain}`);
   logProgress(logger, `Config: headless=${headless}, timeout=${timeout}ms, maxPages=${maxPages}, consentClick=${enableConsentClick}`);
@@ -571,9 +605,11 @@ async function main(argv = process.argv, options = {}) {
 
   try {
     logProgress(logger, 'Discovering pages...');
-    const discoveredUrls = await discoverPages(browser, domain, timeout, maxPages);
-    scanUrls = dedupeBy([domain, ...discoveredUrls], canonicalPageKey).slice(0, maxPages);
-    const duplicateCount = Math.max(0, discoveredUrls.length + 1 - scanUrls.length);
+    discoveredUrls = await discoverPages(browser, domain, timeout);
+    const scanCandidateUrls = dedupeBy([domain, ...discoveredUrls], canonicalPageKey);
+    scanUrls = scanCandidateUrls.slice(0, maxPages);
+    const duplicateCount = Math.max(0, discoveredUrls.length + 1 - scanCandidateUrls.length);
+    discoveredUrlReport = buildDiscoveredUrlReport(discoveredUrls, scanUrls);
     logProgress(logger, `Discovered ${discoveredUrls.length} candidate URL(s); scanning ${scanUrls.length} unique page(s).`);
     if (duplicateCount) {
       logProgress(logger, `Skipped ${duplicateCount} duplicate URL variant(s).`);
@@ -599,9 +635,10 @@ async function main(argv = process.argv, options = {}) {
     logProgress(logger, 'Closed Chromium.');
   }
 
+  const scannedAt = nowIso();
   const finalReport = {
     domain,
-    scannedAt: nowIso(),
+    scannedAt,
     config: {
       headless,
       timeout,
@@ -609,14 +646,13 @@ async function main(argv = process.argv, options = {}) {
       enableConsentClick,
     },
     scanUrls,
+    discovered_urls: discoveredUrlReport,
     pageReports,
     vendors: summarizeVendors(pageReports),
     ids: collectAllIds(pageReports),
   };
 
-  const baseName = slugifyHostname(domain);
-  const jsonPath = path.join(outDir, `${baseName}_results_v2_3.json`);
-  const mdPath = path.join(outDir, `${baseName}_summary_v2_3.md`);
+  const { jsonPath, mdPath } = buildReportPaths(outDir, domain, scannedAt);
 
   logProgress(logger, 'Writing report files...');
   fs.writeFileSync(jsonPath, JSON.stringify(finalReport, null, 2), 'utf8');
@@ -646,6 +682,9 @@ module.exports = {
   pageArtifactSlug,
   evidenceScore,
   shouldRetryThinPage,
+  buildDiscoveredUrlReport,
+  dateStampFromIso,
+  buildReportPaths,
   runScanPass,
   scanSinglePage,
   main,

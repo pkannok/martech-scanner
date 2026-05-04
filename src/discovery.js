@@ -66,7 +66,7 @@ async function discoverPages(browser, baseUrl, timeout, maxPages) {
 
   await context.close();
 
-  return dedupeBy(results
+  const rankedUrls = dedupeBy(results
     .filter(url => sameSite(baseUrl, url))
     .map(url => {
       const parsed = new URL(url);
@@ -74,8 +74,11 @@ async function discoverPages(browser, baseUrl, timeout, maxPages) {
       const normalized = parsed.toString();
       return parsed.pathname === '/' && !parsed.search ? normalized.replace(/\/$/, '') : normalized;
     })
-    .sort((a, b) => scoreDiscoveredUrl(baseUrl, b) - scoreDiscoveredUrl(baseUrl, a)), canonicalPageKey)
-    .slice(0, maxPages);
+    .sort((a, b) => scoreDiscoveredUrl(baseUrl, b) - scoreDiscoveredUrl(baseUrl, a)), canonicalPageKey);
+
+  if (!Number.isFinite(maxPages)) return rankedUrls;
+
+  return rankedUrls.slice(0, maxPages);
 }
 
 module.exports = {

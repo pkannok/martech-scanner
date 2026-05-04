@@ -1,11 +1,12 @@
 const http = require('http');
+const path = require('path');
 const { after, before, test } = require('node:test');
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 
 const { discoverPages } = require('../src/discovery');
 const { buildSummaryMarkdown, collectAllIds, summarizeVendors } = require('../src/reporting');
-const { runScanPass } = require('../src/scanner');
+const { buildDiscoveredUrlReport, buildReportPaths, dateStampFromIso, runScanPass } = require('../src/scanner');
 const { normalizeDomain } = require('../src/utils');
 
 let browser;
@@ -159,6 +160,57 @@ test('discoverPages parses browser links and keeps only prioritized same-site UR
       assert.equal(urls.some(url => url.includes('/privacy')), false);
     }
   );
+});
+
+test('buildDiscoveredUrlReport ranks discovered URLs and marks scanned pages', () => {
+  const report = buildDiscoveredUrlReport(
+    [
+      'https://www.example.com',
+      'https://www.example.com/about',
+      'https://www.example.com/shop?utm_source=email',
+    ],
+    [
+      'https://example.com/',
+      'https://example.com/shop',
+    ]
+  );
+
+  assert.deepEqual(report, [
+    {
+      url: 'https://www.example.com',
+      rank: 1,
+      scanned: true,
+    },
+    {
+      url: 'https://www.example.com/about',
+      rank: 2,
+      scanned: false,
+    },
+    {
+      url: 'https://www.example.com/shop?utm_source=email',
+      rank: 3,
+      scanned: true,
+    },
+  ]);
+});
+
+test('buildReportPaths uses date-stamped names and increments daily counters', () => {
+  const occupied = new Set([
+    path.join('output', 'example.com_results_20260504.json'),
+    path.join('output', 'example.com_summary_20260504.md'),
+    path.join('output', 'example.com_results_20260504_01.json'),
+  ]);
+
+  const paths = buildReportPaths(
+    'output',
+    'https://example.com',
+    '2026-05-04T18:00:00.000Z',
+    filePath => occupied.has(filePath)
+  );
+
+  assert.equal(dateStampFromIso('2026-05-04T18:00:00.000Z'), '20260504');
+  assert.equal(paths.jsonPath, path.join('output', 'example.com_results_20260504_02.json'));
+  assert.equal(paths.mdPath, path.join('output', 'example.com_summary_20260504_02.md'));
 });
 
 test('runScanPass detects vendors and IDs from real Playwright page activity', async () => {

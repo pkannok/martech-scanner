@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-const { canonicalPageKey, sameSite, sameSiteHost } = require('../src/utils');
+const { canonicalPageKey, sameSite, sameSiteHost, slugifyUrl } = require('../src/utils');
 
 test('sameSite treats apex and www hosts as the same site', () => {
   assert.equal(sameSite('https://www.example.com', 'https://example.com/pricing'), true);
@@ -34,5 +34,16 @@ test('canonicalPageKey keeps distinct content query params but ignores tracking 
   assert.notEqual(
     canonicalPageKey('https://example.com/products?page=2'),
     canonicalPageKey('https://example.com/products?page=3')
+  );
+});
+
+test('slugifyUrl creates a filesystem-safe name from the normalized URL', () => {
+  assert.equal(
+    slugifyUrl(' Example.com/products/?ref=test#details '),
+    'example.com_products_ref_test'
+  );
+  assert.equal(
+    slugifyUrl('https://example.com/subdirectory/'),
+    'example.com_subdirectory'
   );
 });

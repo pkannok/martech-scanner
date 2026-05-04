@@ -138,7 +138,7 @@ node src/scanner.js --domain=https://example.com --out=./scan-output
   Shows the browser window while the scan runs.
 
 - `--maxPages=8`
-  Increases the number of discovered pages to scan.
+  Changes how many ranked discovered pages are scanned. The default is `6`.
 
 - `--enableConsentClick=false`
   Disables the generic consent-button click behavior.
@@ -159,8 +159,24 @@ When a page looks unusually thin, the scanner can also write retry artifacts suc
 
 Typical filenames look like:
 
-- `example.com_results_v2_3.json`
-- `example.com_summary_v2_3.md`
+- `example.com_results_20260504.json`
+- `example.com_summary_20260504.md`
+- `example.com_subdirectory_results_20260504.json`
+- `example.com_subdirectory_summary_20260504.md`
+
+The filename prefix comes from the normalized input URL without the scheme. Filesystem-unsafe characters are replaced by underscores, and path separators become underscores. For example, `https://example.com/subdirectory/` becomes `example.com_subdirectory`.
+
+If another scan for the same normalized input URL is written on the same day, the scanner appends a two-digit counter before the extension:
+
+- `example.com_results_20260504_01.json`
+- `example.com_summary_20260504_01.md`
+
+The JSON report includes both the URLs that were scanned and the full ranked discovery list:
+
+- `scanUrls`
+  The capped list of URLs actually scanned, controlled by `maxPages`.
+- `discovered_urls`
+  Every discovered same-site URL after filtering, normalization, deduping, and ranking. Each entry has `url`, `rank`, and a boolean `scanned` field.
 
 Vendor findings include confidence levels derived from the evidence source:
 
@@ -191,7 +207,7 @@ Depending on the page and scenario, the scanner may use:
 ## Typical workflow
 
 1. Normalize the input domain
-2. Discover a small set of internal pages
+2. Discover and rank internal pages
 3. Open each page in a fresh browser context
 4. Capture requests and source signals
 5. Optionally click common consent buttons

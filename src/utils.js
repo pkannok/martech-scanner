@@ -134,6 +134,19 @@ function slugifyHostname(urlString) {
   return hostname.replace(/[^a-z0-9.-]/gi, '_');
 }
 
+function slugifyUrl(urlString) {
+  const url = new URL(normalizeDomain(urlString));
+  const pathPart = (url.pathname || '')
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/\/+/g, '_');
+  const searchPart = url.search.replace(/^\?/, '');
+  const raw = [url.hostname, pathPart, searchPart].filter(Boolean).join('_');
+
+  return raw
+    .replace(/[^a-z0-9.-]+/gi, '_')
+    .replace(/^_+|_+$/g, '') || 'site';
+}
+
 module.exports = {
   parseArgs,
   normalizeDomain,
@@ -147,4 +160,5 @@ module.exports = {
   sameSiteHost,
   sameSite,
   slugifyHostname,
+  slugifyUrl,
 };
