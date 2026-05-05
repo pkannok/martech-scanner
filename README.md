@@ -277,8 +277,16 @@ npm test
 ```
 
 The default suite includes fast unit/regression tests plus Playwright-backed tests
-that run Chromium against local HTTP fixtures. To run only the Playwright-backed
-coverage:
+that run Chromium against local HTTP fixtures. The Playwright-backed tests require
+the Chromium browser to be installed with `npx playwright install chromium`.
+
+To run only the fast unit/regression coverage:
+
+```bash
+npm run test:unit
+```
+
+To run only the Playwright-backed coverage:
 
 ```bash
 npm run test:playwright
