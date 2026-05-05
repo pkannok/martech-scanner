@@ -11,7 +11,7 @@ test('extractIdsFromTextBlock captures beckons-style vendor IDs and rejects g-fo
     gtag('config', 'AW-17911345596');
     ttq.load('D4T4CDJC77U9L5PIV3O0');
     var campaign = 'DC-16510922';
-    advertiser_id=fypp50u;
+    fetch('https://insight.adsrvr.org/track/cei?advertiser_id=fypp50u');
     var form = "g-form";
   `);
 
@@ -26,6 +26,40 @@ test('extractIdsFromTextBlock captures beckons-style vendor IDs and rejects g-fo
   assert.equal(keys.has('GA4 Measurement ID|g-form'), false);
 });
 
+test('generic query IDs require vendor URL context', () => {
+  const genericFindings = extractIdsFromTextBlock(`
+    https://example.com/search?id=123456789012345&pid=12345&tid=2613646378106
+  `);
+  const genericKeys = new Set(genericFindings.map(id => `${id.type}|${id.value}`));
+
+  assert.equal(genericKeys.has('Facebook Pixel ID|123456789012345'), false);
+  assert.equal(genericKeys.has('LinkedIn Partner ID|12345'), false);
+  assert.equal(genericKeys.has('Pinterest Tag ID|2613646378106'), false);
+
+  const scopedFindings = extractIdsFromTextBlock(`
+    <img src="https://www.facebook.com/tr?id=123456789012345&ev=PageView">
+    <img src="https://px.ads.linkedin.com/collect/?pid=12345&fmt=gif">
+    <img src="https://ct.pinterest.com/v3/?tid=2613646378106&event=init">
+  `);
+  const scopedKeys = new Set(scopedFindings.map(id => `${id.type}|${id.value}`));
+
+  assert.ok(scopedKeys.has('Facebook Pixel ID|123456789012345'));
+  assert.ok(scopedKeys.has('LinkedIn Partner ID|12345'));
+  assert.ok(scopedKeys.has('Pinterest Tag ID|2613646378106'));
+});
+
+test('request bodies use the vendor endpoint as ID extraction context', () => {
+  const scopedFindings = extractIdsFromTextBlock('ttd_pid=abc123', {
+    sourceUrl: 'https://insight.adsrvr.org/track/cei',
+  });
+  const genericFindings = extractIdsFromTextBlock('ttd_pid=abc123', {
+    sourceUrl: 'https://example.com/track',
+  });
+
+  assert.deepEqual(scopedFindings, [{ type: 'The Trade Desk Advertiser ID', value: 'abc123' }]);
+  assert.deepEqual(genericFindings, []);
+});
+
 test('detectVendorFromUrl recognizes TikTok and The Trade Desk hosts', () => {
   assert.deepEqual(
     detectVendorFromUrl('https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D4T4CDJC77U9L5PIV3O0'),
@@ -35,6 +69,13 @@ test('detectVendorFromUrl recognizes TikTok and The Trade Desk hosts', () => {
   assert.deepEqual(
     detectVendorFromUrl('https://insight.adsrvr.org/track/cei?advertiser_id=fypp50u'),
     [{ name: 'The Trade Desk', category: 'media_pixel' }]
+  );
+});
+
+test('detectVendorFromUrl does not infer vendors from generic parameters on unrelated hosts', () => {
+  assert.deepEqual(
+    detectVendorFromUrl('https://example.com/track?id=123456789012345&pid=12345&tid=2613646378106&ttd_pid=abc123'),
+    []
   );
 });
 

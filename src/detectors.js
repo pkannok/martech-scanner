@@ -1,11 +1,11 @@
-const { ID_RULES } = require('./config');
+const { ID_RULES, VENDOR_SCOPED_ID_RULES } = require('./config');
 const { dedupeBy } = require('./utils');
 
-function extractIds(text) {
+function extractIdsWithRules(text, rules) {
   const findings = [];
   if (!text || typeof text !== 'string') return findings;
 
-  for (const rule of ID_RULES) {
+  for (const rule of rules) {
     const matches = [...text.matchAll(rule.re)];
     for (const match of matches) {
       const value = rule.group ? match[rule.group] : match[0];
@@ -16,7 +16,86 @@ function extractIds(text) {
   return dedupeBy(findings, x => `${x.type}|${x.value}`);
 }
 
-function extractIdsFromTextBlock(text) {
+function extractIds(text) {
+  return extractIdsWithRules(text, ID_RULES);
+}
+
+function normalizeUrlCandidate(text) {
+  return String(text || '')
+    .replace(/&amp;/gi, '&')
+    .replace(/\\\//g, '/')
+    .trim()
+    .replace(/[),.;]+$/g, '');
+}
+
+function parseUrlCandidate(text) {
+  const normalized = normalizeUrlCandidate(text);
+  if (!normalized) return null;
+
+  try {
+    return new URL(normalized.startsWith('//') ? `https:${normalized}` : normalized);
+  } catch {
+    return null;
+  }
+}
+
+function hostMatchesName(hostname, expectedHost) {
+  return hostname === expectedHost || hostname.endsWith(`.${expectedHost}`);
+}
+
+function scopeMatchesUrl(scope, url) {
+  const hostname = url.hostname.toLowerCase();
+  const pathname = url.pathname.toLowerCase();
+  const hostMatch = (scope.urlHosts || []).some(host => hostMatchesName(hostname, host));
+  const pathMatch =
+    !scope.urlPathPatterns?.length ||
+    scope.urlPathPatterns.some(pattern => pattern.test(pathname));
+
+  return hostMatch && pathMatch;
+}
+
+function extractScopedIdsForUrlText(text, url) {
+  if (!url) return [];
+
+  const findings = [];
+  for (const scope of VENDOR_SCOPED_ID_RULES) {
+    if (!scopeMatchesUrl(scope, url)) continue;
+    findings.push(...extractIdsWithRules(text, scope.idExtractors || []));
+  }
+
+  return dedupeBy(findings, x => `${x.type}|${x.value}`);
+}
+
+function extractIdsFromUrl(text) {
+  if (!text || typeof text !== 'string') return [];
+
+  const normalized = normalizeUrlCandidate(text);
+  const url = parseUrlCandidate(normalized);
+  return dedupeBy(
+    [
+      ...extractIds(normalized),
+      ...extractScopedIdsForUrlText(normalized, url),
+    ],
+    x => `${x.type}|${x.value}`
+  );
+}
+
+function extractUrlCandidates(text) {
+  const input = normalizeUrlCandidate(text);
+  if (!input) return [];
+
+  const candidates = new Set();
+  const urlPattern = /(?:https?:)?\/\/[^\s"'<>`]+/gi;
+  const matches = input.matchAll(urlPattern);
+
+  for (const match of matches) {
+    candidates.add(normalizeUrlCandidate(match[0]));
+  }
+
+  return [...candidates];
+}
+
+function extractIdsFromTextBlock(text, options = {}) {
   const input = text || '';
   const findings = [...extractIds(input)];
 
@@ -53,10 +132,6 @@ function extractIdsFromTextBlock(text) {
       type: 'TikTok Pixel ID',
       re: /ttq\s*\.\s*load\s*\(\s*['"]([A-Za-z0-9]{8,})['"]\s*\)/gi,
     },
-    {
-      type: 'The Trade Desk Advertiser ID',
-      re: /(?:advertiser_id|ttd_pid)\s*[:=]\s*['"]?([A-Za-z0-9_-]{3,})['"]?/gi,
-    },
   ];
 
   for (const rule of patterns) {
@@ -64,6 +139,15 @@ function extractIdsFromTextBlock(text) {
     for (const match of matches) {
       if (match[1]) findings.push({ type: rule.type, value: match[1] });
     }
+  }
+
+  const sourceUrl = parseUrlCandidate(options.sourceUrl);
+  if (sourceUrl) {
+    findings.push(...extractScopedIdsForUrlText(input, sourceUrl));
+  }
+
+  for (const urlText of extractUrlCandidates(input)) {
+    findings.push(...extractIdsFromUrl(urlText));
   }
 
   return dedupeBy(findings, x => `${x.type}|${x.value}`);
@@ -91,7 +175,7 @@ function detectVendorFromUrl(text) {
   const pathname = url.pathname.toLowerCase();
   const search = url.search.toLowerCase();
   const full = `${hostname}${pathname}${search}`;
-  const ids = extractIds(text);
+  const ids = extractIdsFromUrl(text);
 
   const vendors = [];
   const push = (name, category) => vendors.push({ name, category });
@@ -291,6 +375,7 @@ function detectVendorFromUrl(text) {
 
 module.exports = {
   extractIds,
+  extractIdsFromUrl,
   extractIdsFromTextBlock,
   detectVendorFromUrl,
 };

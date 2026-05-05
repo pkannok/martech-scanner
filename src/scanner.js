@@ -23,7 +23,7 @@ const {
 
 const {
   detectVendorFromUrl,
-  extractIds,
+  extractIdsFromUrl,
   extractIdsFromTextBlock,
 } = require('./detectors');
 
@@ -148,8 +148,8 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     const postData = request.postData() || '';
     const combinedIds = dedupeBy(
       [
-        ...extractIds(url),
-        ...extractIdsFromTextBlock(postData),
+        ...extractIdsFromUrl(url),
+        ...extractIdsFromTextBlock(postData, { sourceUrl: url }),
       ],
       x => `${x.type}|${x.value}`
     );
@@ -276,13 +276,13 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     // Also inspect iframe and external script URLs for IDs
     for (const iframeSrc of sourceSignals.iframes || []) {
       pageReport.sourceSignals.htmlIds.push(
-        ...extractIdsFromTextBlock(iframeSrc)
+        ...extractIdsFromUrl(iframeSrc)
       );
     }
 
     for (const extSrc of sourceSignals.externalScripts || []) {
       pageReport.sourceSignals.htmlIds.push(
-        ...extractIdsFromTextBlock(extSrc)
+        ...extractIdsFromUrl(extSrc)
       );
     }
 
@@ -361,10 +361,10 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
         // Merge external script and iframe derived IDs
         const moreHtmlIds = [];
         for (const iframeSrc of postConsentSourceSignals.iframes || []) {
-          moreHtmlIds.push(...extractIdsFromTextBlock(iframeSrc));
+          moreHtmlIds.push(...extractIdsFromUrl(iframeSrc));
         }
         for (const extSrc of postConsentSourceSignals.externalScripts || []) {
-          moreHtmlIds.push(...extractIdsFromTextBlock(extSrc));
+          moreHtmlIds.push(...extractIdsFromUrl(extSrc));
         }
 
         pageReport.sourceSignals.htmlIds = dedupeBy(
@@ -444,10 +444,10 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
 
     const postActivityHtmlIds = [];
     for (const iframeSrc of postActivitySourceSignals.iframes || []) {
-      postActivityHtmlIds.push(...extractIdsFromTextBlock(iframeSrc));
+      postActivityHtmlIds.push(...extractIdsFromUrl(iframeSrc));
     }
     for (const extSrc of postActivitySourceSignals.externalScripts || []) {
-      postActivityHtmlIds.push(...extractIdsFromTextBlock(extSrc));
+      postActivityHtmlIds.push(...extractIdsFromUrl(extSrc));
     }
 
     for (const key of [
@@ -476,7 +476,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
 			.filter(script => script.thirdParty)
 			.map(script => {
 				const detectedVendors = detectVendorFromUrl(script.src);
-				const ids = extractIds(script.src);
+				const ids = extractIdsFromUrl(script.src);
 				
 				return {
 					src: script.src,
