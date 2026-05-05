@@ -27,7 +27,7 @@ const {
   mergeSourceEvidence,
 } = require('./evidence');
 
-const { discoverPages } = require('./discovery');
+const { discoverPages, prioritizeScanUrls } = require('./discovery');
 const {
   createScanContext,
   safeGoto,
@@ -311,7 +311,7 @@ async function main(argv = process.argv, options = {}) {
     logProgress(logger, 'Discovering pages...');
     discoveredUrls = await discoverPages(browser, domain, timeout);
     const scanCandidateUrls = dedupeBy([domain, ...discoveredUrls], canonicalPageKey);
-    scanUrls = scanCandidateUrls.slice(0, maxPages);
+    scanUrls = prioritizeScanUrls(domain, discoveredUrls, maxPages);
     const duplicateCount = Math.max(0, discoveredUrls.length + 1 - scanCandidateUrls.length);
     discoveredUrlReport = buildDiscoveredUrlReport(discoveredUrls, scanUrls);
     logProgress(logger, `Discovered ${discoveredUrls.length} candidate URL(s); scanning ${scanUrls.length} unique page(s).`);

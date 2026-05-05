@@ -6,7 +6,7 @@
   "scripts": {
     "scan": "node src/scanner.js",
     "test": "node --test test/*.test.js",
-    "test:unit": "node --test test/browser.test.js test/detectors.test.js test/evidence.test.js test/inspectors.test.js test/regression.test.js test/utils.test.js",
+    "test:unit": "node --test test/browser.test.js test/detectors.test.js test/discovery.test.js test/evidence.test.js test/inspectors.test.js test/regression.test.js test/utils.test.js",
     "test:playwright": "node --test test/playwright.test.js"
   },
   "dependencies": {
