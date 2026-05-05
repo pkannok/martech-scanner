@@ -7,7 +7,7 @@ This project is designed as a practical scanner for onboarding and technical rev
 - discover a small set of relevant pages
 - open them in a real browser session
 - inspect network calls, scripts, cookies, and page globals
-- extract common IDs such as `GTM-...`, `G-...`, `AW-...`, `DC-...`, TikTok pixel codes, and selected The Trade Desk identifiers
+- extract common IDs such as `GTM-...`, `G-...`, `AW-...`, `DC-...`, Meta, LinkedIn, TikTok, Pinterest, and The Trade Desk identifiers
 - summarize detected vendors and evidence in JSON and Markdown
 
 ## What it is
@@ -44,7 +44,9 @@ Examples of things it can detect include:
 - Google Analytics / GA4
 - Google Ads / DoubleClick
 - Meta Pixel
+- LinkedIn Insight
 - TikTok Pixel
+- Pinterest Tag
 - The Trade Desk
 - Adobe-related endpoints
 - common consent platforms
@@ -63,6 +65,7 @@ martech-scanner/
     utils.js
     detectors.js
     discovery.js
+    evidence.js
     inspectors.js
     browser.js
     reporting.js
@@ -77,16 +80,19 @@ martech-scanner/
   Runs the full scan, coordinates the workflow, and writes the output files.
 
 - `config.js`
-  Stores default settings and constants such as timeouts, max pages, user agents, and ID regex rules.
+  Stores default settings and constants such as timeouts, max pages, user agents, discovery keywords, and ID extraction rules.
 
 - `utils.js`
   Provides general helper functions such as argument parsing, deduping, sleeping, and hostname cleanup.
 
 - `detectors.js`
-  Identifies vendors and extracts IDs from URLs and text blocks.
+  Identifies vendors and extracts IDs from URLs and text blocks. Generic query parameters such as `id`, `pid`, and `tid` are scoped to known vendor URL contexts to reduce false positives.
 
 - `discovery.js`
-  Finds and prioritizes internal pages to scan.
+  Finds and prioritizes same-site pages to scan, balancing path intent with host/subdomain diversity.
+
+- `evidence.js`
+  Collects and merges page evidence from source inspection, globals, scripts, cookies, requests, and request POST bodies.
 
 - `inspectors.js`
   Captures page-level evidence such as scripts, globals, cookies, HTML, and inline source signals.
@@ -118,6 +124,12 @@ Basic usage:
 
 ```bash
 node src/scanner.js --domain=https://example.com
+```
+
+Equivalent npm script:
+
+```bash
+npm run scan -- --domain=https://example.com
 ```
 
 Useful variants:
@@ -174,7 +186,7 @@ If another scan for the same normalized input URL is written on the same day, th
 The JSON report includes both the URLs that were scanned and the full ranked discovery list:
 
 - `scanUrls`
-  The capped list of URLs actually scanned, controlled by `maxPages`.
+  The capped list of URLs actually scanned, controlled by `maxPages`. The seed URL is kept first, then the scanner prefers sampling across distinct same-site hostnames before filling remaining slots by score.
 - `discovered_urls`
   Every discovered same-site URL after filtering, normalization, deduping, and ranking. Each entry has `url`, `rank`, and a boolean `scanned` field.
 
@@ -204,10 +216,19 @@ Depending on the page and scenario, the scanner may use:
 - `noscript` blocks
 - selected request POST bodies
 
+## URL prioritization
+
+Discovery stays within the seed site and same-site subdomains. URLs are ranked by a mix of:
+
+- high-intent paths such as checkout, cart, contact, login, booking, demo, pricing, and trial
+- shallow pages and homepages
+- distinct same-site hostnames, so subdomains like `shop.example.com`, `app.example.com`, or `support.example.com` are sampled earlier
+- lower priority for obvious static/media hosts and asset-like paths
+
 ## Typical workflow
 
 1. Normalize the input domain
-2. Discover and rank internal pages
+2. Discover and rank same-site pages, including useful subdomains
 3. Open each page in a fresh browser context
 4. Capture requests and source signals
 5. Optionally click common consent buttons
@@ -228,7 +249,7 @@ Examples:
 - Google Ads IDs in `gtag` config calls, script URLs, or request evidence
 - DoubleClick advertiser IDs in source or request evidence
 - TikTok pixel codes in script URLs, inline code, or request payloads
-- The Trade Desk advertiser IDs in request URLs or payloads
+- vendor-scoped Meta, LinkedIn, Pinterest, TikTok, and The Trade Desk IDs in request URLs or payloads
 - WordPress signals in paths like `/wp-content/`
 
 ## Current limitations
@@ -263,8 +284,9 @@ This project has already gone through a few iterations to improve:
 - modular structure
 - Google ID recovery
 - false-positive reduction
-- page discovery
+- host-diverse page discovery
 - source-based ID extraction
+- centralized evidence collection and merging
 
 Because the rules will evolve, it is a good idea to maintain a small regression set of known domains and expected detections.
 
