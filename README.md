@@ -28,6 +28,45 @@ It does **not** currently use:
 - Vite / Webpack / Babel
 - `.env` configuration
 
+## Version
+
+Current version: `v0.1.0`
+Status: Early development / internal planning and testing  
+Current focus: Establishing a repeatable development workflow, testing approach, documentation structure, and release process.
+
+MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
+
+Version history is tracked in `CHANGELOG.md`.
+
+## Development Workflow
+
+This project uses a release/task-based workflow.
+
+Each change should generally follow this process:
+
+1. Define a small release or task.
+2. Create a dedicated Git branch.
+3. Update the README/version status if needed.
+4. Implement the change.
+5. Run automated tests.
+6. Complete manual QA where appropriate.
+7. Update documentation and `CHANGELOG.md`.
+8. Open a pull request.
+9. Merge and tag the release.
+
+See `docs/change-workflow.md` for the full repeatable workflow.
+
+## Release Expectations
+
+Before a release is considered complete:
+
+- Relevant tests should pass.
+- Manual QA should be completed when scanner behavior changes.
+- `README.md` should reflect the current project status.
+- `CHANGELOG.md` should include the release.
+- Known limitations should be updated if needed.
+- The release should be committed, merged, and tagged.
+
 ## Current goals
 
 The scanner is intended to help identify browser-visible martech and related web technology, including:
@@ -53,55 +92,80 @@ Examples of things it can detect include:
 - WordPress
 - selected session replay / experimentation tools
 
-## Project structure
+## Project Structure
 
 ```text
-martech-scanner/
-  package.json
-  README.md
-  src/
-    scanner.js
-    config.js
-    utils.js
-    detectors.js
-    discovery.js
-    evidence.js
-    inspectors.js
-    browser.js
-    reporting.js
-  test/
-    fixtures/
-    *.test.js
+.github/
+  ISSUE_TEMPLATE/
+    feature.md
+    bug.md
+    refactor.md
+  pull_request_template.md
+
+docs/
+  architecture-decisions.md
+  change-workflow.md
+  testing-strategy.md
+  backlog.md
+
+examples/
+  sample-reports.md
+
+CHANGELOG.md
+README.md
+.gitignore
+package.json
 ```
 
 ### What each file does
 
-- `scanner.js`
+- `src/scanner.js`
   Runs the full scan, coordinates the workflow, and writes the output files.
 
-- `config.js`
+- `src/config.js`
   Stores default settings and constants such as timeouts, max pages, user agents, discovery keywords, and ID extraction rules.
 
-- `utils.js`
+- `src/utils.js`
   Provides general helper functions such as argument parsing, deduping, sleeping, and hostname cleanup.
 
-- `detectors.js`
+- `src/detectors.js`
   Identifies vendors and extracts IDs from URLs and text blocks. Generic query parameters such as `id`, `pid`, and `tid` are scoped to known vendor URL contexts to reduce false positives.
 
-- `discovery.js`
+- `src/discovery.js`
   Finds and prioritizes same-site pages to scan, balancing path intent with host/subdomain diversity.
 
-- `evidence.js`
+- `src/evidence.js`
   Collects and merges page evidence from source inspection, globals, scripts, cookies, requests, and request POST bodies.
 
-- `inspectors.js`
+- `src/inspectors.js`
   Captures page-level evidence such as scripts, globals, cookies, HTML, and inline source signals.
 
-- `browser.js`
+- `src/browser.js`
   Handles Playwright-specific browser actions such as creating contexts, navigating pages, clicking consent buttons, and stimulating pages so deferred tags can fire.
 
-- `reporting.js`
+- `src/reporting.js`
   Builds the final summaries, vendor rollups, ID rollups, and Markdown output.
+
+- `README.md`
+Current project overview, usage, and status.
+
+- `CHANGELOG.md`
+Version history and release notes.
+
+- `docs/change-workflow.md`
+Repeatable workflow for planning, testing, committing, and releasing changes.
+
+- `docs/testing-strategy.md`
+Testing principles and expectations.
+
+- `docs/architecture-decisions.md`
+Record of important technical decisions.
+
+- `docs/backlog.md`
+Candidate future improvements not yet assigned to a release.
+
+- `examples/sample-report.md`
+Placeholder for a future sanitized sample report.
 
 ## Requirements
 
@@ -201,6 +265,20 @@ Vendor findings also include evidence classification:
 - `observed_firing` when browser traffic to a known vendor endpoint was captured
 - `present_in_source` when a matching third-party script URL was present on the page
 - `inferred` when the vendor was inferred from source-level IDs or globals
+
+### Generated Output Policy
+
+Generated scan results should not be committed unless intentionally added as fixtures or examples.
+
+Ignored by default:
+
+- output/
+- reports/
+- scan-results/
+- temporary browser artifacts
+- local logs
+
+Example reports should live in `examples/` and should be clearly marked as examples.
 
 ## What the scanner looks at
 
@@ -314,6 +392,8 @@ To run only the Playwright-backed coverage:
 npm run test:playwright
 ```
 
+Testing principles and expectations are documented in `docs/testing-strategy.md`.
+
 ## Suggested next steps
 
 Good next improvements for team use:
@@ -323,6 +403,29 @@ Good next improvements for team use:
 - add screenshots for fixture/debug capture
 - make vendor rules easier to maintain
 - standardize report schema for onboarding use
+- improve CLI runtime feedback
+
+The scanner runtime feedback should show:
+
+- Start time
+- Target URL
+- Current page being scanned
+- Number of URLs discovered
+- Number of URLs queued
+- Number of URLs scanned
+- Number of detections found
+- Retry/failure messages
+- Output file location
+- Completion status
+
+## Known Limitations
+
+- The scanner is still in early development and should not be treated as production-ready.
+- Detection accuracy is expected to improve over future releases.
+- Runtime status/progress visibility may still be limited.
+- Live websites can change frequently, so manual QA results may vary.
+- Generated reports and output format may continue to evolve.
+- Example report content may be placeholder or incomplete until the report format stabilizes.
 
 ## Safety and scope
 
