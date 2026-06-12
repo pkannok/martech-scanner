@@ -1,10 +1,13 @@
-/node_modules/
-/output/
-/coverage/
+node_modules/
+output/
+reports/
+scan-results/
+coverage/
 
 *.log
+.env
 .DS_Store
 Thumbs.db
 
-/.vscode/
-/.idea/
+.vscode/
+.idea/
