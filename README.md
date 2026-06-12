@@ -28,15 +28,6 @@ It does **not** currently use:
 - Vite / Webpack / Babel
 - `.env` configuration
 
-## Known Limitations
-
-- The scanner is still in early development and should not be treated as production-ready.
-- Detection accuracy is expected to improve over future releases.
-- Runtime status/progress visibility may still be limited.
-- Live websites can change frequently, so manual QA results may vary.
-- Generated reports and output format may continue to evolve.
-- Example report content may be placeholder or incomplete until the report format stabilizes.
-
 ## Version
 
 Current version: `v0.1.0`
@@ -426,6 +417,15 @@ The scanner runtime feedback should show:
 - Retry/failure messages
 - Output file location
 - Completion status
+
+## Known Limitations
+
+- The scanner is still in early development and should not be treated as production-ready.
+- Detection accuracy is expected to improve over future releases.
+- Runtime status/progress visibility may still be limited.
+- Live websites can change frequently, so manual QA results may vary.
+- Generated reports and output format may continue to evolve.
+- Example report content may be placeholder or incomplete until the report format stabilizes.
 
 ## Safety and scope
 

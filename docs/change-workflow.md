@@ -422,6 +422,11 @@ v0.X.X
 [Any concerns, follow-ups, or deferred work.]
 ```
 
+Open the Pull Request:
+```powershell
+gh pr create --base main --head feature/v0.X.X-short-name --title "Release v0.X.X: short description" --body-file pr-release-notes.md
+```
+
 ---
 
 ## 13. UAT / acceptance review
