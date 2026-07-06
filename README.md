@@ -190,6 +190,12 @@ Basic usage:
 node src/scanner.js --domain=https://example.com
 ```
 
+To see every option, default value, and additional examples:
+
+```bash
+node src/scanner.js --help
+```
+
 Equivalent npm script:
 
 ```bash
