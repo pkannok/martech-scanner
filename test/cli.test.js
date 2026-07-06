@@ -15,7 +15,7 @@ function argv(...args) {
 test('help output describes usage, options, defaults, examples, and output', () => {
   const help = getHelpText();
   assert.match(help, /MarTech Scanner/);
-  assert.match(help, /MarTech Scanner v0\.2\.0/);
+  assert.match(help, /MarTech Scanner v0\.3\.0/);
   assert.match(help, /Usage:/);
   assert.match(help, /--domain/);
   assert.match(help, /--headless/);
@@ -33,7 +33,7 @@ test('help output describes usage, options, defaults, examples, and output', () 
 });
 
 test('version flags return the package-backed scanner identity', () => {
-  assert.equal(getVersionText(), 'MarTech Scanner v0.2.0');
+  assert.equal(getVersionText(), 'MarTech Scanner v0.3.0');
   assert.deepEqual(parseCliArgs(argv('-v')), { version: true });
   assert.deepEqual(parseCliArgs(argv('--version')), { version: true });
 });

@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.0 - 2026-07-06
+
+### Added
+- Scan Coverage section in generated Markdown reports.
+- Scanned-page, discovered-but-not-scanned, and failed/partial-page coverage details with Markdown display limits.
+
+### Changed
+- Updated report template version from `2.4` to `2.5` for the Markdown structure change.
+- Regenerated report fixtures with coverage context.
+
 ## v0.2.0 - 2026-07-06
 
 ### Added

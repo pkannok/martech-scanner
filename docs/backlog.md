@@ -25,6 +25,7 @@ The scanner runtime feedback should show:
 ### Reporting
 - Add summary sections for detected vendors.
 - Add clearer confidence/evidence explanations.
+- Track explicit skip reasons for discovered URLs that are not selected.
 
 ### Testing
 - Expand Playwright fixture coverage.

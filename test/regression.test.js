@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 function loadFixture(name) {
-  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_4.json`);
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_5.json`);
   return JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
 }
 
@@ -31,8 +31,8 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
   ]) {
     const report = loadFixture(name);
 
-    assert.equal(report.scannerVersion, '0.2.0');
-    assert.equal(report.reportTemplateVersion, '2.4');
+    assert.equal(report.scannerVersion, '0.3.0');
+    assert.equal(report.reportTemplateVersion, '2.5');
     assert.match(report.domain, /^https:\/\//);
     assert.equal(Array.isArray(report.scanUrls), true);
     assert.equal(Array.isArray(report.pageReports), true);

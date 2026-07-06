@@ -1,6 +1,8 @@
 const { dedupeBy } = require('./utils');
 const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
 
+const COVERAGE_LIST_LIMIT = 20;
+
 const VENDOR_CONFIDENCE = {
   network: {
     level: 'high',
@@ -185,6 +187,20 @@ function pageSourceIdCount(page) {
   );
 }
 
+function pageEvidenceCounts(page) {
+  return {
+    network: (page.networkFindings || []).length,
+    scripts: (page.scriptFindings || []).length,
+    sourceIds: pageSourceIdCount(page),
+    cookies: (page.cookies || []).length,
+  };
+}
+
+function pageEvidenceTotal(page) {
+  const counts = pageEvidenceCounts(page);
+  return counts.network + counts.scripts + counts.sourceIds + counts.cookies;
+}
+
 function isThinOrLowEvidencePage(page) {
   if (!page || page.status !== 'ok') return false;
   if (page.diagnostics?.retriedThinPage) return true;
@@ -214,6 +230,132 @@ function consentSummary(finalReport, pageReports) {
   }
 
   return `Interaction captured on ${pagesWithClicks.length} page(s).`;
+}
+
+function formatPageEvidenceCounts(page) {
+  const counts = pageEvidenceCounts(page);
+  return `${counts.network} network, ${counts.scripts} scripts, ${counts.sourceIds} source IDs, ${counts.cookies} cookies`;
+}
+
+function pageCoverageNotes(page) {
+  const notes = [];
+
+  if (page.status === 'failed') {
+    notes.push(page.error && /timeout/i.test(page.error) ? 'timeout' : 'navigation failure');
+  }
+
+  if (page.statusCode !== null && page.statusCode !== undefined && page.statusCode >= 400) {
+    notes.push(`HTTP ${page.statusCode} response`);
+  }
+
+  if (isThinOrLowEvidencePage(page)) {
+    notes.push('thin / low-evidence page');
+  }
+
+  if (page.diagnostics?.retriedThinPage) {
+    notes.push('retry attempted');
+  }
+
+  if (page.diagnostics?.retryReason) {
+    notes.push(`retry reason: ${page.diagnostics.retryReason}`);
+  }
+
+  if (page.error && !notes.some(note => note.includes(page.error))) {
+    notes.push(`error: ${page.error}`);
+  }
+
+  return notes.length ? notes.join('; ') : 'none';
+}
+
+function skippedUrlReason(discoveredUrl) {
+  return discoveredUrl?.skipReason || discoveredUrl?.reason || 'not recorded';
+}
+
+function addLimitedList(lines, items, limit, renderItem, omittedLabel) {
+  const visibleItems = items.slice(0, limit);
+
+  for (const item of visibleItems) {
+    renderItem(item);
+  }
+
+  const omitted = items.length - visibleItems.length;
+  if (omitted > 0) {
+    lines.push(`- ${omitted} additional ${omittedLabel} omitted from Markdown.`);
+  }
+}
+
+function addScanCoverage(lines, finalReport) {
+  const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
+  const discoveredUrls = Array.isArray(finalReport.discovered_urls) ? finalReport.discovered_urls : null;
+  const skippedUrls = discoveredUrls ? discoveredUrls.filter(url => url && url.scanned === false) : [];
+  const failedOrPartialPages = pageReports.filter(page =>
+    page.status === 'failed' ||
+    page.error ||
+    (page.statusCode !== null && page.statusCode !== undefined && page.statusCode >= 400)
+  );
+  const thinPageCount = pageReports.filter(isThinOrLowEvidencePage).length;
+
+  lines.push('## Scan Coverage');
+  lines.push('');
+  lines.push('Coverage is limited to the URLs discovered and selected during this run.');
+  lines.push('');
+  lines.push(`- Seed / target: ${finalReport.domain || finalReport.seedUrl || 'Not specified'}`);
+  lines.push(`- Total pages scanned: ${pageReports.length}`);
+  lines.push(`- Total URLs discovered: ${discoveredUrls ? discoveredUrls.length : 'not recorded'}`);
+  lines.push(`- Discovered but not scanned: ${discoveredUrls ? skippedUrls.length : 'not recorded'}`);
+  lines.push(`- Failed pages: ${countFailedPages(pageReports)}`);
+  lines.push(`- Thin / low-evidence pages: ${pageReports.length ? thinPageCount : 'not recorded'}`);
+  lines.push('');
+
+  lines.push('### Scanned Pages');
+  lines.push('');
+  if (!pageReports.length) {
+    lines.push('No scanned pages were recorded.');
+    lines.push('');
+  } else {
+    addLimitedList(lines, pageReports, COVERAGE_LIST_LIMIT, page => {
+      const httpStatus = page.statusCode === null || page.statusCode === undefined ? 'n/a' : page.statusCode;
+      lines.push(`- ${page.url}`);
+      lines.push(`  - Status: ${page.status || 'unknown'}; HTTP: ${httpStatus}`);
+      lines.push(`  - Evidence counts: ${formatPageEvidenceCounts(page)}`);
+      lines.push(`  - Notes: ${pageCoverageNotes(page)}`);
+    }, 'scanned page(s)');
+    lines.push('');
+  }
+
+  lines.push('### Discovered but Not Scanned');
+  lines.push('');
+  if (!discoveredUrls) {
+    lines.push('Discovery metadata was not recorded for this report.');
+    lines.push('');
+  } else if (!skippedUrls.length) {
+    lines.push('No discovered URLs were marked as not scanned.');
+    lines.push('');
+  } else {
+    addLimitedList(lines, skippedUrls, COVERAGE_LIST_LIMIT, discoveredUrl => {
+      const rank = discoveredUrl.rank ? `rank ${discoveredUrl.rank}` : 'rank not recorded';
+      lines.push(`- ${discoveredUrl.url}`);
+      lines.push(`  - Reason: ${skippedUrlReason(discoveredUrl)}`);
+      lines.push(`  - Discovery rank: ${rank}`);
+    }, 'discovered-but-not-scanned URL(s)');
+    lines.push('');
+  }
+
+  lines.push('### Failed or Partial Pages');
+  lines.push('');
+  if (!failedOrPartialPages.length) {
+    lines.push('No failed or partial pages were recorded.');
+    lines.push('');
+  } else {
+    addLimitedList(lines, failedOrPartialPages, COVERAGE_LIST_LIMIT, page => {
+      const httpStatus = page.statusCode === null || page.statusCode === undefined ? 'n/a' : page.statusCode;
+      const reason = page.error || (httpStatus === 'n/a' ? 'not recorded' : `HTTP ${httpStatus}`);
+      lines.push(`- ${page.url}`);
+      lines.push(`  - Reason: ${reason}`);
+      lines.push(`  - Partial evidence captured: ${pageEvidenceTotal(page) > 0 ? 'yes' : 'no'}`);
+    }, 'failed/partial page(s)');
+    lines.push('');
+  }
 }
 
 function addExecutiveSummary(lines, finalReport) {
@@ -286,6 +428,7 @@ function buildSummaryMarkdown(finalReport) {
   lines.push('');
 
   addExecutiveSummary(lines, finalReport);
+  addScanCoverage(lines, finalReport);
 
   lines.push('## Vendors detected');
   lines.push('');
@@ -387,6 +530,7 @@ function buildSummaryMarkdown(finalReport) {
   lines.push('## Caveats');
   lines.push('');
   lines.push('- Each page is scanned in a fresh browser context to reduce cache/state contamination.');
+  lines.push('- Coverage is limited to the URLs discovered and selected during this run.');
   lines.push('- IDs may come from network traffic, script URLs, HTML, inline scripts, iframe URLs, noscript blocks, and request bodies.');
   lines.push('- This scanner still only observes what is available through public browser activity.');
   lines.push('- It may miss deferred tags, server-side tagging, login-gated tooling, and non-fired rules.');
@@ -401,5 +545,6 @@ module.exports = {
   summarizeVendors,
   collectAllIds,
   addExecutiveSummary,
+  addScanCoverage,
   buildSummaryMarkdown,
 };

@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
-- **Scanner version:** 0.2.0
-- **Report template version:** 2.4
+- **Scanner version:** 0.3.0
+- **Report template version:** 2.5
 - **Domain:** https://beckons.com
 - **Scanned at:** 2026-04-21T20:07:38.779Z
 - **Pages scanned:** 6
@@ -20,6 +20,52 @@
 - Thin / low-evidence pages: 0
 
 This report reflects browser-visible evidence from the scanned pages only and should be reviewed by an analyst before being treated as complete.
+
+## Scan Coverage
+
+Coverage is limited to the URLs discovered and selected during this run.
+
+- Seed / target: https://beckons.com
+- Total pages scanned: 6
+- Total URLs discovered: not recorded
+- Discovered but not scanned: not recorded
+- Failed pages: 0
+- Thin / low-evidence pages: 0
+
+### Scanned Pages
+
+- https://beckons.com
+  - Status: ok; HTTP: 200
+  - Evidence counts: 158 network, 13 scripts, 11 source IDs, 15 cookies
+  - Notes: none
+- https://beckons.com/
+  - Status: ok; HTTP: 200
+  - Evidence counts: 158 network, 13 scripts, 11 source IDs, 15 cookies
+  - Notes: none
+- https://beckons.com/#about
+  - Status: ok; HTTP: 200
+  - Evidence counts: 170 network, 14 scripts, 10 source IDs, 15 cookies
+  - Notes: none
+- https://beckons.com/#lodges
+  - Status: ok; HTTP: 200
+  - Evidence counts: 167 network, 13 scripts, 10 source IDs, 15 cookies
+  - Notes: none
+- https://beckons.com/about/
+  - Status: ok; HTTP: 200
+  - Evidence counts: 108 network, 13 scripts, 11 source IDs, 15 cookies
+  - Notes: none
+- https://beckons.com/contact-us/
+  - Status: ok; HTTP: 200
+  - Evidence counts: 95 network, 13 scripts, 11 source IDs, 16 cookies
+  - Notes: none
+
+### Discovered but Not Scanned
+
+Discovery metadata was not recorded for this report.
+
+### Failed or Partial Pages
+
+No failed or partial pages were recorded.
 
 ## Vendors detected
 
@@ -170,6 +216,7 @@ This report reflects browser-visible evidence from the scanned pages only and sh
 ## Caveats
 
 - Each page is scanned in a fresh browser context to reduce cache/state contamination.
+- Coverage is limited to the URLs discovered and selected during this run.
 - IDs may come from network traffic, script URLs, HTML, inline scripts, iframe URLs, noscript blocks, and request bodies.
 - This scanner still only observes what is available through public browser activity.
 - It may miss deferred tags, server-side tagging, login-gated tooling, and non-fired rules.

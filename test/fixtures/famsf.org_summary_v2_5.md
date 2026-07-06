@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
-- **Scanner version:** 0.2.0
-- **Report template version:** 2.4
+- **Scanner version:** 0.3.0
+- **Report template version:** 2.5
 - **Domain:** https://famsf.org
 - **Scanned at:** 2026-03-19T19:23:24.714Z
 - **Pages scanned:** 6
@@ -20,6 +20,63 @@
 - Thin / low-evidence pages: 4
 
 This report reflects browser-visible evidence from the scanned pages only and should be reviewed by an analyst before being treated as complete.
+
+## Scan Coverage
+
+Coverage is limited to the URLs discovered and selected during this run.
+
+- Seed / target: https://famsf.org
+- Total pages scanned: 6
+- Total URLs discovered: not recorded
+- Discovered but not scanned: not recorded
+- Failed pages: 0
+- Thin / low-evidence pages: 4
+
+### Scanned Pages
+
+- https://famsf.org
+  - Status: ok; HTTP: 200
+  - Evidence counts: 27 network, 11 scripts, 7 source IDs, 12 cookies
+  - Notes: none
+- https://famsf.org/
+  - Status: ok; HTTP: 429
+  - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
+  - Notes: HTTP 429 response; thin / low-evidence page
+- https://shop.famsf.org/
+  - Status: ok; HTTP: 200
+  - Evidence counts: 102 network, 12 scripts, 2 source IDs, 16 cookies
+  - Notes: none
+- https://famsf.org/about/contact-us
+  - Status: ok; HTTP: 429
+  - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
+  - Notes: HTTP 429 response; thin / low-evidence page
+- https://famsf.org/art/rights-reproductions
+  - Status: ok; HTTP: 429
+  - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
+  - Notes: HTTP 429 response; thin / low-evidence page
+- https://famsf.org/about
+  - Status: ok; HTTP: 429
+  - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
+  - Notes: HTTP 429 response; thin / low-evidence page
+
+### Discovered but Not Scanned
+
+Discovery metadata was not recorded for this report.
+
+### Failed or Partial Pages
+
+- https://famsf.org/
+  - Reason: HTTP 429
+  - Partial evidence captured: no
+- https://famsf.org/about/contact-us
+  - Reason: HTTP 429
+  - Partial evidence captured: no
+- https://famsf.org/art/rights-reproductions
+  - Reason: HTTP 429
+  - Partial evidence captured: no
+- https://famsf.org/about
+  - Reason: HTTP 429
+  - Partial evidence captured: no
 
 ## Vendors detected
 
@@ -123,6 +180,7 @@ This report reflects browser-visible evidence from the scanned pages only and sh
 ## Caveats
 
 - Each page is scanned in a fresh browser context to reduce cache/state contamination.
+- Coverage is limited to the URLs discovered and selected during this run.
 - IDs may come from network traffic, script URLs, HTML, inline scripts, iframe URLs, noscript blocks, and request bodies.
 - This scanner still only observes what is available through public browser activity.
 - It may miss deferred tags, server-side tagging, login-gated tooling, and non-fired rules.
