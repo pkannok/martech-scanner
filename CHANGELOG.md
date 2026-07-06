@@ -3,11 +3,13 @@
 ## Unreleased
 
 ### Added
+- Recommended Manual Review section in generated Markdown reports.
 - Detected Vendors by Category section in generated Markdown reports.
 - Evidence Type Guide section in generated Markdown reports.
 - Evidence type labels for vendor and ID findings where the scanner can derive them from existing report data.
 
 ### Changed
+- Updated report template version from `2.7` to `2.8` for the Markdown manual review guidance change.
 - Updated report template version from `2.6` to `2.7` for the Markdown vendor category grouping change.
 - Updated report template version from `2.5` to `2.6` for the Markdown evidence explanation change.
 

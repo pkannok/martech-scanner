@@ -4,12 +4,12 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 function loadFixture(name) {
-  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_7.json`);
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_8.json`);
   return JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
 }
 
 function loadSummaryFixture(name) {
-  const fixturePath = path.join(__dirname, 'fixtures', `${name}_summary_v2_7.md`);
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_summary_v2_8.md`);
   return fs.readFileSync(fixturePath, 'utf8');
 }
 
@@ -37,7 +37,7 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
     const report = loadFixture(name);
 
     assert.equal(report.scannerVersion, '0.3.0');
-    assert.equal(report.reportTemplateVersion, '2.7');
+    assert.equal(report.reportTemplateVersion, '2.8');
     assert.match(report.domain, /^https:\/\//);
     assert.equal(Array.isArray(report.scanUrls), true);
     assert.equal(Array.isArray(report.pageReports), true);
@@ -78,6 +78,19 @@ test('saved summary fixtures include evidence guide and evidence type labels', (
   assert.match(summary, /evidence type: Script evidence \(present in source\)/);
   assert.match(summary, /evidence type: Source evidence \(inferred\)/);
   assert.match(summary, /- \*\*GTM Container ID:\*\* `GTM-PC3TL92D` - evidence type:/);
+});
+
+test('saved summary fixtures include recommended manual review guidance', () => {
+  const summary = loadSummaryFixture('famsf.org');
+
+  assert.match(summary, /## Recommended Manual Review/);
+  assert.match(summary, /Confirm high-priority conversion paths manually/);
+  assert.match(summary, /Check whether server-side tagging, backend integrations, or private APIs send data outside browser-visible evidence\./);
+  assert.match(summary, /Confirm whether consent state changes vendor firing/);
+  assert.match(summary, /Review failed, blocked, timeout, HTTP-error, or thin pages/);
+  assert.match(summary, /Validate detected IDs against expected GTM containers, GA4 properties, media pixels, CMP settings, and other platform configurations\./);
+  assert.match(summary, /### What this scanner does not prove/);
+  assert.match(summary, /It does not prove that a vendor is absent, fully installed, correctly configured, compliant, or accurately recording conversions\./);
 });
 
 test('85sixty fixture preserves wordpress and google detections', () => {

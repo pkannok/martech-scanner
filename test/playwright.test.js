@@ -392,7 +392,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
 
   assert.match(markdown, /^# MarTech Scan Summary/);
   assert.match(markdown, /- \*\*Scanner version:\*\* 0\.3\.0/);
-  assert.match(markdown, /- \*\*Report template version:\*\* 2\.7/);
+  assert.match(markdown, /- \*\*Report template version:\*\* 2\.8/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
   assert.match(markdown, /## Executive Summary/);
   assert.match(markdown, /- Target: https:\/\/example\.test/);
@@ -449,18 +449,20 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   assert.match(markdown, /- Consent clicks: accept all/);
   assert.match(markdown, /- Error: net::ERR_CONNECTION_REFUSED/);
   assert.match(markdown, /  - GA4 Measurement ID: G-LOCAL123 \(Source evidence\)/);
+  assert.match(markdown, /## Recommended Manual Review/);
+  assert.match(markdown, /Confirm high-priority conversion paths manually/);
+  assert.match(markdown, /Check whether server-side tagging, backend integrations, or private APIs send data outside browser-visible evidence\./);
+  assert.match(markdown, /Review important discovered URLs that were not scanned \(1 URL\(s\)\)/);
+  assert.match(markdown, /Confirm whether consent state changes vendor firing; consent interaction was captured on 1 page\(s\) in this scan\./);
+  assert.match(markdown, /Review failed, blocked, timeout, HTTP-error, or thin pages \(1 failed\/partial; 0 thin\/low-evidence\)\./);
+  assert.match(markdown, /Validate detected IDs against expected GTM containers, GA4 properties, media pixels, CMP settings, and other platform configurations\./);
+  assert.match(markdown, /### What this scanner does not prove/);
+  assert.match(markdown, /It does not inspect GTM account or workspace settings, GA4 property\/admin settings, ad platform configurations, CMP admin settings, server-side containers, backend integrations, or private APIs\./);
+  assert.match(markdown, /It does not prove that a vendor is absent, fully installed, correctly configured, compliant, or accurately recording conversions\./);
 });
 
 test('collectVendorsByCategory groups known and unknown vendor categories deterministically', () => {
-  const finalReport = {
-    vendors: [
-      {
-        name: 'Mystery Vendor',
-        category: 'custom_unknown',
-        source: 'network',
-      },
-    ],
-    pageReports: [
+  const pageReports = [
       {
         url: 'https://example.test/',
         networkFindings: [
@@ -482,19 +484,34 @@ test('collectVendorsByCategory groups known and unknown vendor categories determ
         sourceSignals: {
           googleGlobals: {},
           htmlIds: [],
-          inlineScriptIds: [],
+          inlineScriptIds: [{ type: 'Facebook Pixel ID', value: '12345' }],
           noscriptIds: [],
         },
       },
+    ];
+  const finalReport = {
+    vendors: [
+      ...summarizeVendors(pageReports),
+      {
+        name: 'Mystery Vendor',
+        category: 'custom_unknown',
+        source: 'network',
+      },
     ],
+    pageReports,
   };
 
   const grouped = collectVendorsByCategory(finalReport);
+  const markdown = buildSummaryMarkdown({
+    ...finalReport,
+    ids: collectAllIds(finalReport.pageReports),
+  });
 
   assert.equal(grouped.get('Tag Management')[0].name, 'Google Tag Manager');
   assert.equal(grouped.get('Ecommerce / Platform')[0].name, 'Shopify');
   assert.equal(grouped.get('Personalization / Experimentation')[0].name, 'Optimizely');
   assert.equal(grouped.get('Other / Uncategorized')[0].name, 'Mystery Vendor');
+  assert.match(markdown, /Review vendors seen only in source-level evidence without network or script evidence: Meta Pixel\./);
 });
 
 test('buildSummaryMarkdown caps long coverage lists', () => {

@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.7
+- **Report template version:** 2.8
 - **Domain:** https://palisadestahoe.com
 - **Scanned at:** 2026-04-21T18:35:54.318Z
 - **Pages scanned:** 6
@@ -217,3 +217,18 @@ No known IDs were extracted.
 - IDs may come from network traffic, script URLs, HTML, inline scripts, iframe URLs, noscript blocks, and request bodies.
 - This scanner still only observes what is available through public browser activity.
 - It may miss deferred tags, server-side tagging, login-gated tooling, and non-fired rules.
+
+## Recommended Manual Review
+
+Use this checklist to decide what to verify after reviewing the scanner evidence.
+
+- Confirm high-priority conversion paths manually, especially form submits, checkout steps, booking flows, lead events, and post-login experiences that may not be covered by this scan.
+- Check whether server-side tagging, backend integrations, or private APIs send data outside browser-visible evidence.
+- Confirm important user paths manually because discovery metadata was not recorded for this report.
+- Confirm whether consent state changes vendor firing; no consent interaction was captured in this scan.
+- Review failed, blocked, timeout, HTTP-error, or thin pages (6 failed/partial; 0 thin/low-evidence).
+
+### What this scanner does not prove
+
+- It does not inspect GTM account or workspace settings, GA4 property/admin settings, ad platform configurations, CMP admin settings, server-side containers, backend integrations, or private APIs.
+- It does not prove that a vendor is absent, fully installed, correctly configured, compliant, or accurately recording conversions.

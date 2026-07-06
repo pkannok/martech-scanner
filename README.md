@@ -38,7 +38,7 @@ Current focus: Making scan coverage limits clear in generated Markdown reports.
 
 - Added CLI help and friendly input validation.
 - Added package-backed `--version` output.
-- Distinguished scanner version from report template version `2.7` in generated JSON and Markdown reports.
+- Distinguished scanner version from report template version `2.8` in generated JSON and Markdown reports.
 - Added a teammate-first quick start, first-scan walkthrough, troubleshooting guidance, and interpretation notes.
 - Added an analyst-friendly Executive Summary near the top of generated Markdown reports.
 - Added Scan Coverage context for scanned pages, discovered-but-not-scanned URLs, failed/partial pages, and low-evidence pages.
@@ -48,7 +48,7 @@ MarTech Scanner is not yet considered production-ready. The current version shou
 Version history is tracked in `CHANGELOG.md`.
 
 The product version comes from `package.json`. Generated reports separately identify
-report template version `2.7`, which describes report structure rather than the scanner release.
+report template version `2.8`, which describes report structure rather than the scanner release.
 
 ## Development Workflow
 
@@ -314,6 +314,8 @@ The Markdown summary also includes a Scan Coverage section that explains which p
 The Markdown summary includes an Evidence Type Guide and evidence type labels so analysts can distinguish runtime network evidence from script, source, cookie, iframe/noscript, global, and inferred rule-match signals.
 
 The Markdown summary groups detected vendors by analyst-friendly categories such as tag management, analytics, media / advertising, consent / CMP, ecommerce / platform, personalization / experimentation, customer data / CDP, and other / uncategorized.
+
+The Markdown summary ends with Recommended Manual Review guidance so analysts have a concise checklist for coverage, source-only evidence, consent behavior, failed or thin pages, detected IDs, conversion paths, and non-browser-visible systems.
 
 When a page looks unusually thin, the scanner can also write retry artifacts such as HAR and trace files to `./output/artifacts`.
 
