@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Added
+- Deterministic Markdown report-output regression tests for analyst-facing report sections and edge cases.
 - Recommended Manual Review section in generated Markdown reports.
 - Detected Vendors by Category section in generated Markdown reports.
 - Evidence Type Guide section in generated Markdown reports.
