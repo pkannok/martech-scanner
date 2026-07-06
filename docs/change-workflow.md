@@ -225,13 +225,13 @@ Run at least one realistic manual scan.
 Example:
 
 ```powershell
-node src/scanner.js https://example.com
+node src/scanner.js --domain=https://example.com
 ```
 
 Or your actual command if different:
 
 ```powershell
-npm start -- https://example.com
+npm run scan -- --domain=https://example.com
 ```
 
 Manual QA checklist:

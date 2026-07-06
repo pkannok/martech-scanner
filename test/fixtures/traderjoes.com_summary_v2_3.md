@@ -1,5 +1,7 @@
-# Martech Scan Summary v2.3
+# MarTech Scan Summary
 
+- **Scanner version:** 0.1.1
+- **Report template version:** 2.3
 - **Domain:** https://traderjoes.com
 - **Scanned at:** 2026-03-31T16:58:19.278Z
 - **Pages scanned:** 6

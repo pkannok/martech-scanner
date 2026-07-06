@@ -11,7 +11,8 @@ const {
   slugifyUrl,
   sleep,
 } = require('./utils');
-const { CliError, getHelpText, parseCliArgs } = require('./cli');
+const { CliError, getHelpText, getVersionText, parseCliArgs } = require('./cli');
+const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
 
 const {
   createRequestEvidenceRecorder,
@@ -282,6 +283,10 @@ async function main(argv = process.argv, options = {}) {
     if (logger) logger.log(getHelpText());
     return { help: true };
   }
+  if (args.version) {
+    if (logger) logger.log(getVersionText());
+    return { version: true };
+  }
   const { domain, headless, timeout, maxPages, outDir, enableConsentClick } = args;
   const { chromium } = require('playwright');
 
@@ -333,6 +338,8 @@ async function main(argv = process.argv, options = {}) {
 
   const scannedAt = nowIso();
   const finalReport = {
+    scannerVersion: SCANNER_VERSION,
+    reportTemplateVersion: REPORT_TEMPLATE_VERSION,
     domain,
     scannedAt,
     config: {
@@ -365,7 +372,7 @@ async function main(argv = process.argv, options = {}) {
 
 if (require.main === module) {
   main().then(result => {
-    if (result.help) return;
+    if (result.help || result.version) return;
     const { jsonPath, mdPath } = result;
     console.log('Scan complete.');
     console.log(`JSON: ${jsonPath}`);

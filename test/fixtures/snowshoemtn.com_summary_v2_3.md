@@ -1,5 +1,7 @@
-# Martech Scan Summary v2.3
+# MarTech Scan Summary
 
+- **Scanner version:** 0.1.1
+- **Report template version:** 2.3
 - **Domain:** https://snowshoemtn.com
 - **Scanned at:** 2026-04-21T18:35:47.076Z
 - **Pages scanned:** 6

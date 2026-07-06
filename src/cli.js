@@ -4,6 +4,7 @@ const {
   DEFAULT_MAX_PAGES,
 } = require('./config');
 const { normalizeDomain } = require('./utils');
+const { SCANNER_NAME, SCANNER_VERSION } = require('./version');
 
 const MIN_TIMEOUT = 1000;
 const SUPPORTED_OPTIONS = new Set([
@@ -22,8 +23,12 @@ class CliError extends Error {
   }
 }
 
+function getVersionText() {
+  return `${SCANNER_NAME} v${SCANNER_VERSION}`;
+}
+
 function getHelpText() {
-  return `MarTech Scanner
+  return `${getVersionText()}
 
 Scans a public website for browser-visible marketing and analytics technology.
 
@@ -39,6 +44,7 @@ Options:
                                 Try common consent buttons (default: true)
   --out=<directory>              Output directory (default: ${DEFAULT_OUT_DIR})
   -h, --help                    Show this help message
+  -v, --version                 Show the scanner version
 
 Examples:
   Quick scan:   node src/scanner.js --domain=https://example.com --maxPages=1
@@ -53,6 +59,10 @@ function parseRawArgs(argv) {
   for (const arg of argv.slice(2)) {
     if (arg === '-h' || arg === '--help') {
       args.help = true;
+      continue;
+    }
+    if (arg === '-v' || arg === '--version') {
+      args.version = true;
       continue;
     }
 
@@ -151,6 +161,7 @@ function validateDomain(value) {
 function parseCliArgs(argv = process.argv) {
   const raw = parseRawArgs(argv);
   if (raw.help) return { help: true };
+  if (raw.version) return { version: true };
 
   return {
     help: false,
@@ -167,5 +178,6 @@ module.exports = {
   MIN_TIMEOUT,
   CliError,
   getHelpText,
+  getVersionText,
   parseCliArgs,
 };
