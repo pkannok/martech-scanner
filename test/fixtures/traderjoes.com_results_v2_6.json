@@ -1,6 +1,6 @@
 {
   "scannerVersion": "0.3.0",
-  "reportTemplateVersion": "2.5",
+  "reportTemplateVersion": "2.6",
   "domain": "https://traderjoes.com",
   "scannedAt": "2026-03-31T16:58:19.278Z",
   "config": {
@@ -3980,35 +3980,71 @@
   "ids": [
     {
       "type": "GTM Container ID",
-      "value": "GTM-PK37XV6"
+      "value": "GTM-PK37XV6",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source",
+        "iframe_noscript"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-2HMPBJHQ41"
+      "value": "G-2HMPBJHQ41",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "UA Property ID",
-      "value": "UA-15671700-1"
+      "value": "UA-15671700-1",
+      "evidenceTypes": [
+        "network"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-PVSN19270R"
+      "value": "G-PVSN19270R",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "GTM Container ID",
-      "value": "GTM-TZMMWGR"
+      "value": "GTM-TZMMWGR",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source",
+        "iframe_noscript"
+      ]
     },
     {
       "type": "UA Property ID",
-      "value": "UA-100422848-1"
+      "value": "UA-100422848-1",
+      "evidenceTypes": [
+        "network"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-2KLNSNQXP1"
+      "value": "G-2KLNSNQXP1",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-Y0LZ6ZMCVR"
+      "value": "G-Y0LZ6ZMCVR",
+      "evidenceTypes": [
+        "network"
+      ]
     }
   ]
 }

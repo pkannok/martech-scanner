@@ -4,8 +4,13 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 function loadFixture(name) {
-  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_5.json`);
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_6.json`);
   return JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
+}
+
+function loadSummaryFixture(name) {
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_summary_v2_6.md`);
+  return fs.readFileSync(fixturePath, 'utf8');
 }
 
 function vendorKeys(report) {
@@ -32,7 +37,7 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
     const report = loadFixture(name);
 
     assert.equal(report.scannerVersion, '0.3.0');
-    assert.equal(report.reportTemplateVersion, '2.5');
+    assert.equal(report.reportTemplateVersion, '2.6');
     assert.match(report.domain, /^https:\/\//);
     assert.equal(Array.isArray(report.scanUrls), true);
     assert.equal(Array.isArray(report.pageReports), true);
@@ -45,6 +50,20 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
     assertUnique(report.vendors, vendor => `${vendor.name}|${vendor.category}|${vendor.source}`, `${name} vendors should already be deduped`);
     assertUnique(report.ids, id => `${id.type}|${id.value}`, `${name} ids should already be deduped`);
   }
+});
+
+test('saved summary fixtures include evidence guide and evidence type labels', () => {
+  const summary = loadSummaryFixture('beckons.com');
+
+  assert.match(summary, /## Evidence Type Guide/);
+  assert.match(summary, /\*\*Network evidence:\*\* A browser request to a recognized vendor endpoint was observed during the scan\./);
+  assert.match(summary, /\*\*Script evidence:\*\* A loaded script URL or third-party script element matched a known vendor rule or contained a known ID\./);
+  assert.match(summary, /\*\*Source evidence:\*\* A known ID or signal was found in HTML, inline JavaScript, global previews, or extracted source-level URL text\./);
+  assert.match(summary, /does not, by itself, prove full implementation/);
+  assert.match(summary, /evidence type: Network evidence \(observed firing\)/);
+  assert.match(summary, /evidence type: Script evidence \(present in source\)/);
+  assert.match(summary, /evidence type: Source evidence \(inferred\)/);
+  assert.match(summary, /- \*\*GTM Container ID:\*\* `GTM-PC3TL92D` - evidence type:/);
 });
 
 test('85sixty fixture preserves wordpress and google detections', () => {

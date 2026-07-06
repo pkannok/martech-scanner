@@ -1,6 +1,6 @@
 {
   "scannerVersion": "0.3.0",
-  "reportTemplateVersion": "2.5",
+  "reportTemplateVersion": "2.6",
   "domain": "https://beckons.com",
   "scannedAt": "2026-04-21T20:07:38.779Z",
   "config": {
@@ -13716,35 +13716,71 @@
   "ids": [
     {
       "type": "GTM Container ID",
-      "value": "GTM-PC3TL92D"
+      "value": "GTM-PC3TL92D",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source",
+        "iframe_noscript"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-G5Y3RBXDG8"
+      "value": "G-G5Y3RBXDG8",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "Google Ads ID",
-      "value": "AW-17911345596"
+      "value": "AW-17911345596",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "TikTok Pixel ID",
-      "value": "D4T4CDJC77U9L5PIV3O0"
+      "value": "D4T4CDJC77U9L5PIV3O0",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "The Trade Desk Advertiser ID",
-      "value": "fypp50u"
+      "value": "fypp50u",
+      "evidenceTypes": [
+        "network",
+        "source"
+      ]
     },
     {
       "type": "The Trade Desk Advertiser ID",
-      "value": "aam"
+      "value": "aam",
+      "evidenceTypes": [
+        "network"
+      ]
     },
     {
       "type": "DoubleClick Advertiser ID",
-      "value": "DC-16510922"
+      "value": "DC-16510922",
+      "evidenceTypes": [
+        "script",
+        "source"
+      ]
     },
     {
       "type": "Facebook Pixel ID",
-      "value": "633710700486705"
+      "value": "633710700486705",
+      "evidenceTypes": [
+        "source",
+        "iframe_noscript"
+      ]
     }
   ]
 }

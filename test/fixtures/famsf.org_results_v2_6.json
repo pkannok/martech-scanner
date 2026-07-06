@@ -1,6 +1,6 @@
 {
   "scannerVersion": "0.3.0",
-  "reportTemplateVersion": "2.5",
+  "reportTemplateVersion": "2.6",
   "domain": "https://famsf.org",
   "scannedAt": "2026-03-19T19:23:24.714Z",
   "config": {
@@ -3062,35 +3062,67 @@
   "ids": [
     {
       "type": "GTM Container ID",
-      "value": "GTM-KF3V7ZD"
+      "value": "GTM-KF3V7ZD",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source",
+        "iframe_noscript"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-XD8ZY7FJG6"
+      "value": "G-XD8ZY7FJG6",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source"
+      ]
     },
     {
       "type": "Google Ads ID",
-      "value": "AW-661513348"
+      "value": "AW-661513348",
+      "evidenceTypes": [
+        "network"
+      ]
     },
     {
       "type": "UA Property ID",
-      "value": "UA-936475-3"
+      "value": "UA-936475-3",
+      "evidenceTypes": [
+        "network"
+      ]
     },
     {
       "type": "Pinterest Tag ID",
-      "value": "2613646378106"
+      "value": "2613646378106",
+      "evidenceTypes": [
+        "network"
+      ]
     },
     {
       "type": "Facebook Pixel ID",
-      "value": "1888698"
+      "value": "1888698",
+      "evidenceTypes": [
+        "script",
+        "source"
+      ]
     },
     {
       "type": "Facebook Pixel ID",
-      "value": "1809781"
+      "value": "1809781",
+      "evidenceTypes": [
+        "script",
+        "source"
+      ]
     },
     {
       "type": "Facebook Pixel ID",
-      "value": "1809799"
+      "value": "1809799",
+      "evidenceTypes": [
+        "script",
+        "source"
+      ]
     }
   ]
 }

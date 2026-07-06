@@ -19,7 +19,7 @@ test('package metadata and shared scanner identity stay aligned', () => {
 });
 
 test('report template version is explicit and the stale combined title is absent from source', () => {
-  assert.equal(REPORT_TEMPLATE_VERSION, '2.5');
+  assert.equal(REPORT_TEMPLATE_VERSION, '2.6');
   const reportingSource = fs.readFileSync(path.join(__dirname, '..', 'src', 'reporting.js'), 'utf8');
   assert.doesNotMatch(reportingSource, /Martech Scan Summary v2\.3/);
 });
