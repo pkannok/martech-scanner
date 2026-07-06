@@ -33,7 +33,6 @@ The scanner runtime feedback should show:
 
 ### Team Usability
 - Add example scan outputs.
-- Add troubleshooting guidance.
 - Add configuration options.
 
 ## Deferred / Not Yet Planned

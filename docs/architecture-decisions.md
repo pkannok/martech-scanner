@@ -20,7 +20,7 @@ Use the `package.json` version as the single source of truth for the MarTech Sca
 
 The current identities are:
 
-- Scanner version: `0.1.1`
+- Scanner version: `0.1.2`
 - Report template version: `2.3`
 
 Generated JSON and Markdown reports include both values. Fixture filenames ending in `_v2_3` refer to the report-template version, not the scanner release.

@@ -1,6 +1,6 @@
 # MarTech Scan Summary
 
-- **Scanner version:** 0.1.1
+- **Scanner version:** 0.1.2
 - **Report template version:** 2.3
 - **Domain:** https://famsf.org
 - **Scanned at:** 2026-03-19T19:23:24.714Z

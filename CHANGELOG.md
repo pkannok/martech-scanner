@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.2 - 2026-07-06
+
+### Added
+- Teammate-first quick start and first-scan documentation.
+- Common command, result interpretation, troubleshooting, and responsible-use guidance.
+
+### Changed
+- Consolidated limitations and aligned README examples with supported CLI options and package scripts.
+- Updated project status and backlog documentation for the completed onboarding guide.
+
 ## v0.1.1 - 2026-07-06
 
 ### Added
