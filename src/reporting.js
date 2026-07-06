@@ -403,6 +403,14 @@ function countFailedPages(pageReports) {
   return pageReports.filter(page => page.status === 'failed').length;
 }
 
+function countFailedOrPartialPages(pageReports) {
+  return pageReports.filter(page =>
+    page.status === 'failed' ||
+    page.error ||
+    (page.statusCode !== null && page.statusCode !== undefined && page.statusCode >= 400)
+  ).length;
+}
+
 function pageSourceIdCount(page) {
   return (
     (page.sourceSignals?.htmlIds?.length || 0) +
@@ -679,6 +687,74 @@ function addDetectedVendorsByCategory(lines, finalReport) {
   }
 }
 
+function sourceOnlyVendorNames(finalReport) {
+  const vendors = finalReport.vendors || [];
+  const runtimeVendorKeys = new Set(
+    vendors
+      .filter(vendor => vendor.source === 'network' || vendor.source === 'script')
+      .map(vendor => `${vendor.name}|${vendor.category}`)
+  );
+
+  return dedupeBy(
+    vendors
+      .filter(vendor => vendor.source === 'source_code')
+      .filter(vendor => !runtimeVendorKeys.has(`${vendor.name}|${vendor.category}`))
+      .map(vendor => vendor.name),
+    name => name
+  );
+}
+
+function addRecommendedManualReview(lines, finalReport) {
+  const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
+  const discoveredUrls = Array.isArray(finalReport.discovered_urls) ? finalReport.discovered_urls : null;
+  const skippedUrlCount = countSkippedUrls(finalReport);
+  const failedOrPartialCount = countFailedOrPartialPages(pageReports);
+  const thinPageCount = pageReports.filter(isThinOrLowEvidencePage).length;
+  const sourceOnlyVendors = sourceOnlyVendorNames(finalReport);
+  const consentConfigured = finalReport.config?.enableConsentClick;
+  const pagesWithConsentClicks = pageReports.filter(page => (page.consentClicks || []).length > 0).length;
+  const hasIds = (finalReport.ids || []).length > 0;
+
+  lines.push('## Recommended Manual Review');
+  lines.push('');
+  lines.push('Use this checklist to decide what to verify after reviewing the scanner evidence.');
+  lines.push('');
+  lines.push('- Confirm high-priority conversion paths manually, especially form submits, checkout steps, booking flows, lead events, and post-login experiences that may not be covered by this scan.');
+  lines.push('- Check whether server-side tagging, backend integrations, or private APIs send data outside browser-visible evidence.');
+
+  if (discoveredUrls && skippedUrlCount > 0) {
+    lines.push(`- Review important discovered URLs that were not scanned (${skippedUrlCount} URL(s)), especially if the configured maxPages limit excluded key paths.`);
+  } else if (!discoveredUrls) {
+    lines.push('- Confirm important user paths manually because discovery metadata was not recorded for this report.');
+  }
+
+  if (sourceOnlyVendors.length) {
+    lines.push(`- Review vendors seen only in source-level evidence without network or script evidence: ${sourceOnlyVendors.join(', ')}.`);
+  }
+
+  if (consentConfigured !== undefined || pagesWithConsentClicks > 0) {
+    const consentNote = pagesWithConsentClicks > 0
+      ? `consent interaction was captured on ${pagesWithConsentClicks} page(s)`
+      : 'no consent interaction was captured';
+    lines.push(`- Confirm whether consent state changes vendor firing; ${consentNote} in this scan.`);
+  }
+
+  if (failedOrPartialCount > 0 || thinPageCount > 0) {
+    lines.push(`- Review failed, blocked, timeout, HTTP-error, or thin pages (${failedOrPartialCount} failed/partial; ${thinPageCount} thin/low-evidence).`);
+  }
+
+  if (hasIds) {
+    lines.push('- Validate detected IDs against expected GTM containers, GA4 properties, media pixels, CMP settings, and other platform configurations.');
+  }
+
+  lines.push('');
+  lines.push('### What this scanner does not prove');
+  lines.push('');
+  lines.push('- It does not inspect GTM account or workspace settings, GA4 property/admin settings, ad platform configurations, CMP admin settings, server-side containers, backend integrations, or private APIs.');
+  lines.push('- It does not prove that a vendor is absent, fully installed, correctly configured, compliant, or accurately recording conversions.');
+  lines.push('');
+}
+
 function addExecutiveSummary(lines, finalReport) {
   const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
   const pagesScanned = pageReports.length || (Array.isArray(finalReport.scanUrls) ? finalReport.scanUrls.length : null);
@@ -863,6 +939,8 @@ function buildSummaryMarkdown(finalReport) {
   lines.push('- It may miss deferred tags, server-side tagging, login-gated tooling, and non-fired rules.');
   lines.push('');
 
+  addRecommendedManualReview(lines, finalReport);
+
   return lines.join('\n');
 }
 
@@ -877,5 +955,6 @@ module.exports = {
   addScanCoverage,
   addEvidenceTypeGuide,
   addDetectedVendorsByCategory,
+  addRecommendedManualReview,
   buildSummaryMarkdown,
 };

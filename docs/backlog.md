@@ -25,6 +25,7 @@ The scanner runtime feedback should show:
 ### Reporting
 - Extract analyst-facing vendor category mapping into a shared configuration module.
 - Normalize evidence-origin metadata across all ID extraction paths.
+- Derive recommended manual review items from richer scan scenarios when those are available.
 - Track explicit skip reasons for discovered URLs that are not selected.
 
 ### Testing
