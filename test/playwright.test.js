@@ -326,7 +326,13 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
           ids: [{ type: 'Facebook Pixel ID', value: '123456789012345' }],
         },
       ],
-      scriptFindings: [],
+      scriptFindings: [
+        {
+          src: 'https://www.googletagmanager.com/gtag/js?id=G-LOCAL123',
+          detectedVendors: [{ name: 'Google Analytics', category: 'analytics' }],
+          ids: [{ type: 'GA4 Measurement ID', value: 'G-LOCAL123' }],
+        },
+      ],
       cookies: [{ name: 'session' }],
       diagnostics: {
         retriedThinPage: false,
@@ -386,7 +392,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
 
   assert.match(markdown, /^# MarTech Scan Summary/);
   assert.match(markdown, /- \*\*Scanner version:\*\* 0\.3\.0/);
-  assert.match(markdown, /- \*\*Report template version:\*\* 2\.5/);
+  assert.match(markdown, /- \*\*Report template version:\*\* 2\.6/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
   assert.match(markdown, /## Executive Summary/);
   assert.match(markdown, /- Target: https:\/\/example\.test/);
@@ -395,7 +401,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   assert.match(markdown, /- Discovered URLs: 3/);
   assert.match(markdown, /- Skipped \/ not scanned URLs: 1/);
   assert.match(markdown, /- Failed pages: 1/);
-  assert.match(markdown, /- Vendors detected: 2/);
+  assert.match(markdown, /- Vendors detected: 3/);
   assert.match(markdown, /- IDs detected: 2/);
   assert.match(markdown, /- Consent interaction: Enabled; interaction captured on 1 of 2 page\(s\)\./);
   assert.match(markdown, /- Thin \/ low-evidence pages: 0/);
@@ -408,7 +414,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   assert.match(markdown, /- Discovered but not scanned: 1/);
   assert.match(markdown, /### Scanned Pages/);
   assert.match(markdown, /- https:\/\/example\.test\//);
-  assert.match(markdown, /  - Evidence counts: 1 network, 0 scripts, 1 source IDs, 1 cookies/);
+  assert.match(markdown, /  - Evidence counts: 1 network, 1 scripts, 1 source IDs, 1 cookies/);
   assert.match(markdown, /- https:\/\/example\.test\/contact/);
   assert.match(markdown, /  - Reason: not recorded/);
   assert.match(markdown, /  - Discovery rank: rank 3/);
@@ -416,11 +422,23 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   assert.match(markdown, /- https:\/\/example\.test\/broken/);
   assert.match(markdown, /  - Reason: net::ERR_CONNECTION_REFUSED/);
   assert.match(markdown, /  - Partial evidence captured: no/);
-  assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - evidence: observed firing - confidence: high \(95%\)/);
-  assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345`/);
+  assert.match(markdown, /## Evidence Type Guide/);
+  assert.match(markdown, /Evidence type describes where the scanner saw a signal/);
+  assert.match(markdown, /\*\*Network evidence:\*\* A browser request to a recognized vendor endpoint was observed during the scan\./);
+  assert.match(markdown, /\*\*Script evidence:\*\* A loaded script URL or third-party script element matched a known vendor rule or contained a known ID\./);
+  assert.match(markdown, /\*\*Source evidence:\*\* A known ID or signal was found in HTML, inline JavaScript, global previews, or extracted source-level URL text\./);
+  assert.match(markdown, /\*\*Cookie evidence:\*\* Cookies visible to the browser context were captured for a scanned page\./);
+  assert.match(markdown, /\*\*Global object evidence:\*\* Known browser globals such as data layers or tag-manager objects were present on the page\./);
+  assert.match(markdown, /\*\*Inferred \/ rule-match evidence:\*\* A vendor was inferred from source-level IDs, globals, or rule matches rather than a direct observed vendor request\./);
+  assert.match(markdown, /does not, by itself, prove full implementation/);
+  assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - evidence type: Network evidence \(observed firing\) - confidence: high \(95%\)/);
+  assert.match(markdown, /- \*\*Google Analytics\*\* \(analytics\) via script - evidence type: Script evidence \(present in source\) - confidence: high \(85%\)/);
+  assert.match(markdown, /- \*\*Google Analytics\*\* \(analytics\) via source_code - evidence type: Source evidence \(inferred\) - confidence: medium \(65%\)/);
+  assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345` - evidence type: Network evidence/);
+  assert.match(markdown, /- \*\*GA4 Measurement ID:\*\* `G-LOCAL123` - evidence type: Script evidence, Source evidence/);
   assert.match(markdown, /- Consent clicks: accept all/);
   assert.match(markdown, /- Error: net::ERR_CONNECTION_REFUSED/);
-  assert.match(markdown, /  - GA4 Measurement ID: G-LOCAL123/);
+  assert.match(markdown, /  - GA4 Measurement ID: G-LOCAL123 \(Source evidence\)/);
 });
 
 test('buildSummaryMarkdown caps long coverage lists', () => {

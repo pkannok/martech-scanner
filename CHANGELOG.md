@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Evidence Type Guide section in generated Markdown reports.
+- Evidence type labels for vendor and ID findings where the scanner can derive them from existing report data.
+
+### Changed
+- Updated report template version from `2.5` to `2.6` for the Markdown evidence explanation change.
+
 ## v0.3.0 - 2026-07-06
 
 ### Added

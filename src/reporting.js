@@ -3,6 +3,44 @@ const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
 
 const COVERAGE_LIST_LIMIT = 20;
 
+const EVIDENCE_TYPE_GUIDE = {
+  network: {
+    label: 'Network evidence',
+    description: 'A browser request to a recognized vendor endpoint was observed during the scan.',
+    limitation: 'Shows runtime browser activity on the scanned page, but does not by itself prove business rules, consent correctness, or full implementation.',
+  },
+  script: {
+    label: 'Script evidence',
+    description: 'A loaded script URL or third-party script element matched a known vendor rule or contained a known ID.',
+    limitation: 'Shows that a script was present or requested, but not that every tag inside it fired successfully.',
+  },
+  source: {
+    label: 'Source evidence',
+    description: 'A known ID or signal was found in HTML, inline JavaScript, global previews, or extracted source-level URL text.',
+    limitation: 'Shows configuration or identifiers in browser-visible source, but not observed firing.',
+  },
+  cookie: {
+    label: 'Cookie evidence',
+    description: 'Cookies visible to the browser context were captured for a scanned page.',
+    limitation: 'Cookie names and values can hint at tooling or state, but are not treated as standalone proof of a vendor implementation.',
+  },
+  iframe_noscript: {
+    label: 'Iframe / noscript evidence',
+    description: 'Iframe URLs or noscript blocks exposed known IDs or vendor-related source signals.',
+    limitation: 'Often reflects fallback or embedded markup; review alongside network and script evidence before drawing conclusions.',
+  },
+  global: {
+    label: 'Global object evidence',
+    description: 'Known browser globals such as data layers or tag-manager objects were present on the page.',
+    limitation: 'Shows that a page-level object exists, but not that any destination received data.',
+  },
+  inferred: {
+    label: 'Inferred / rule-match evidence',
+    description: 'A vendor was inferred from source-level IDs, globals, or rule matches rather than a direct observed vendor request.',
+    limitation: 'Useful for triage, but should be verified before treating it as a confirmed live implementation.',
+  },
+};
+
 const VENDOR_CONFIDENCE = {
   network: {
     level: 'high',
@@ -134,25 +172,7 @@ function summarizeVendors(pageReports) {
 }
 
 function collectAllIds(pageReports) {
-  const ids = [];
-
-  for (const report of pageReports) {
-    for (const finding of report.networkFindings || []) {
-      ids.push(...(finding.ids || []));
-    }
-
-    for (const script of report.scriptFindings || []) {
-      ids.push(...(script.ids || []));
-    }
-
-    if (report.sourceSignals) {
-      ids.push(...(report.sourceSignals.inlineScriptIds || []));
-      ids.push(...(report.sourceSignals.htmlIds || []));
-      ids.push(...(report.sourceSignals.noscriptIds || []));
-    }
-  }
-
-  return dedupeBy(ids, x => `${x.type}|${x.value}`);
+  return collectIdEvidenceDetails(pageReports);
 }
 
 function formatConfidence(confidence) {
@@ -163,6 +183,62 @@ function formatConfidence(confidence) {
 
 function formatEvidence(evidence) {
   return evidence?.label || evidence?.type || 'unknown';
+}
+
+function evidenceTypeLabel(type) {
+  return EVIDENCE_TYPE_GUIDE[type]?.label || type || 'Unknown evidence';
+}
+
+function formatEvidenceTypes(types) {
+  const uniqueTypes = dedupeBy((types || []).filter(Boolean), x => x);
+  if (!uniqueTypes.length) return 'not labeled';
+  return uniqueTypes.map(evidenceTypeLabel).join(', ');
+}
+
+function addIdEvidence(idMap, id, evidenceType) {
+  if (!id?.type || !id?.value) return;
+
+  const key = `${id.type}|${id.value}`;
+  const existing = idMap.get(key) || {
+    type: id.type,
+    value: id.value,
+    evidenceTypes: [],
+  };
+
+  existing.evidenceTypes = dedupeBy([...existing.evidenceTypes, evidenceType], x => x);
+  idMap.set(key, existing);
+}
+
+function collectIdEvidenceDetails(pageReports) {
+  const ids = new Map();
+
+  for (const report of pageReports || []) {
+    for (const finding of report.networkFindings || []) {
+      for (const id of finding.ids || []) {
+        addIdEvidence(ids, id, 'network');
+      }
+    }
+
+    for (const script of report.scriptFindings || []) {
+      for (const id of script.ids || []) {
+        addIdEvidence(ids, id, 'script');
+      }
+    }
+
+    for (const id of report.sourceSignals?.htmlIds || []) {
+      addIdEvidence(ids, id, 'source');
+    }
+
+    for (const id of report.sourceSignals?.inlineScriptIds || []) {
+      addIdEvidence(ids, id, 'source');
+    }
+
+    for (const id of report.sourceSignals?.noscriptIds || []) {
+      addIdEvidence(ids, id, 'iframe_noscript');
+    }
+  }
+
+  return [...ids.values()];
 }
 
 function countDiscoveredUrls(finalReport) {
@@ -199,6 +275,43 @@ function pageEvidenceCounts(page) {
 function pageEvidenceTotal(page) {
   const counts = pageEvidenceCounts(page);
   return counts.network + counts.scripts + counts.sourceIds + counts.cookies;
+}
+
+function hasPresentGlobal(page) {
+  return Object.values(page.pageGlobals?.globals || {}).some(info => info?.present) ||
+    Object.values(page.sourceSignals?.googleGlobals || {}).some(Boolean);
+}
+
+function collectEvidenceTypes(finalReport) {
+  const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
+  const types = new Set();
+
+  if ((finalReport.vendors || []).some(vendor => vendor.source === 'network')) types.add('network');
+  if ((finalReport.vendors || []).some(vendor => vendor.source === 'script')) types.add('script');
+  if ((finalReport.vendors || []).some(vendor => vendor.source === 'source_code')) types.add('source');
+  if ((finalReport.vendors || []).some(vendor => vendor.evidence?.type === 'inferred')) types.add('inferred');
+
+  for (const page of pageReports) {
+    if ((page.networkFindings || []).length) types.add('network');
+    if ((page.scriptFindings || []).length) types.add('script');
+    if ((page.cookies || []).length) types.add('cookie');
+    if ((page.sourceSignals?.htmlIds || []).length || (page.sourceSignals?.inlineScriptIds || []).length) {
+      types.add('source');
+    }
+    if ((page.sourceSignals?.iframes || []).length || (page.sourceSignals?.noscriptIds || []).length) {
+      types.add('iframe_noscript');
+    }
+    if (hasPresentGlobal(page)) types.add('global');
+  }
+
+  for (const id of finalReport.ids || []) {
+    for (const evidenceType of id.evidenceTypes || []) {
+      types.add(evidenceType);
+    }
+  }
+
+  return ['network', 'script', 'source', 'cookie', 'iframe_noscript', 'global', 'inferred']
+    .filter(type => types.has(type));
 }
 
 function isThinOrLowEvidencePage(page) {
@@ -358,6 +471,29 @@ function addScanCoverage(lines, finalReport) {
   }
 }
 
+function addEvidenceTypeGuide(lines, finalReport) {
+  const evidenceTypes = collectEvidenceTypes(finalReport);
+
+  lines.push('## Evidence Type Guide');
+  lines.push('');
+
+  if (!evidenceTypes.length) {
+    lines.push('No labeled evidence types were present in this report.');
+    lines.push('');
+    return;
+  }
+
+  lines.push('Evidence type describes where the scanner saw a signal. It does not, by itself, prove full implementation, correct configuration, or compliance status.');
+  lines.push('');
+
+  for (const type of evidenceTypes) {
+    const guide = EVIDENCE_TYPE_GUIDE[type];
+    lines.push(`- **${guide.label}:** ${guide.description} Limitation: ${guide.limitation}`);
+  }
+
+  lines.push('');
+}
+
 function addExecutiveSummary(lines, finalReport) {
   const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
   const pagesScanned = pageReports.length || (Array.isArray(finalReport.scanUrls) ? finalReport.scanUrls.length : null);
@@ -429,6 +565,7 @@ function buildSummaryMarkdown(finalReport) {
 
   addExecutiveSummary(lines, finalReport);
   addScanCoverage(lines, finalReport);
+  addEvidenceTypeGuide(lines, finalReport);
 
   lines.push('## Vendors detected');
   lines.push('');
@@ -438,7 +575,8 @@ function buildSummaryMarkdown(finalReport) {
     lines.push('');
   } else {
     for (const vendor of finalReport.vendors || []) {
-      lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source} - evidence: ${formatEvidence(vendor.evidence)} - confidence: ${formatConfidence(vendor.confidence)}`);
+      const evidenceType = vendor.source === 'source_code' ? 'source' : vendor.source;
+      lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source} - evidence type: ${formatEvidenceTypes([evidenceType])} (${formatEvidence(vendor.evidence)}) - confidence: ${formatConfidence(vendor.confidence)}`);
     }
     lines.push('');
   }
@@ -450,7 +588,7 @@ function buildSummaryMarkdown(finalReport) {
     lines.push('');
   } else {
     for (const id of finalReport.ids || []) {
-      lines.push(`- **${id.type}:** \`${id.value}\``);
+      lines.push(`- **${id.type}:** \`${id.value}\` - evidence type: ${formatEvidenceTypes(id.evidenceTypes)}`);
     }
     lines.push('');
   }
@@ -520,7 +658,10 @@ function buildSummaryMarkdown(finalReport) {
     const uniqueSourceIds = dedupeBy(sourceIds, x => `${x.type}|${x.value}`);
     if (uniqueSourceIds.length) {
       for (const id of uniqueSourceIds) {
-        lines.push(`  - ${id.type}: ${id.value}`);
+        const sourceType = (page.sourceSignals?.noscriptIds || []).some(item => item.type === id.type && item.value === id.value)
+          ? 'iframe_noscript'
+          : 'source';
+        lines.push(`  - ${id.type}: ${id.value} (${evidenceTypeLabel(sourceType)})`);
       }
     }
 
@@ -544,7 +685,9 @@ module.exports = {
   evidenceForSource,
   summarizeVendors,
   collectAllIds,
+  collectIdEvidenceDetails,
   addExecutiveSummary,
   addScanCoverage,
+  addEvidenceTypeGuide,
   buildSummaryMarkdown,
 };

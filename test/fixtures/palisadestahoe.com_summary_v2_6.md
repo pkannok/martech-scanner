@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.5
+- **Report template version:** 2.6
 - **Domain:** https://palisadestahoe.com
 - **Scanned at:** 2026-04-21T18:35:54.318Z
 - **Pages scanned:** 6
@@ -119,6 +119,10 @@ Discovery metadata was not recorded for this report.
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
   - Partial evidence captured: no
+
+## Evidence Type Guide
+
+No labeled evidence types were present in this report.
 
 ## Vendors detected
 

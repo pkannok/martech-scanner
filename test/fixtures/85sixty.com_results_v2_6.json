@@ -1,6 +1,6 @@
 {
   "scannerVersion": "0.3.0",
-  "reportTemplateVersion": "2.5",
+  "reportTemplateVersion": "2.6",
   "domain": "https://85sixty.com",
   "scannedAt": "2026-03-18T23:46:05.630Z",
   "config": {
@@ -7134,15 +7134,31 @@
   "ids": [
     {
       "type": "GTM Container ID",
-      "value": "GTM-PLSL6GS"
+      "value": "GTM-PLSL6GS",
+      "evidenceTypes": [
+        "network",
+        "script",
+        "source",
+        "iframe_noscript"
+      ]
     },
     {
       "type": "GA4 Measurement ID",
-      "value": "G-CYPTKEVWNP"
+      "value": "G-CYPTKEVWNP",
+      "evidenceTypes": [
+        "script",
+        "source",
+        "network"
+      ]
     },
     {
       "type": "Google Ads ID",
-      "value": "AW-986765357"
+      "value": "AW-986765357",
+      "evidenceTypes": [
+        "script",
+        "source",
+        "network"
+      ]
     }
   ]
 }

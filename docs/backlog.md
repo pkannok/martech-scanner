@@ -24,7 +24,7 @@ The scanner runtime feedback should show:
 
 ### Reporting
 - Add summary sections for detected vendors.
-- Add clearer confidence/evidence explanations.
+- Normalize evidence-origin metadata across all ID extraction paths.
 - Track explicit skip reasons for discovered URLs that are not selected.
 
 ### Testing
