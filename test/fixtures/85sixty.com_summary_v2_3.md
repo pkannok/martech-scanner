@@ -1,5 +1,7 @@
-# Martech Scan Summary v2.3
+# MarTech Scan Summary
 
+- **Scanner version:** 0.1.1
+- **Report template version:** 2.3
 - **Domain:** https://85sixty.com
 - **Scanned at:** 2026-03-18T23:46:05.630Z
 - **Pages scanned:** 6

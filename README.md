@@ -30,13 +30,22 @@ It does **not** currently use:
 
 ## Version
 
-Current version: `v0.1.0`
-Status: Early development / internal planning and testing  
-Current focus: Establishing a repeatable development workflow, testing approach, documentation structure, and release process.
+Current version: `v0.1.1`
+Status: Internal development / teammate testing
+Current focus: Improving teammate-facing CLI usability and maintaining consistent scanner and report version metadata.
+
+### Recently completed
+
+- Added CLI help and friendly input validation.
+- Added package-backed `--version` output.
+- Distinguished scanner version `0.1.1` from report template version `2.3` in generated JSON and Markdown reports.
 
 MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
 
 Version history is tracked in `CHANGELOG.md`.
+
+The product version comes from `package.json`. Generated reports separately identify
+report template version `2.3`, which describes report structure rather than the scanner release.
 
 ## Development Workflow
 
@@ -164,7 +173,7 @@ Record of important technical decisions.
 - `docs/backlog.md`
 Candidate future improvements not yet assigned to a release.
 
-- `examples/sample-report.md`
+- `examples/sample-reports.md`
 Placeholder for a future sanitized sample report.
 
 ## Requirements
@@ -194,6 +203,12 @@ To see every option, default value, and additional examples:
 
 ```bash
 node src/scanner.js --help
+```
+
+To print the installed scanner version:
+
+```bash
+node src/scanner.js --version
 ```
 
 Equivalent npm script:

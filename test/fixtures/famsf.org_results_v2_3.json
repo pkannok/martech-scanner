@@ -1,4 +1,6 @@
 {
+  "scannerVersion": "0.1.1",
+  "reportTemplateVersion": "2.3",
   "domain": "https://famsf.org",
   "scannedAt": "2026-03-19T19:23:24.714Z",
   "config": {

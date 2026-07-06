@@ -1,4 +1,5 @@
 const { dedupeBy } = require('./utils');
+const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
 
 const VENDOR_CONFIDENCE = {
   network: {
@@ -165,8 +166,10 @@ function formatEvidence(evidence) {
 function buildSummaryMarkdown(finalReport) {
   const lines = [];
 
-  lines.push('# Martech Scan Summary v2.3');
+  lines.push('# MarTech Scan Summary');
   lines.push('');
+  lines.push(`- **Scanner version:** ${finalReport.scannerVersion || SCANNER_VERSION}`);
+  lines.push(`- **Report template version:** ${finalReport.reportTemplateVersion || REPORT_TEMPLATE_VERSION}`);
   lines.push(`- **Domain:** ${finalReport.domain}`);
   lines.push(`- **Scanned at:** ${finalReport.scannedAt}`);
   lines.push(`- **Pages scanned:** ${finalReport.pageReports.length}`);

@@ -1,5 +1,7 @@
-# Martech Scan Summary v2.3
+# MarTech Scan Summary
 
+- **Scanner version:** 0.1.1
+- **Report template version:** 2.3
 - **Domain:** https://beckons.com
 - **Scanned at:** 2026-04-21T20:07:38.779Z
 - **Pages scanned:** 6

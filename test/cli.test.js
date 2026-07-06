@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const {
   CliError,
   getHelpText,
+  getVersionText,
   parseCliArgs,
 } = require('../src/cli');
 
@@ -14,6 +15,7 @@ function argv(...args) {
 test('help output describes usage, options, defaults, examples, and output', () => {
   const help = getHelpText();
   assert.match(help, /MarTech Scanner/);
+  assert.match(help, /MarTech Scanner v0\.1\.1/);
   assert.match(help, /Usage:/);
   assert.match(help, /--domain/);
   assert.match(help, /--headless/);
@@ -21,12 +23,19 @@ test('help output describes usage, options, defaults, examples, and output', () 
   assert.match(help, /--maxPages/);
   assert.match(help, /--enableConsentClick/);
   assert.match(help, /--out/);
+  assert.match(help, /--version/);
   assert.match(help, /default: 45000/);
   assert.match(help, /Quick scan:/);
   assert.match(help, /Deeper scan:/);
   assert.match(help, /configured output directory/);
   assert.deepEqual(parseCliArgs(argv('-h')), { help: true });
   assert.deepEqual(parseCliArgs(argv('--help')), { help: true });
+});
+
+test('version flags return the package-backed scanner identity', () => {
+  assert.equal(getVersionText(), 'MarTech Scanner v0.1.1');
+  assert.deepEqual(parseCliArgs(argv('-v')), { version: true });
+  assert.deepEqual(parseCliArgs(argv('--version')), { version: true });
 });
 
 test('missing domain gives a friendly corrected example', () => {

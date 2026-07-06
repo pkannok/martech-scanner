@@ -1,4 +1,6 @@
 {
+  "scannerVersion": "0.1.1",
+  "reportTemplateVersion": "2.3",
   "domain": "https://snowshoemtn.com",
   "scannedAt": "2026-04-21T18:35:47.076Z",
   "config": {

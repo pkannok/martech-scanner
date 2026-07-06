@@ -19,8 +19,6 @@ The scanner runtime feedback should show:
 - Completion status
 
 ### Scanner Behavior
-- Improve URL prioritization across subdomains.
-- Improve source evidence collection and merging.
 - Add clearer runtime status output.
 - Improve handling of failed pages.
 
@@ -31,12 +29,9 @@ The scanner runtime feedback should show:
 
 ### Testing
 - Expand Playwright fixture coverage.
-- Add unit tests for URL prioritization.
-- Add unit tests for evidence merging.
 - Add regression tests for known detection patterns.
 
 ### Team Usability
-- Add clearer CLI help text.
 - Add example scan outputs.
 - Add troubleshooting guidance.
 - Add configuration options.
