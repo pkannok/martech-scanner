@@ -2,17 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require('playwright');
 
 const {
-  DEFAULT_TIMEOUT,
-  DEFAULT_OUT_DIR,
-  DEFAULT_MAX_PAGES,
-} = require('./config');
-
-const {
-  parseArgs,
-  normalizeDomain,
   ensureDir,
   nowIso,
   dedupeBy,
@@ -20,6 +11,7 @@ const {
   slugifyUrl,
   sleep,
 } = require('./utils');
+const { CliError, getHelpText, parseCliArgs } = require('./cli');
 
 const {
   createRequestEvidenceRecorder,
@@ -285,13 +277,13 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
 
 async function main(argv = process.argv, options = {}) {
   const logger = options.logger === false ? null : options.logger || console;
-  const args = parseArgs(argv);
-  const domain = normalizeDomain(args.domain);
-  const headless = String(args.headless || 'true').toLowerCase() !== 'false';
-  const timeout = Number(args.timeout || DEFAULT_TIMEOUT);
-  const maxPages = Number(args.maxPages || DEFAULT_MAX_PAGES);
-  const outDir = args.out || DEFAULT_OUT_DIR;
-  const enableConsentClick = String(args.enableConsentClick || 'true').toLowerCase() !== 'false';
+  const args = parseCliArgs(argv);
+  if (args.help) {
+    if (logger) logger.log(getHelpText());
+    return { help: true };
+  }
+  const { domain, headless, timeout, maxPages, outDir, enableConsentClick } = args;
+  const { chromium } = require('playwright');
 
   ensureDir(outDir);
   const artifactsDir = path.join(outDir, 'artifacts');
@@ -372,12 +364,18 @@ async function main(argv = process.argv, options = {}) {
 }
 
 if (require.main === module) {
-  main().then(({ jsonPath, mdPath }) => {
+  main().then(result => {
+    if (result.help) return;
+    const { jsonPath, mdPath } = result;
     console.log('Scan complete.');
     console.log(`JSON: ${jsonPath}`);
     console.log(`Summary: ${mdPath}`);
   }).catch(error => {
-    console.error('Fatal error:', error.message);
+    if (error instanceof CliError) {
+      console.error(`Input error: ${error.message}`);
+    } else {
+      console.error('Fatal error:', error.message);
+    }
     process.exit(1);
   });
 }
