@@ -328,6 +328,10 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
       ],
       scriptFindings: [],
       cookies: [{ name: 'session' }],
+      diagnostics: {
+        retriedThinPage: false,
+        retryReason: null,
+      },
       pageGlobals: { globals: { dataLayer: { present: true } } },
       sourceSignals: {
         googleGlobals: { dataLayerPresent: true },
@@ -346,6 +350,10 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
       networkFindings: [],
       scriptFindings: [],
       cookies: [],
+      diagnostics: {
+        retriedThinPage: false,
+        retryReason: null,
+      },
       pageGlobals: { globals: {} },
       sourceSignals: {
         googleGlobals: {},
@@ -377,8 +385,8 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   const markdown = buildSummaryMarkdown(finalReport);
 
   assert.match(markdown, /^# MarTech Scan Summary/);
-  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.2\.0/);
-  assert.match(markdown, /- \*\*Report template version:\*\* 2\.4/);
+  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.3\.0/);
+  assert.match(markdown, /- \*\*Report template version:\*\* 2\.5/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
   assert.match(markdown, /## Executive Summary/);
   assert.match(markdown, /- Target: https:\/\/example\.test/);
@@ -392,11 +400,75 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   assert.match(markdown, /- Consent interaction: Enabled; interaction captured on 1 of 2 page\(s\)\./);
   assert.match(markdown, /- Thin \/ low-evidence pages: 0/);
   assert.match(markdown, /browser-visible evidence from the scanned pages only/);
+  assert.match(markdown, /## Scan Coverage/);
+  assert.match(markdown, /Coverage is limited to the URLs discovered and selected during this run\./);
+  assert.match(markdown, /- Seed \/ target: https:\/\/example\.test/);
+  assert.match(markdown, /- Total pages scanned: 2/);
+  assert.match(markdown, /- Total URLs discovered: 3/);
+  assert.match(markdown, /- Discovered but not scanned: 1/);
+  assert.match(markdown, /### Scanned Pages/);
+  assert.match(markdown, /- https:\/\/example\.test\//);
+  assert.match(markdown, /  - Evidence counts: 1 network, 0 scripts, 1 source IDs, 1 cookies/);
+  assert.match(markdown, /- https:\/\/example\.test\/contact/);
+  assert.match(markdown, /  - Reason: not recorded/);
+  assert.match(markdown, /  - Discovery rank: rank 3/);
+  assert.match(markdown, /### Failed or Partial Pages/);
+  assert.match(markdown, /- https:\/\/example\.test\/broken/);
+  assert.match(markdown, /  - Reason: net::ERR_CONNECTION_REFUSED/);
+  assert.match(markdown, /  - Partial evidence captured: no/);
   assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - evidence: observed firing - confidence: high \(95%\)/);
   assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345`/);
   assert.match(markdown, /- Consent clicks: accept all/);
   assert.match(markdown, /- Error: net::ERR_CONNECTION_REFUSED/);
   assert.match(markdown, /  - GA4 Measurement ID: G-LOCAL123/);
+});
+
+test('buildSummaryMarkdown caps long coverage lists', () => {
+  const pageReports = Array.from({ length: 21 }, (_, index) => ({
+    url: `https://example.test/page-${index + 1}`,
+    status: 'ok',
+    statusCode: 200,
+    error: null,
+    title: '',
+    consentClicks: [],
+    networkFindings: [],
+    scriptFindings: [],
+    cookies: [],
+    diagnostics: {
+      retriedThinPage: false,
+      retryReason: null,
+    },
+    pageGlobals: { globals: {} },
+    sourceSignals: {
+      googleGlobals: {},
+      htmlIds: [],
+      inlineScriptIds: [],
+      noscriptIds: [],
+    },
+  }));
+
+  const discoveredUrls = Array.from({ length: 21 }, (_, index) => ({
+    url: `https://example.test/skipped-${index + 1}`,
+    rank: index + 1,
+    scanned: false,
+  }));
+
+  const markdown = buildSummaryMarkdown({
+    domain: 'https://example.test',
+    scannedAt: '2026-04-28T00:00:00.000Z',
+    config: {
+      maxPages: 21,
+      enableConsentClick: false,
+    },
+    scanUrls: pageReports.map(page => page.url),
+    discovered_urls: discoveredUrls,
+    pageReports,
+    vendors: [],
+    ids: [],
+  });
+
+  assert.match(markdown, /- 1 additional scanned page\(s\) omitted from Markdown\./);
+  assert.match(markdown, /- 1 additional discovered-but-not-scanned URL\(s\) omitted from Markdown\./);
 });
 
 test('runScanPass reports navigation failures without throwing', async () => {
