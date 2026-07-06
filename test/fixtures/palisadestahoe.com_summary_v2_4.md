@@ -1,12 +1,25 @@
 # MarTech Scan Summary
 
-- **Scanner version:** 0.1.2
-- **Report template version:** 2.3
-- **Domain:** https://snowshoemtn.com
-- **Scanned at:** 2026-04-21T18:35:47.076Z
+- **Scanner version:** 0.2.0
+- **Report template version:** 2.4
+- **Domain:** https://palisadestahoe.com
+- **Scanned at:** 2026-04-21T18:35:54.318Z
 - **Pages scanned:** 6
 - **Max pages configured:** 6
 - **Consent click enabled:** true
+
+## Executive Summary
+
+- Target: https://palisadestahoe.com
+- Generated at: 2026-04-21T18:35:54.318Z
+- Pages scanned: 6
+- Failed pages: 6
+- Vendors detected: 0
+- IDs detected: 0
+- Consent interaction: Enabled; no consent interaction was captured.
+- Thin / low-evidence pages: 0
+
+This report reflects browser-visible evidence from the scanned pages only and should be reviewed by an analyst before being treated as complete.
 
 ## Vendors detected
 
@@ -18,7 +31,7 @@ No known IDs were extracted.
 
 ## Page-level findings
 
-### https://snowshoemtn.com
+### https://palisadestahoe.com
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -30,7 +43,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://blog.snowshoemtn.com/
+### https://blog.palisadestahoe.com/
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -42,7 +55,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### http://photo.snowshoemtn.com/
+### https://future.palisadestahoe.com/
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -54,7 +67,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://snowshoemtn.com/about-us/contact
+### https://retail.palisadestahoe.com/
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -66,7 +79,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://snowshoemtn.com/about-us/contact/contractor-access
+### https://palisadestahoe.com/plan-your-visit
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -78,7 +91,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://snowshoemtn.com/plan-your-trip
+### https://palisadestahoe.com/plan-your-visit/lodging
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined

@@ -1,25 +1,38 @@
 # MarTech Scan Summary
 
-- **Scanner version:** 0.1.2
-- **Report template version:** 2.3
+- **Scanner version:** 0.2.0
+- **Report template version:** 2.4
 - **Domain:** https://traderjoes.com
 - **Scanned at:** 2026-03-31T16:58:19.278Z
 - **Pages scanned:** 6
 - **Max pages configured:** 6
 - **Consent click enabled:** true
 
+## Executive Summary
+
+- Target: https://traderjoes.com
+- Generated at: 2026-03-31T16:58:19.278Z
+- Pages scanned: 6
+- Failed pages: 0
+- Vendors detected: 10
+- IDs detected: 8
+- Consent interaction: Enabled; interaction captured on 5 of 6 page(s).
+- Thin / low-evidence pages: 0
+
+This report reflects browser-visible evidence from the scanned pages only and should be reviewed by an analyst before being treated as complete.
+
 ## Vendors detected
 
-- **Adobe Launch** (tag_manager) via network
-- **Google Tag Manager** (tag_manager) via network
-- **Adobe Analytics / Experience Cloud** (analytics) via network
-- **Google Analytics** (analytics) via network
-- **Google Analytics** (analytics) via script
-- **Google Tag Manager** (tag_manager) via script
-- **Adobe Launch** (tag_manager) via script
-- **Google Analytics** (analytics) via source_code
-- **Google Tag Manager** (tag_manager) via source_code
-- **Google Ads / DoubleClick** (media_pixel) via network
+- **Adobe Launch** (tag_manager) via network - evidence: observed firing - confidence: high (95%)
+- **Google Tag Manager** (tag_manager) via network - evidence: observed firing - confidence: high (95%)
+- **Adobe Analytics / Experience Cloud** (analytics) via network - evidence: observed firing - confidence: high (95%)
+- **Google Analytics** (analytics) via network - evidence: observed firing - confidence: high (95%)
+- **Google Analytics** (analytics) via script - evidence: present in source - confidence: high (85%)
+- **Google Tag Manager** (tag_manager) via script - evidence: present in source - confidence: high (85%)
+- **Adobe Launch** (tag_manager) via script - evidence: present in source - confidence: high (85%)
+- **Google Analytics** (analytics) via source_code - evidence: inferred - confidence: medium (65%)
+- **Google Tag Manager** (tag_manager) via source_code - evidence: inferred - confidence: medium (65%)
+- **Google Ads / DoubleClick** (media_pixel) via network - evidence: observed firing - confidence: high (95%)
 
 ## IDs found
 
