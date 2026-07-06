@@ -20,13 +20,13 @@ Use the `package.json` version as the single source of truth for the MarTech Sca
 
 The current identities are:
 
-- Scanner version: `0.1.2`
-- Report template version: `2.3`
+- Scanner version: `0.2.0`
+- Report template version: `2.4`
 
-Generated JSON and Markdown reports include both values. Fixture filenames ending in `_v2_3` refer to the report-template version, not the scanner release.
+Generated JSON and Markdown reports include both values. Fixture filenames ending in `_v2_4` refer to the report-template version, not the scanner release.
 
 ### Why
-A scanner release can add CLI or validation behavior without changing report structure, while a report-template revision may need to change independently. Separate labels prevent teammates from mistaking template `2.3` for the application version.
+A scanner release can add CLI or validation behavior without changing report structure, while a report-template revision may need to change independently. Separate labels prevent teammates from mistaking template `2.4` for the application version.
 
 ### Tradeoffs
 - Version meaning is explicit in CLI output and generated reports.

@@ -363,6 +363,12 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
       maxPages: 2,
       enableConsentClick: true,
     },
+    scanUrls: ['https://example.test/', 'https://example.test/broken'],
+    discovered_urls: [
+      { url: 'https://example.test/', rank: 1, scanned: true },
+      { url: 'https://example.test/broken', rank: 2, scanned: true },
+      { url: 'https://example.test/contact', rank: 3, scanned: false },
+    ],
     pageReports,
     vendors: summarizeVendors(pageReports),
     ids: collectAllIds(pageReports),
@@ -371,9 +377,21 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   const markdown = buildSummaryMarkdown(finalReport);
 
   assert.match(markdown, /^# MarTech Scan Summary/);
-  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.1\.2/);
-  assert.match(markdown, /- \*\*Report template version:\*\* 2\.3/);
+  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.2\.0/);
+  assert.match(markdown, /- \*\*Report template version:\*\* 2\.4/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
+  assert.match(markdown, /## Executive Summary/);
+  assert.match(markdown, /- Target: https:\/\/example\.test/);
+  assert.match(markdown, /- Generated at: 2026-04-28T00:00:00\.000Z/);
+  assert.match(markdown, /- Pages scanned: 2/);
+  assert.match(markdown, /- Discovered URLs: 3/);
+  assert.match(markdown, /- Skipped \/ not scanned URLs: 1/);
+  assert.match(markdown, /- Failed pages: 1/);
+  assert.match(markdown, /- Vendors detected: 2/);
+  assert.match(markdown, /- IDs detected: 2/);
+  assert.match(markdown, /- Consent interaction: Enabled; interaction captured on 1 of 2 page\(s\)\./);
+  assert.match(markdown, /- Thin \/ low-evidence pages: 0/);
+  assert.match(markdown, /browser-visible evidence from the scanned pages only/);
   assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - evidence: observed firing - confidence: high \(95%\)/);
   assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345`/);
   assert.match(markdown, /- Consent clicks: accept all/);

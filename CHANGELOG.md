@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.0 - 2026-07-06
+
+### Added
+- Analyst-friendly Executive Summary near the top of generated Markdown reports.
+- Markdown report coverage for discovery, skipped URL, failure, consent, vendor, ID, and thin/low-evidence summary counts.
+
+### Changed
+- Updated report template version from `2.3` to `2.4` for the Markdown structure change.
+- Regenerated Markdown report fixtures with the new executive summary.
+
 ## v0.1.2 - 2026-07-06
 
 ### Added

@@ -1,8 +1,8 @@
 {
-  "scannerVersion": "0.1.2",
-  "reportTemplateVersion": "2.3",
-  "domain": "https://snowshoemtn.com",
-  "scannedAt": "2026-04-21T18:35:47.076Z",
+  "scannerVersion": "0.2.0",
+  "reportTemplateVersion": "2.4",
+  "domain": "https://palisadestahoe.com",
+  "scannedAt": "2026-04-21T18:35:54.318Z",
   "config": {
     "headless": true,
     "timeout": 45000,
@@ -10,16 +10,16 @@
     "enableConsentClick": true
   },
   "scanUrls": [
-    "https://snowshoemtn.com",
-    "https://blog.snowshoemtn.com/",
-    "http://photo.snowshoemtn.com/",
-    "https://snowshoemtn.com/about-us/contact",
-    "https://snowshoemtn.com/about-us/contact/contractor-access",
-    "https://snowshoemtn.com/plan-your-trip"
+    "https://palisadestahoe.com",
+    "https://blog.palisadestahoe.com/",
+    "https://future.palisadestahoe.com/",
+    "https://retail.palisadestahoe.com/",
+    "https://palisadestahoe.com/plan-your-visit",
+    "https://palisadestahoe.com/plan-your-visit/lodging"
   ],
   "pageReports": [
     {
-      "url": "https://snowshoemtn.com",
+      "url": "https://palisadestahoe.com",
       "status": "failed",
       "statusCode": 200,
       "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
@@ -44,7 +44,7 @@
       }
     },
     {
-      "url": "https://blog.snowshoemtn.com/",
+      "url": "https://blog.palisadestahoe.com/",
       "status": "failed",
       "statusCode": 200,
       "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
@@ -69,7 +69,7 @@
       }
     },
     {
-      "url": "http://photo.snowshoemtn.com/",
+      "url": "https://future.palisadestahoe.com/",
       "status": "failed",
       "statusCode": 200,
       "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
@@ -94,7 +94,7 @@
       }
     },
     {
-      "url": "https://snowshoemtn.com/about-us/contact",
+      "url": "https://retail.palisadestahoe.com/",
       "status": "failed",
       "statusCode": 200,
       "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
@@ -119,7 +119,7 @@
       }
     },
     {
-      "url": "https://snowshoemtn.com/about-us/contact/contractor-access",
+      "url": "https://palisadestahoe.com/plan-your-visit",
       "status": "failed",
       "statusCode": 200,
       "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
@@ -144,7 +144,7 @@
       }
     },
     {
-      "url": "https://snowshoemtn.com/plan-your-trip",
+      "url": "https://palisadestahoe.com/plan-your-visit/lodging",
       "status": "failed",
       "statusCode": 200,
       "error": "page.evaluate: ReferenceError: safePreview is not defined\n    at eval (eval at evaluate (:290:30), <anonymous>:22:22)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",

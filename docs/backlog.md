@@ -23,7 +23,6 @@ The scanner runtime feedback should show:
 - Improve handling of failed pages.
 
 ### Reporting
-- Improve Markdown report readability.
 - Add summary sections for detected vendors.
 - Add clearer confidence/evidence explanations.
 

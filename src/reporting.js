@@ -163,28 +163,138 @@ function formatEvidence(evidence) {
   return evidence?.label || evidence?.type || 'unknown';
 }
 
+function countDiscoveredUrls(finalReport) {
+  if (!Array.isArray(finalReport.discovered_urls)) return null;
+  return finalReport.discovered_urls.length;
+}
+
+function countSkippedUrls(finalReport) {
+  if (!Array.isArray(finalReport.discovered_urls)) return null;
+  return finalReport.discovered_urls.filter(url => url && url.scanned === false).length;
+}
+
+function countFailedPages(pageReports) {
+  return pageReports.filter(page => page.status === 'failed').length;
+}
+
+function pageSourceIdCount(page) {
+  return (
+    (page.sourceSignals?.htmlIds?.length || 0) +
+    (page.sourceSignals?.inlineScriptIds?.length || 0) +
+    (page.sourceSignals?.noscriptIds?.length || 0)
+  );
+}
+
+function isThinOrLowEvidencePage(page) {
+  if (!page || page.status !== 'ok') return false;
+  if (page.diagnostics?.retriedThinPage) return true;
+  return (
+    (page.networkFindings?.length || 0) === 0 &&
+    (page.scriptFindings?.length || 0) === 0 &&
+    pageSourceIdCount(page) === 0
+  );
+}
+
+function consentSummary(finalReport, pageReports) {
+  const consentConfigured = finalReport.config?.enableConsentClick;
+  const pagesWithClicks = pageReports.filter(page => (page.consentClicks || []).length > 0);
+
+  if (consentConfigured === undefined && !pagesWithClicks.length) return null;
+
+  if (consentConfigured === false) {
+    return 'Disabled for this scan.';
+  }
+
+  if (pagesWithClicks.length) {
+    return `Enabled; interaction captured on ${pagesWithClicks.length} of ${pageReports.length} page(s).`;
+  }
+
+  if (consentConfigured === true) {
+    return 'Enabled; no consent interaction was captured.';
+  }
+
+  return `Interaction captured on ${pagesWithClicks.length} page(s).`;
+}
+
+function addExecutiveSummary(lines, finalReport) {
+  const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
+  const pagesScanned = pageReports.length || (Array.isArray(finalReport.scanUrls) ? finalReport.scanUrls.length : null);
+  const discoveredUrlCount = countDiscoveredUrls(finalReport);
+  const skippedUrlCount = countSkippedUrls(finalReport);
+  const failedPageCount = countFailedPages(pageReports);
+  const thinPageCount = pageReports.filter(isThinOrLowEvidencePage).length;
+  const consentStatus = consentSummary(finalReport, pageReports);
+  const artifactLocation = finalReport.artifactLocation || finalReport.artifactsDir || finalReport.outputDir || null;
+
+  lines.push('## Executive Summary');
+  lines.push('');
+  lines.push(`- Target: ${finalReport.domain || finalReport.seedUrl || 'Not specified'}`);
+
+  if (finalReport.scanStartedAt && finalReport.scanEndedAt) {
+    lines.push(`- Scan window: ${finalReport.scanStartedAt} to ${finalReport.scanEndedAt}`);
+  } else if (finalReport.scannedAt) {
+    lines.push(`- Generated at: ${finalReport.scannedAt}`);
+  }
+
+  if (pagesScanned !== null) {
+    lines.push(`- Pages scanned: ${pagesScanned}`);
+  }
+
+  if (discoveredUrlCount !== null) {
+    lines.push(`- Discovered URLs: ${discoveredUrlCount}`);
+  }
+
+  if (skippedUrlCount !== null) {
+    lines.push(`- Skipped / not scanned URLs: ${skippedUrlCount}`);
+  }
+
+  lines.push(`- Failed pages: ${failedPageCount}`);
+  lines.push(`- Vendors detected: ${(finalReport.vendors || []).length}`);
+  lines.push(`- IDs detected: ${(finalReport.ids || []).length}`);
+
+  if (consentStatus) {
+    lines.push(`- Consent interaction: ${consentStatus}`);
+  }
+
+  if (pageReports.length) {
+    lines.push(`- Thin / low-evidence pages: ${thinPageCount}`);
+  }
+
+  if (artifactLocation) {
+    lines.push(`- Artifact location: ${artifactLocation}`);
+  }
+
+  lines.push('');
+  lines.push('This report reflects browser-visible evidence from the scanned pages only and should be reviewed by an analyst before being treated as complete.');
+  lines.push('');
+}
+
 function buildSummaryMarkdown(finalReport) {
   const lines = [];
+  const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
+  const config = finalReport.config || {};
 
   lines.push('# MarTech Scan Summary');
   lines.push('');
   lines.push(`- **Scanner version:** ${finalReport.scannerVersion || SCANNER_VERSION}`);
   lines.push(`- **Report template version:** ${finalReport.reportTemplateVersion || REPORT_TEMPLATE_VERSION}`);
-  lines.push(`- **Domain:** ${finalReport.domain}`);
-  lines.push(`- **Scanned at:** ${finalReport.scannedAt}`);
-  lines.push(`- **Pages scanned:** ${finalReport.pageReports.length}`);
-  lines.push(`- **Max pages configured:** ${finalReport.config.maxPages}`);
-  lines.push(`- **Consent click enabled:** ${finalReport.config.enableConsentClick}`);
+  lines.push(`- **Domain:** ${finalReport.domain || finalReport.seedUrl || 'Not specified'}`);
+  lines.push(`- **Scanned at:** ${finalReport.scannedAt || finalReport.scanEndedAt || 'Not specified'}`);
+  lines.push(`- **Pages scanned:** ${pageReports.length}`);
+  lines.push(`- **Max pages configured:** ${config.maxPages ?? 'Not specified'}`);
+  lines.push(`- **Consent click enabled:** ${config.enableConsentClick ?? 'Not specified'}`);
   lines.push('');
+
+  addExecutiveSummary(lines, finalReport);
 
   lines.push('## Vendors detected');
   lines.push('');
 
-  if (!finalReport.vendors.length) {
+  if (!(finalReport.vendors || []).length) {
     lines.push('No supported vendors were detected by the current rules.');
     lines.push('');
   } else {
-    for (const vendor of finalReport.vendors) {
+    for (const vendor of finalReport.vendors || []) {
       lines.push(`- **${vendor.name}** (${vendor.category}) via ${vendor.source} - evidence: ${formatEvidence(vendor.evidence)} - confidence: ${formatConfidence(vendor.confidence)}`);
     }
     lines.push('');
@@ -192,11 +302,11 @@ function buildSummaryMarkdown(finalReport) {
 
   lines.push('## IDs found');
   lines.push('');
-  if (!finalReport.ids.length) {
+  if (!(finalReport.ids || []).length) {
     lines.push('No known IDs were extracted.');
     lines.push('');
   } else {
-    for (const id of finalReport.ids) {
+    for (const id of finalReport.ids || []) {
       lines.push(`- **${id.type}:** \`${id.value}\``);
     }
     lines.push('');
@@ -205,7 +315,7 @@ function buildSummaryMarkdown(finalReport) {
   lines.push('## Page-level findings');
   lines.push('');
 
-  for (const page of finalReport.pageReports) {
+  for (const page of pageReports) {
     lines.push(`### ${page.url}`);
     lines.push(`- Status: ${page.status}`);
 
@@ -221,16 +331,22 @@ function buildSummaryMarkdown(finalReport) {
       lines.push(`- Title: ${page.title}`);
     }
 
-    if (page.consentClicks.length) {
-      lines.push(`- Consent clicks: ${page.consentClicks.join('; ')}`);
+    const consentClicks = page.consentClicks || [];
+    const networkFindings = page.networkFindings || [];
+    const scriptFindings = page.scriptFindings || [];
+    const cookies = page.cookies || [];
+    const pageGlobals = page.pageGlobals || { globals: {} };
+
+    if (consentClicks.length) {
+      lines.push(`- Consent clicks: ${consentClicks.join('; ')}`);
     }
 
-    lines.push(`- Network findings: ${page.networkFindings.length}`);
-    lines.push(`- Third-party scripts: ${page.scriptFindings.length}`);
-    lines.push(`- Cookies captured: ${page.cookies.length}`);
+    lines.push(`- Network findings: ${networkFindings.length}`);
+    lines.push(`- Third-party scripts: ${scriptFindings.length}`);
+    lines.push(`- Cookies captured: ${cookies.length}`);
 
     const globalFlags = [];
-    for (const [name, info] of Object.entries(page.pageGlobals.globals || {})) {
+    for (const [name, info] of Object.entries(pageGlobals.globals || {})) {
       if (info && info.present) globalFlags.push(name);
     }
     if (globalFlags.length) {
@@ -284,5 +400,6 @@ module.exports = {
   evidenceForSource,
   summarizeVendors,
   collectAllIds,
+  addExecutiveSummary,
   buildSummaryMarkdown,
 };

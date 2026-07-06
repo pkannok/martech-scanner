@@ -1,6 +1,6 @@
 {
-  "scannerVersion": "0.1.2",
-  "reportTemplateVersion": "2.3",
+  "scannerVersion": "0.2.0",
+  "reportTemplateVersion": "2.4",
   "domain": "https://traderjoes.com",
   "scannedAt": "2026-03-31T16:58:19.278Z",
   "config": {
@@ -3829,52 +3829,152 @@
     {
       "name": "Adobe Launch",
       "category": "tag_manager",
-      "source": "network"
+      "source": "network",
+      "evidence": {
+        "type": "observed_firing",
+        "label": "observed firing",
+        "reason": "A browser request to a known vendor endpoint was observed during the scan."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.95,
+        "reason": "Observed browser request matched a known vendor endpoint."
+      }
     },
     {
       "name": "Google Tag Manager",
       "category": "tag_manager",
-      "source": "network"
+      "source": "network",
+      "evidence": {
+        "type": "observed_firing",
+        "label": "observed firing",
+        "reason": "A browser request to a known vendor endpoint was observed during the scan."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.95,
+        "reason": "Observed browser request matched a known vendor endpoint."
+      }
     },
     {
       "name": "Adobe Analytics / Experience Cloud",
       "category": "analytics",
-      "source": "network"
+      "source": "network",
+      "evidence": {
+        "type": "observed_firing",
+        "label": "observed firing",
+        "reason": "A browser request to a known vendor endpoint was observed during the scan."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.95,
+        "reason": "Observed browser request matched a known vendor endpoint."
+      }
     },
     {
       "name": "Google Analytics",
       "category": "analytics",
-      "source": "network"
+      "source": "network",
+      "evidence": {
+        "type": "observed_firing",
+        "label": "observed firing",
+        "reason": "A browser request to a known vendor endpoint was observed during the scan."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.95,
+        "reason": "Observed browser request matched a known vendor endpoint."
+      }
     },
     {
       "name": "Google Analytics",
       "category": "analytics",
-      "source": "script"
+      "source": "script",
+      "evidence": {
+        "type": "present_in_source",
+        "label": "present in source",
+        "reason": "A third-party script URL matching a known vendor rule was present on the page."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.85,
+        "reason": "Loaded third-party script URL matched a known vendor rule."
+      }
     },
     {
       "name": "Google Tag Manager",
       "category": "tag_manager",
-      "source": "script"
+      "source": "script",
+      "evidence": {
+        "type": "present_in_source",
+        "label": "present in source",
+        "reason": "A third-party script URL matching a known vendor rule was present on the page."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.85,
+        "reason": "Loaded third-party script URL matched a known vendor rule."
+      }
     },
     {
       "name": "Adobe Launch",
       "category": "tag_manager",
-      "source": "script"
+      "source": "script",
+      "evidence": {
+        "type": "present_in_source",
+        "label": "present in source",
+        "reason": "A third-party script URL matching a known vendor rule was present on the page."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.85,
+        "reason": "Loaded third-party script URL matched a known vendor rule."
+      }
     },
     {
       "name": "Google Analytics",
       "category": "analytics",
-      "source": "source_code"
+      "source": "source_code",
+      "evidence": {
+        "type": "inferred",
+        "label": "inferred",
+        "reason": "The vendor was inferred from vendor-specific IDs or globals found in page source."
+      },
+      "confidence": {
+        "level": "medium",
+        "score": 0.65,
+        "reason": "Vendor-specific ID or global was present in page source."
+      }
     },
     {
       "name": "Google Tag Manager",
       "category": "tag_manager",
-      "source": "source_code"
+      "source": "source_code",
+      "evidence": {
+        "type": "inferred",
+        "label": "inferred",
+        "reason": "The vendor was inferred from vendor-specific IDs or globals found in page source."
+      },
+      "confidence": {
+        "level": "medium",
+        "score": 0.65,
+        "reason": "Vendor-specific ID or global was present in page source."
+      }
     },
     {
       "name": "Google Ads / DoubleClick",
       "category": "media_pixel",
-      "source": "network"
+      "source": "network",
+      "evidence": {
+        "type": "observed_firing",
+        "label": "observed firing",
+        "reason": "A browser request to a known vendor endpoint was observed during the scan."
+      },
+      "confidence": {
+        "level": "high",
+        "score": 0.95,
+        "reason": "Observed browser request matched a known vendor endpoint."
+      }
     }
   ],
   "ids": [

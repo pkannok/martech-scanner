@@ -30,23 +30,24 @@ It does **not** currently use:
 
 ## Version
 
-Current version: `v0.1.2`
+Current version: `v0.2.0`
 Status: Internal development / teammate testing
-Current focus: Helping internal teammates install, run, and interpret their first scan safely.
+Current focus: Making generated Markdown reports easier for analysts to review quickly.
 
 ### Recently completed
 
 - Added CLI help and friendly input validation.
 - Added package-backed `--version` output.
-- Distinguished scanner version from report template version `2.3` in generated JSON and Markdown reports.
+- Distinguished scanner version from report template version `2.4` in generated JSON and Markdown reports.
 - Added a teammate-first quick start, first-scan walkthrough, troubleshooting guidance, and interpretation notes.
+- Added an analyst-friendly Executive Summary near the top of generated Markdown reports.
 
 MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
 
 Version history is tracked in `CHANGELOG.md`.
 
 The product version comes from `package.json`. Generated reports separately identify
-report template version `2.3`, which describes report structure rather than the scanner release.
+report template version `2.4`, which describes report structure rather than the scanner release.
 
 ## Development Workflow
 
@@ -304,6 +305,8 @@ Each scan writes:
 - a Markdown summary file
 
 By default these are written to `./output`.
+
+The Markdown summary starts with an Executive Summary for quick analyst review. It highlights the target, generated timestamp, page/discovery counts, failed-page count, detected vendor and ID counts, consent-interaction status when available, and a caveat that findings reflect browser-visible evidence from the scanned pages only.
 
 When a page looks unusually thin, the scanner can also write retry artifacts such as HAR and trace files to `./output/artifacts`.
 
