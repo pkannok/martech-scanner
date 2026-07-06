@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.6
+- **Report template version:** 2.7
 - **Domain:** https://beckons.com
 - **Scanned at:** 2026-04-21T20:07:38.779Z
 - **Pages scanned:** 6
@@ -78,6 +78,61 @@ Evidence type describes where the scanner saw a signal. It does not, by itself, 
 - **Iframe / noscript evidence:** Iframe URLs or noscript blocks exposed known IDs or vendor-related source signals. Limitation: Often reflects fallback or embedded markup; review alongside network and script evidence before drawing conclusions.
 - **Global object evidence:** Known browser globals such as data layers or tag-manager objects were present on the page. Limitation: Shows that a page-level object exists, but not that any destination received data.
 - **Inferred / rule-match evidence:** A vendor was inferred from source-level IDs, globals, or rule matches rather than a direct observed vendor request. Limitation: Useful for triage, but should be verified before treating it as a confirmed live implementation.
+
+## Detected Vendors by Category
+
+Vendors are grouped by the scanner category attached to each detected rule. These are detected or observed signals, not proof of complete installation.
+
+### Tag Management
+
+- **Google Tag Manager**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GTM Container ID: GTM-PC3TL92D
+  - Pages: 6 page(s); first seen: https://beckons.com
+
+### Analytics
+
+- **Adobe Analytics / Experience Cloud**
+  - Evidence types: Network evidence
+  - IDs: none detected
+  - Pages: 6 page(s); first seen: https://beckons.com
+- **Google Analytics**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GA4 Measurement ID: G-G5Y3RBXDG8
+  - Pages: 6 page(s); first seen: https://beckons.com
+
+### Media / Advertising
+
+- **Google Ads / DoubleClick**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: Google Ads ID: AW-17911345596; GA4 Measurement ID: G-G5Y3RBXDG8; DoubleClick Advertiser ID: DC-16510922
+  - Pages: 6 page(s); first seen: https://beckons.com
+- **Meta Pixel**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: Facebook Pixel ID: 633710700486705
+  - Pages: 6 page(s); first seen: https://beckons.com
+- **The Trade Desk**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: The Trade Desk Advertiser ID: fypp50u; The Trade Desk Advertiser ID: aam
+  - Pages: 6 page(s); first seen: https://beckons.com
+- **TikTok Pixel**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: TikTok Pixel ID: D4T4CDJC77U9L5PIV3O0
+  - Pages: 6 page(s); first seen: https://beckons.com
+
+### Ecommerce / Platform
+
+- **WordPress**
+  - Evidence types: Network evidence
+  - IDs: none detected
+  - Pages: 6 page(s); first seen: https://beckons.com
+
+### Personalization / Experimentation
+
+- **Hotjar**
+  - Evidence types: Network evidence, Script evidence
+  - IDs: none detected
+  - Pages: 6 page(s); first seen: https://beckons.com
 
 ## Vendors detected
 

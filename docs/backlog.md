@@ -23,7 +23,7 @@ The scanner runtime feedback should show:
 - Improve handling of failed pages.
 
 ### Reporting
-- Add summary sections for detected vendors.
+- Extract analyst-facing vendor category mapping into a shared configuration module.
 - Normalize evidence-origin metadata across all ID extraction paths.
 - Track explicit skip reasons for discovered URLs that are not selected.
 

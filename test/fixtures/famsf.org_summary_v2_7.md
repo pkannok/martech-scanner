@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.6
+- **Report template version:** 2.7
 - **Domain:** https://famsf.org
 - **Scanned at:** 2026-03-19T19:23:24.714Z
 - **Pages scanned:** 6
@@ -89,6 +89,57 @@ Evidence type describes where the scanner saw a signal. It does not, by itself, 
 - **Iframe / noscript evidence:** Iframe URLs or noscript blocks exposed known IDs or vendor-related source signals. Limitation: Often reflects fallback or embedded markup; review alongside network and script evidence before drawing conclusions.
 - **Global object evidence:** Known browser globals such as data layers or tag-manager objects were present on the page. Limitation: Shows that a page-level object exists, but not that any destination received data.
 - **Inferred / rule-match evidence:** A vendor was inferred from source-level IDs, globals, or rule matches rather than a direct observed vendor request. Limitation: Useful for triage, but should be verified before treating it as a confirmed live implementation.
+
+## Detected Vendors by Category
+
+Vendors are grouped by the scanner category attached to each detected rule. These are detected or observed signals, not proof of complete installation.
+
+### Tag Management
+
+- **Google Tag Manager**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GTM Container ID: GTM-KF3V7ZD
+  - Pages: 2 page(s); first seen: https://famsf.org
+
+### Analytics
+
+- **Google Analytics**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GA4 Measurement ID: G-XD8ZY7FJG6; GTM Container ID: GTM-KF3V7ZD; UA Property ID: UA-936475-3
+  - Pages: 2 page(s); first seen: https://famsf.org
+
+### Media / Advertising
+
+- **Google Ads / DoubleClick**
+  - Evidence types: Network evidence, Script evidence
+  - IDs: GA4 Measurement ID: G-XD8ZY7FJG6; Google Ads ID: AW-661513348
+  - Pages: 2 page(s); first seen: https://famsf.org
+- **Meta Pixel**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: Facebook Pixel ID: 1888698; Facebook Pixel ID: 1809781; Facebook Pixel ID: 1809799
+  - Pages: 2 page(s); first seen: https://famsf.org
+- **Pinterest Tag**
+  - Evidence types: Network evidence, Script evidence
+  - IDs: Pinterest Tag ID: 2613646378106
+  - Pages: 1 page(s); first seen: https://famsf.org
+- **TikTok Pixel**
+  - Evidence types: Network evidence
+  - IDs: none detected
+  - Pages: 1 page(s); first seen: https://shop.famsf.org/
+
+### Ecommerce / Platform
+
+- **Shopify**
+  - Evidence types: Network evidence, Script evidence
+  - IDs: none detected
+  - Pages: 1 page(s); first seen: https://shop.famsf.org/
+
+### Personalization / Experimentation
+
+- **Hotjar**
+  - Evidence types: Network evidence, Script evidence
+  - IDs: none detected
+  - Pages: 2 page(s); first seen: https://famsf.org
 
 ## Vendors detected
 

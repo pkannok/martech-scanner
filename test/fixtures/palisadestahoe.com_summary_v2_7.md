@@ -1,17 +1,17 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.6
-- **Domain:** https://snowshoemtn.com
-- **Scanned at:** 2026-04-21T18:35:47.076Z
+- **Report template version:** 2.7
+- **Domain:** https://palisadestahoe.com
+- **Scanned at:** 2026-04-21T18:35:54.318Z
 - **Pages scanned:** 6
 - **Max pages configured:** 6
 - **Consent click enabled:** true
 
 ## Executive Summary
 
-- Target: https://snowshoemtn.com
-- Generated at: 2026-04-21T18:35:47.076Z
+- Target: https://palisadestahoe.com
+- Generated at: 2026-04-21T18:35:54.318Z
 - Pages scanned: 6
 - Failed pages: 6
 - Vendors detected: 0
@@ -25,7 +25,7 @@ This report reflects browser-visible evidence from the scanned pages only and sh
 
 Coverage is limited to the URLs discovered and selected during this run.
 
-- Seed / target: https://snowshoemtn.com
+- Seed / target: https://palisadestahoe.com
 - Total pages scanned: 6
 - Total URLs discovered: not recorded
 - Discovered but not scanned: not recorded
@@ -34,42 +34,42 @@ Coverage is limited to the URLs discovered and selected during this run.
 
 ### Scanned Pages
 
-- https://snowshoemtn.com
+- https://palisadestahoe.com
   - Status: failed; HTTP: 200
   - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
   - Notes: navigation failure; error: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
-- https://blog.snowshoemtn.com/
+- https://blog.palisadestahoe.com/
   - Status: failed; HTTP: 200
   - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
   - Notes: navigation failure; error: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
-- http://photo.snowshoemtn.com/
+- https://future.palisadestahoe.com/
   - Status: failed; HTTP: 200
   - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
   - Notes: navigation failure; error: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
-- https://snowshoemtn.com/about-us/contact
+- https://retail.palisadestahoe.com/
   - Status: failed; HTTP: 200
   - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
   - Notes: navigation failure; error: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
-- https://snowshoemtn.com/about-us/contact/contractor-access
+- https://palisadestahoe.com/plan-your-visit
   - Status: failed; HTTP: 200
   - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
   - Notes: navigation failure; error: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
-- https://snowshoemtn.com/plan-your-trip
+- https://palisadestahoe.com/plan-your-visit/lodging
   - Status: failed; HTTP: 200
   - Evidence counts: 0 network, 0 scripts, 0 source IDs, 0 cookies
   - Notes: navigation failure; error: page.evaluate: ReferenceError: safePreview is not defined
@@ -83,37 +83,37 @@ Discovery metadata was not recorded for this report.
 
 ### Failed or Partial Pages
 
-- https://snowshoemtn.com
+- https://palisadestahoe.com
   - Reason: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
   - Partial evidence captured: no
-- https://blog.snowshoemtn.com/
+- https://blog.palisadestahoe.com/
   - Reason: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
   - Partial evidence captured: no
-- http://photo.snowshoemtn.com/
+- https://future.palisadestahoe.com/
   - Reason: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
   - Partial evidence captured: no
-- https://snowshoemtn.com/about-us/contact
+- https://retail.palisadestahoe.com/
   - Reason: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
   - Partial evidence captured: no
-- https://snowshoemtn.com/about-us/contact/contractor-access
+- https://palisadestahoe.com/plan-your-visit
   - Reason: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
     at UtilityScript.<anonymous> (<anonymous>:1:44)
   - Partial evidence captured: no
-- https://snowshoemtn.com/plan-your-trip
+- https://palisadestahoe.com/plan-your-visit/lodging
   - Reason: page.evaluate: ReferenceError: safePreview is not defined
     at eval (eval at evaluate (:290:30), <anonymous>:22:22)
     at UtilityScript.evaluate (<anonymous>:292:16)
@@ -123,6 +123,10 @@ Discovery metadata was not recorded for this report.
 ## Evidence Type Guide
 
 No labeled evidence types were present in this report.
+
+## Detected Vendors by Category
+
+No supported vendors were detected by the current rules.
 
 ## Vendors detected
 
@@ -134,7 +138,7 @@ No known IDs were extracted.
 
 ## Page-level findings
 
-### https://snowshoemtn.com
+### https://palisadestahoe.com
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -146,7 +150,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://blog.snowshoemtn.com/
+### https://blog.palisadestahoe.com/
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -158,7 +162,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### http://photo.snowshoemtn.com/
+### https://future.palisadestahoe.com/
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -170,7 +174,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://snowshoemtn.com/about-us/contact
+### https://retail.palisadestahoe.com/
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -182,7 +186,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://snowshoemtn.com/about-us/contact/contractor-access
+### https://palisadestahoe.com/plan-your-visit
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined
@@ -194,7 +198,7 @@ No known IDs were extracted.
 - Cookies captured: 0
 - Source-derived IDs: 0
 
-### https://snowshoemtn.com/plan-your-trip
+### https://palisadestahoe.com/plan-your-visit/lodging
 - Status: failed
 - HTTP status: 200
 - Error: page.evaluate: ReferenceError: safePreview is not defined

@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.6
+- **Report template version:** 2.7
 - **Domain:** https://traderjoes.com
 - **Scanned at:** 2026-03-31T16:58:19.278Z
 - **Pages scanned:** 6
@@ -78,6 +78,39 @@ Evidence type describes where the scanner saw a signal. It does not, by itself, 
 - **Iframe / noscript evidence:** Iframe URLs or noscript blocks exposed known IDs or vendor-related source signals. Limitation: Often reflects fallback or embedded markup; review alongside network and script evidence before drawing conclusions.
 - **Global object evidence:** Known browser globals such as data layers or tag-manager objects were present on the page. Limitation: Shows that a page-level object exists, but not that any destination received data.
 - **Inferred / rule-match evidence:** A vendor was inferred from source-level IDs, globals, or rule matches rather than a direct observed vendor request. Limitation: Useful for triage, but should be verified before treating it as a confirmed live implementation.
+
+## Detected Vendors by Category
+
+Vendors are grouped by the scanner category attached to each detected rule. These are detected or observed signals, not proof of complete installation.
+
+### Tag Management
+
+- **Adobe Launch**
+  - Evidence types: Network evidence, Script evidence
+  - IDs: none detected
+  - Pages: 5 page(s); first seen: https://traderjoes.com
+- **Google Tag Manager**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GTM Container ID: GTM-PK37XV6; GTM Container ID: GTM-TZMMWGR
+  - Pages: 6 page(s); first seen: https://traderjoes.com
+
+### Analytics
+
+- **Adobe Analytics / Experience Cloud**
+  - Evidence types: Network evidence
+  - IDs: none detected
+  - Pages: 5 page(s); first seen: https://traderjoes.com
+- **Google Analytics**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GA4 Measurement ID: G-2HMPBJHQ41; UA Property ID: UA-15671700-1; GA4 Measurement ID: G-PVSN19270R; UA Property ID: UA-100422848-1; GA4 Measurement ID: G-2KLNSNQXP1; GA4 Measurement ID: G-Y0LZ6ZMCVR
+  - Pages: 6 page(s); first seen: https://traderjoes.com
+
+### Media / Advertising
+
+- **Google Ads / DoubleClick**
+  - Evidence types: Network evidence
+  - IDs: GA4 Measurement ID: G-PVSN19270R
+  - Pages: 1 page(s); first seen: https://locations.traderjoes.com/
 
 ## Vendors detected
 

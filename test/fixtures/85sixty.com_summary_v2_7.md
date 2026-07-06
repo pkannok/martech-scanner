@@ -1,7 +1,7 @@
 # MarTech Scan Summary
 
 - **Scanner version:** 0.3.0
-- **Report template version:** 2.6
+- **Report template version:** 2.7
 - **Domain:** https://85sixty.com
 - **Scanned at:** 2026-03-18T23:46:05.630Z
 - **Pages scanned:** 6
@@ -78,6 +78,42 @@ Evidence type describes where the scanner saw a signal. It does not, by itself, 
 - **Iframe / noscript evidence:** Iframe URLs or noscript blocks exposed known IDs or vendor-related source signals. Limitation: Often reflects fallback or embedded markup; review alongside network and script evidence before drawing conclusions.
 - **Global object evidence:** Known browser globals such as data layers or tag-manager objects were present on the page. Limitation: Shows that a page-level object exists, but not that any destination received data.
 - **Inferred / rule-match evidence:** A vendor was inferred from source-level IDs, globals, or rule matches rather than a direct observed vendor request. Limitation: Useful for triage, but should be verified before treating it as a confirmed live implementation.
+
+## Detected Vendors by Category
+
+Vendors are grouped by the scanner category attached to each detected rule. These are detected or observed signals, not proof of complete installation.
+
+### Tag Management
+
+- **Google Tag Manager**
+  - Evidence types: Network evidence, Script evidence, Source evidence
+  - IDs: GTM Container ID: GTM-PLSL6GS
+  - Pages: 6 page(s); first seen: https://85sixty.com
+
+### Analytics
+
+- **Adobe Analytics / Experience Cloud**
+  - Evidence types: Network evidence
+  - IDs: none detected
+  - Pages: 3 page(s); first seen: https://www.85sixty.com/shopify-plus-agency-partner/
+- **Google Analytics**
+  - Evidence types: Script evidence, Source evidence, Network evidence
+  - IDs: GA4 Measurement ID: G-CYPTKEVWNP
+  - Pages: 6 page(s); first seen: https://85sixty.com
+
+### Media / Advertising
+
+- **Google Ads / DoubleClick**
+  - Evidence types: Script evidence, Source evidence, Network evidence
+  - IDs: Google Ads ID: AW-986765357
+  - Pages: 6 page(s); first seen: https://85sixty.com
+
+### Ecommerce / Platform
+
+- **WordPress**
+  - Evidence types: Network evidence
+  - IDs: none detected
+  - Pages: 6 page(s); first seen: https://85sixty.com
 
 ## Vendors detected
 

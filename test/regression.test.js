@@ -4,12 +4,12 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 function loadFixture(name) {
-  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_6.json`);
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_results_v2_7.json`);
   return JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
 }
 
 function loadSummaryFixture(name) {
-  const fixturePath = path.join(__dirname, 'fixtures', `${name}_summary_v2_6.md`);
+  const fixturePath = path.join(__dirname, 'fixtures', `${name}_summary_v2_7.md`);
   return fs.readFileSync(fixturePath, 'utf8');
 }
 
@@ -37,7 +37,7 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
     const report = loadFixture(name);
 
     assert.equal(report.scannerVersion, '0.3.0');
-    assert.equal(report.reportTemplateVersion, '2.6');
+    assert.equal(report.reportTemplateVersion, '2.7');
     assert.match(report.domain, /^https:\/\//);
     assert.equal(Array.isArray(report.scanUrls), true);
     assert.equal(Array.isArray(report.pageReports), true);
@@ -50,6 +50,20 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
     assertUnique(report.vendors, vendor => `${vendor.name}|${vendor.category}|${vendor.source}`, `${name} vendors should already be deduped`);
     assertUnique(report.ids, id => `${id.type}|${id.value}`, `${name} ids should already be deduped`);
   }
+});
+
+test('saved summary fixtures include vendors grouped by category', () => {
+  const summary = loadSummaryFixture('beckons.com');
+
+  assert.match(summary, /## Detected Vendors by Category/);
+  assert.match(summary, /### Tag Management/);
+  assert.match(summary, /- \*\*Google Tag Manager\*\*/);
+  assert.match(summary, /### Analytics/);
+  assert.match(summary, /- \*\*Google Analytics\*\*/);
+  assert.match(summary, /### Media \/ Advertising/);
+  assert.match(summary, /- \*\*Meta Pixel\*\*/);
+  assert.match(summary, /  - Evidence types: Network evidence, Script evidence, Source evidence/);
+  assert.match(summary, /  - Pages: 6 page\(s\); first seen: https:\/\/beckons\.com/);
 });
 
 test('saved summary fixtures include evidence guide and evidence type labels', () => {
