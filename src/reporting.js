@@ -3,6 +3,29 @@ const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
 
 const COVERAGE_LIST_LIMIT = 20;
 
+const VENDOR_CATEGORY_ORDER = [
+  'Tag Management',
+  'Analytics',
+  'Media / Advertising',
+  'Consent / CMP',
+  'Ecommerce / Platform',
+  'Personalization / Experimentation',
+  'Customer Data / CDP',
+  'Other / Uncategorized',
+];
+
+const VENDOR_CATEGORY_LABELS = {
+  tag_manager: 'Tag Management',
+  analytics: 'Analytics',
+  media_pixel: 'Media / Advertising',
+  consent: 'Consent / CMP',
+  ecommerce: 'Ecommerce / Platform',
+  cms: 'Ecommerce / Platform',
+  experimentation: 'Personalization / Experimentation',
+  session_replay: 'Personalization / Experimentation',
+  customer_data_platform: 'Customer Data / CDP',
+};
+
 const EVIDENCE_TYPE_GUIDE = {
   network: {
     label: 'Network evidence',
@@ -193,6 +216,131 @@ function formatEvidenceTypes(types) {
   const uniqueTypes = dedupeBy((types || []).filter(Boolean), x => x);
   if (!uniqueTypes.length) return 'not labeled';
   return uniqueTypes.map(evidenceTypeLabel).join(', ');
+}
+
+function vendorCategoryLabel(category) {
+  return VENDOR_CATEGORY_LABELS[category] || 'Other / Uncategorized';
+}
+
+function sourceToEvidenceType(source) {
+  if (source === 'source_code') return 'source';
+  return source || null;
+}
+
+function sourceIdsForTypes(report, types) {
+  const wanted = new Set(types);
+  return [
+    ...(report.sourceSignals?.htmlIds || []),
+    ...(report.sourceSignals?.inlineScriptIds || []),
+    ...(report.sourceSignals?.noscriptIds || []),
+  ].filter(id => wanted.has(id.type));
+}
+
+function addVendorCategoryEvidence(vendorMap, vendor, page, source, ids = []) {
+  if (!vendor?.name) return;
+
+  const key = `${vendor.name}|${vendor.category || ''}`;
+  const existing = vendorMap.get(key) || {
+    name: vendor.name,
+    category: vendor.category || 'uncategorized',
+    categoryLabel: vendorCategoryLabel(vendor.category),
+    evidenceTypes: [],
+    ids: [],
+    pages: [],
+  };
+
+  existing.evidenceTypes = dedupeBy(
+    [...existing.evidenceTypes, sourceToEvidenceType(source)].filter(Boolean),
+    x => x
+  );
+  existing.ids = dedupeBy([...existing.ids, ...(ids || [])], id => `${id.type}|${id.value}`);
+  if (page?.url && !existing.pages.includes(page.url)) {
+    existing.pages.push(page.url);
+  }
+
+  vendorMap.set(key, existing);
+}
+
+function addSourceVendorCategoryEvidence(vendorMap, page) {
+  const sourceVendorIds = [
+    {
+      vendor: { name: 'Google Analytics', category: 'analytics' },
+      ids: sourceIdsForTypes(page, ['GA4 Measurement ID', 'UA Property ID']),
+    },
+    {
+      vendor: { name: 'Google Ads / DoubleClick', category: 'media_pixel' },
+      ids: sourceIdsForTypes(page, ['Google Ads ID', 'DoubleClick Advertiser ID']),
+    },
+    {
+      vendor: { name: 'Meta Pixel', category: 'media_pixel' },
+      ids: sourceIdsForTypes(page, ['Facebook Pixel ID']),
+    },
+    {
+      vendor: { name: 'TikTok Pixel', category: 'media_pixel' },
+      ids: sourceIdsForTypes(page, ['TikTok Pixel ID']),
+    },
+    {
+      vendor: { name: 'The Trade Desk', category: 'media_pixel' },
+      ids: sourceIdsForTypes(page, ['The Trade Desk Advertiser ID']),
+    },
+    {
+      vendor: { name: 'Google Tag Manager', category: 'tag_manager' },
+      ids: sourceIdsForTypes(page, ['GTM Container ID']),
+      hasSignal: page.sourceSignals?.googleGlobals?.google_tag_manager,
+    },
+  ];
+
+  for (const item of sourceVendorIds) {
+    if (item.ids.length || item.hasSignal) {
+      addVendorCategoryEvidence(vendorMap, item.vendor, page, 'source_code', item.ids);
+    }
+  }
+}
+
+function collectVendorsByCategory(finalReport) {
+  const vendorMap = new Map();
+  const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
+
+  for (const page of pageReports) {
+    for (const finding of page.networkFindings || []) {
+      addVendorCategoryEvidence(vendorMap, finding.vendor, page, 'network', finding.ids || []);
+    }
+
+    for (const script of page.scriptFindings || []) {
+      for (const vendor of script.detectedVendors || []) {
+        addVendorCategoryEvidence(vendorMap, vendor, page, 'script', script.ids || []);
+      }
+    }
+
+    addSourceVendorCategoryEvidence(vendorMap, page);
+  }
+
+  for (const vendor of finalReport.vendors || []) {
+    addVendorCategoryEvidence(vendorMap, vendor, null, vendor.source, []);
+  }
+
+  const grouped = new Map(VENDOR_CATEGORY_ORDER.map(category => [category, []]));
+
+  for (const vendor of vendorMap.values()) {
+    if (!grouped.has(vendor.categoryLabel)) grouped.set('Other / Uncategorized', []);
+    grouped.get(vendor.categoryLabel).push({
+      ...vendor,
+      ids: dedupeBy(vendor.ids, id => `${id.type}|${id.value}`),
+      pageCount: vendor.pages.length,
+      firstSeenPage: vendor.pages[0] || null,
+    });
+  }
+
+  for (const vendors of grouped.values()) {
+    vendors.sort((a, b) => a.name.localeCompare(b.name) || a.category.localeCompare(b.category));
+  }
+
+  return grouped;
+}
+
+function formatVendorIds(ids) {
+  if (!ids?.length) return 'none detected';
+  return ids.map(id => `${id.type}: ${id.value}`).join('; ');
 }
 
 function addIdEvidence(idMap, id, evidenceType) {
@@ -494,6 +642,43 @@ function addEvidenceTypeGuide(lines, finalReport) {
   lines.push('');
 }
 
+function addDetectedVendorsByCategory(lines, finalReport) {
+  const grouped = collectVendorsByCategory(finalReport);
+  const hasVendors = [...grouped.values()].some(vendors => vendors.length > 0);
+
+  lines.push('## Detected Vendors by Category');
+  lines.push('');
+
+  if (!hasVendors) {
+    lines.push('No supported vendors were detected by the current rules.');
+    lines.push('');
+    return;
+  }
+
+  lines.push('Vendors are grouped by the scanner category attached to each detected rule. These are detected or observed signals, not proof of complete installation.');
+  lines.push('');
+
+  for (const category of VENDOR_CATEGORY_ORDER) {
+    const vendors = grouped.get(category) || [];
+    if (!vendors.length) continue;
+
+    lines.push(`### ${category}`);
+    lines.push('');
+
+    for (const vendor of vendors) {
+      const pageSummary = vendor.pageCount > 0
+        ? `${vendor.pageCount} page(s); first seen: ${vendor.firstSeenPage}`
+        : 'page not recorded';
+      lines.push(`- **${vendor.name}**`);
+      lines.push(`  - Evidence types: ${formatEvidenceTypes(vendor.evidenceTypes)}`);
+      lines.push(`  - IDs: ${formatVendorIds(vendor.ids)}`);
+      lines.push(`  - Pages: ${pageSummary}`);
+    }
+
+    lines.push('');
+  }
+}
+
 function addExecutiveSummary(lines, finalReport) {
   const pageReports = Array.isArray(finalReport.pageReports) ? finalReport.pageReports : [];
   const pagesScanned = pageReports.length || (Array.isArray(finalReport.scanUrls) ? finalReport.scanUrls.length : null);
@@ -566,6 +751,7 @@ function buildSummaryMarkdown(finalReport) {
   addExecutiveSummary(lines, finalReport);
   addScanCoverage(lines, finalReport);
   addEvidenceTypeGuide(lines, finalReport);
+  addDetectedVendorsByCategory(lines, finalReport);
 
   lines.push('## Vendors detected');
   lines.push('');
@@ -686,8 +872,10 @@ module.exports = {
   summarizeVendors,
   collectAllIds,
   collectIdEvidenceDetails,
+  collectVendorsByCategory,
   addExecutiveSummary,
   addScanCoverage,
   addEvidenceTypeGuide,
+  addDetectedVendorsByCategory,
   buildSummaryMarkdown,
 };

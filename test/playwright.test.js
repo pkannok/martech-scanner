@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 
 const { discoverPages } = require('../src/discovery');
-const { buildSummaryMarkdown, collectAllIds, summarizeVendors } = require('../src/reporting');
+const { buildSummaryMarkdown, collectAllIds, collectVendorsByCategory, summarizeVendors } = require('../src/reporting');
 const { buildDiscoveredUrlReport, buildReportPaths, dateStampFromIso, runScanPass } = require('../src/scanner');
 const { normalizeDomain } = require('../src/utils');
 
@@ -392,7 +392,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
 
   assert.match(markdown, /^# MarTech Scan Summary/);
   assert.match(markdown, /- \*\*Scanner version:\*\* 0\.3\.0/);
-  assert.match(markdown, /- \*\*Report template version:\*\* 2\.6/);
+  assert.match(markdown, /- \*\*Report template version:\*\* 2\.7/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
   assert.match(markdown, /## Executive Summary/);
   assert.match(markdown, /- Target: https:\/\/example\.test/);
@@ -436,9 +436,65 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   assert.match(markdown, /- \*\*Google Analytics\*\* \(analytics\) via source_code - evidence type: Source evidence \(inferred\) - confidence: medium \(65%\)/);
   assert.match(markdown, /- \*\*Facebook Pixel ID:\*\* `123456789012345` - evidence type: Network evidence/);
   assert.match(markdown, /- \*\*GA4 Measurement ID:\*\* `G-LOCAL123` - evidence type: Script evidence, Source evidence/);
+  assert.match(markdown, /## Detected Vendors by Category/);
+  assert.match(markdown, /### Analytics/);
+  assert.match(markdown, /- \*\*Google Analytics\*\*/);
+  assert.match(markdown, /  - Evidence types: Script evidence, Source evidence/);
+  assert.match(markdown, /  - IDs: GA4 Measurement ID: G-LOCAL123/);
+  assert.match(markdown, /  - Pages: 1 page\(s\); first seen: https:\/\/example\.test\//);
+  assert.match(markdown, /### Media \/ Advertising/);
+  assert.match(markdown, /- \*\*Meta Pixel\*\*/);
+  assert.match(markdown, /  - Evidence types: Network evidence/);
+  assert.match(markdown, /  - IDs: Facebook Pixel ID: 123456789012345/);
   assert.match(markdown, /- Consent clicks: accept all/);
   assert.match(markdown, /- Error: net::ERR_CONNECTION_REFUSED/);
   assert.match(markdown, /  - GA4 Measurement ID: G-LOCAL123 \(Source evidence\)/);
+});
+
+test('collectVendorsByCategory groups known and unknown vendor categories deterministically', () => {
+  const finalReport = {
+    vendors: [
+      {
+        name: 'Mystery Vendor',
+        category: 'custom_unknown',
+        source: 'network',
+      },
+    ],
+    pageReports: [
+      {
+        url: 'https://example.test/',
+        networkFindings: [
+          {
+            vendor: { name: 'Google Tag Manager', category: 'tag_manager' },
+            ids: [{ type: 'GTM Container ID', value: 'GTM-LOCAL1' }],
+          },
+          {
+            vendor: { name: 'Shopify', category: 'ecommerce' },
+            ids: [],
+          },
+        ],
+        scriptFindings: [
+          {
+            detectedVendors: [{ name: 'Optimizely', category: 'experimentation' }],
+            ids: [],
+          },
+        ],
+        sourceSignals: {
+          googleGlobals: {},
+          htmlIds: [],
+          inlineScriptIds: [],
+          noscriptIds: [],
+        },
+      },
+    ],
+  };
+
+  const grouped = collectVendorsByCategory(finalReport);
+
+  assert.equal(grouped.get('Tag Management')[0].name, 'Google Tag Manager');
+  assert.equal(grouped.get('Ecommerce / Platform')[0].name, 'Shopify');
+  assert.equal(grouped.get('Personalization / Experimentation')[0].name, 'Optimizely');
+  assert.equal(grouped.get('Other / Uncategorized')[0].name, 'Mystery Vendor');
 });
 
 test('buildSummaryMarkdown caps long coverage lists', () => {
