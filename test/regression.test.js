@@ -31,7 +31,7 @@ test('saved scan fixtures keep a stable top-level report shape', () => {
   ]) {
     const report = loadFixture(name);
 
-    assert.equal(report.scannerVersion, '0.1.1');
+    assert.equal(report.scannerVersion, '0.1.2');
     assert.equal(report.reportTemplateVersion, '2.3');
     assert.match(report.domain, /^https:\/\//);
     assert.equal(Array.isArray(report.scanUrls), true);

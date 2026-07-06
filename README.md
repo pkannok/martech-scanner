@@ -30,15 +30,16 @@ It does **not** currently use:
 
 ## Version
 
-Current version: `v0.1.1`
+Current version: `v0.1.2`
 Status: Internal development / teammate testing
-Current focus: Improving teammate-facing CLI usability and maintaining consistent scanner and report version metadata.
+Current focus: Helping internal teammates install, run, and interpret their first scan safely.
 
 ### Recently completed
 
 - Added CLI help and friendly input validation.
 - Added package-backed `--version` output.
-- Distinguished scanner version `0.1.1` from report template version `2.3` in generated JSON and Markdown reports.
+- Distinguished scanner version from report template version `2.3` in generated JSON and Markdown reports.
+- Added a teammate-first quick start, first-scan walkthrough, troubleshooting guidance, and interpretation notes.
 
 MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
 
@@ -178,52 +179,101 @@ Placeholder for a future sanitized sample report.
 
 ## Requirements
 
-- Node.js 18+ recommended
-- npm
-- Playwright Chromium browser
+- Git
+- Node.js 18 or newer
+- npm (included with Node.js)
+- Enough local disk space to install Playwright's Chromium browser
 
-## Installation
+## Quick start
 
-From the project root:
+Clone the repository, install its pinned dependencies, and install the Chromium browser used by Playwright:
 
 ```bash
+git clone https://github.com/pkannok/martech-scanner.git
+cd martech-scanner
 npm install
 npx playwright install chromium
 ```
 
-## How to run
-
-Basic usage:
+Run the complete local test suite before your first scan:
 
 ```bash
-node src/scanner.js --domain=https://example.com
+npm test
 ```
 
-To see every option, default value, and additional examples:
+Run a lightweight first scan, view all CLI options, or check the installed scanner version:
 
 ```bash
+node src/scanner.js --domain=https://example.com --maxPages=1
 node src/scanner.js --help
-```
-
-To print the installed scanner version:
-
-```bash
 node src/scanner.js --version
 ```
 
-Equivalent npm script:
+The first command writes a JSON report and Markdown summary under `./output`. Generated output is ignored by Git unless it is intentionally added as a fixture or example.
+
+## First scan
+
+Use `example.com` for a safe, lightweight check that the CLI and browser work together:
 
 ```bash
-npm run scan -- --domain=https://example.com
+node src/scanner.js --domain=https://example.com --maxPages=1
 ```
 
-Useful variants:
+During the scan, the terminal reports progress and prints the final file paths. By default, expect files similar to:
+
+- `output/example.com_results_YYYYMMDD.json`
+- `output/example.com_summary_YYYYMMDD.md`
+
+If files with those names already exist, the scanner adds a counter such as `_01`. Thin-page retries may also create HAR or trace files under `output/artifacts/`.
+
+Open the Markdown summary in your editor for a readable overview. Open the JSON report when you need structured page-level evidence, discovered URLs, vendor findings, extracted IDs, or scan configuration. Replace `YYYYMMDD` with the date printed in the actual filename and open the files from your editor or file browser.
+
+## Common commands
+
+Quick one-page scan:
 
 ```bash
-node src/scanner.js --domain=https://example.com --headless=false
+node src/scanner.js --domain=https://example.com --maxPages=1
+```
+
+Scan up to eight ranked pages:
+
+```bash
 node src/scanner.js --domain=https://example.com --maxPages=8
-node src/scanner.js --domain=https://example.com --enableConsentClick=false
+```
+
+Write reports to a custom directory:
+
+```bash
 node src/scanner.js --domain=https://example.com --out=./scan-output
+```
+
+Run headlessly (default) or show the browser:
+
+```bash
+node src/scanner.js --domain=https://example.com --headless=true
+node src/scanner.js --domain=https://example.com --headless=false
+```
+
+Use the equivalent npm script:
+
+```bash
+npm run scan -- --domain=https://example.com --maxPages=1
+```
+
+Run all tests, fast tests only, or browser-backed tests only:
+
+```bash
+npm test
+npm run test:unit
+npm run test:playwright
+```
+
+View help or version information:
+
+```bash
+node src/scanner.js --help
+node src/scanner.js --version
 ```
 
 ### Command options
@@ -236,6 +286,9 @@ node src/scanner.js --domain=https://example.com --out=./scan-output
 
 - `--maxPages=8`
   Changes how many ranked discovered pages are scanned. The default is `6`.
+
+- `--timeout=60000`
+  Changes the per-navigation timeout in milliseconds. The default is `45000`; the minimum is `1000`.
 
 - `--enableConsentClick=false`
   Disables the generic consent-button click behavior.
@@ -351,20 +404,26 @@ Examples:
 - vendor-scoped Meta, LinkedIn, Pinterest, TikTok, and The Trade Desk IDs in request URLs or payloads
 - WordPress signals in paths like `/wp-content/`
 
-## Current limitations
+## How to interpret results
 
-This is still a practical POC / early internal tool, not a full production auditing platform.
+Vendor detections are based on browser-visible evidence from the pages the scanner actually visits. Runtime network requests show observed browser activity; source-code findings show that configuration or identifiers were present, but do not prove that a tag fired successfully.
 
-Known limitations:
+The scanner does not inspect GTM accounts, GA4 properties, advertising-platform accounts, CMP admin panels, server-side containers, backend systems, or private APIs. It does not prove that an implementation is complete, correctly configured, compliant, or accurately reporting conversions.
 
-- It only sees what is exposed through public browser activity.
-- It can miss tools hidden behind login, geo targeting, or deeper user flows.
-- It may miss deferred or conditionally fired tags.
-- It does not yet analyze response bodies.
-- It does not yet do comprehensive request-payload parsing for every vendor.
-- It does not yet run multiple fully separated scenarios like baseline vs post-consent vs conversion flow.
-- Confidence scoring and evidence classification are rule-based rather than a full probabilistic model.
-- HAR/trace capture is currently used for thin-page retry/debugging rather than exported for every page by default.
+Treat findings as first-pass technical evidence. An analyst should review the scanned URLs, evidence source, consent conditions, confidence labels, and relevant platform configuration before drawing conclusions or sharing results.
+
+## Known limitations
+
+- Coverage depends on which URLs are discovered and selected within the configured `maxPages` limit.
+- Not every tag fires on page load; some require consent, interaction, authentication, geography, or a deeper conversion flow.
+- Consent banners and the scanner's generic consent click may change which vendors are observed.
+- Blocked pages, navigation timeouts, rate limits, bot protection, and login requirements can reduce available evidence.
+- Source-code evidence and runtime network evidence are not equivalent; source presence does not prove observed firing.
+- The scanner can miss tools hidden behind login, geo targeting, or unscanned user journeys.
+- It does not yet analyze response bodies or comprehensively parse every vendor request payload.
+- It does not run fully separated baseline, post-consent, and conversion scenarios.
+- Confidence scoring and evidence classification are rule-based rather than probabilistic.
+- Thin-page retries may create HAR and trace artifacts, but artifacts are not exported for every page by default.
 
 ## Configuration
 
@@ -375,6 +434,50 @@ Configuration is handled through:
 - `config.js`
 - command-line flags
 - `package.json` scripts
+
+## Troubleshooting
+
+### Playwright package is missing
+
+From the repository root, install the dependencies declared in `package-lock.json`:
+
+```bash
+npm install
+```
+
+### Chromium browser is missing
+
+If Playwright reports that its browser executable does not exist, install Chromium and rerun the command:
+
+```bash
+npx playwright install chromium
+```
+
+### Domain or URL is rejected
+
+Use the required `--domain=` form with a hostname or HTTP(S) URL:
+
+```bash
+node src/scanner.js --domain=https://example.com --maxPages=1
+```
+
+Run `node src/scanner.js --help` to confirm option names and accepted values.
+
+### Navigation times out
+
+Retry with a larger timeout, expressed in milliseconds. A timeout can still indicate a blocked, unusually slow, or unavailable page.
+
+```bash
+node src/scanner.js --domain=https://example.com --maxPages=1 --timeout=60000
+```
+
+### Results are empty or thin
+
+Check each page's status and evidence in the JSON report. The site may expose little browser-visible martech, require consent or interaction, block automated browsers, or load tags only on URLs that were not scanned. A thin result is not proof that no martech exists.
+
+### Generated files or retry artifacts are hard to find
+
+The CLI prints the final JSON and Markdown paths. Without `--out`, reports are under `./output`; thin-page retry artifacts are under `./output/artifacts`. With a custom output directory, both reports and its `artifacts` subdirectory move there.
 
 ## Development notes
 
@@ -439,29 +542,6 @@ The scanner runtime feedback should show:
 - Output file location
 - Completion status
 
-## Known Limitations
+## Responsible use
 
-- The scanner is still in early development and should not be treated as production-ready.
-- Detection accuracy is expected to improve over future releases.
-- Runtime status/progress visibility may still be limited.
-- Live websites can change frequently, so manual QA results may vary.
-- Generated reports and output format may continue to evolve.
-- Example report content may be placeholder or incomplete until the report format stabilizes.
-
-## Safety and scope
-
-This tool is intended for reviewing public website behavior and browser-visible evidence only.
-
-It should be used within normal browsing boundaries and not as a penetration-testing or access-bypass tool.
-
-## Example
-
-```bash
-node src/scanner.js --domain=https://example.com --headless=false
-```
-
-This runs the scanner against `https://example.com` and shows the browser while scanning.
-
----
-
-If you expand this into a standard team tool, a good next milestone is to define a stable output schema and keep the regression fixture set current as detector rules evolve.
+Use lightweight settings such as `--maxPages=1` while learning the tool, and increase coverage only when there is a clear review need. Avoid aggressive or repeated scans. Scan only public sites where internal review is appropriate and authorized, stay within normal browsing boundaries, and never use the scanner for access bypass or penetration testing. Review reports for sensitive or misleading context before sharing them broadly.

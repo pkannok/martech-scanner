@@ -371,7 +371,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   const markdown = buildSummaryMarkdown(finalReport);
 
   assert.match(markdown, /^# MarTech Scan Summary/);
-  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.1\.1/);
+  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.1\.2/);
   assert.match(markdown, /- \*\*Report template version:\*\* 2\.3/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
   assert.match(markdown, /- \*\*Meta Pixel\*\* \(media_pixel\) via network - evidence: observed firing - confidence: high \(95%\)/);
