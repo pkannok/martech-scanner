@@ -531,6 +531,14 @@ To run only the Playwright-backed coverage:
 npm run test:playwright
 ```
 
+To run the deterministic detection-quality scenario harness:
+
+```bash
+npm run test:quality
+```
+
+The quality scenarios declare expected and explicitly absent vendors, expected evidence categories, and site architecture metadata. The harness reports missed detections, unexpected detections, and evidence gaps separately from ordinary regression assertions.
+
 Testing principles and expectations are documented in `docs/testing-strategy.md`.
 
 ## Suggested next steps

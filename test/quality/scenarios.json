@@ -1,0 +1,71 @@
+[
+  {
+    "name": "traditional-direct-script",
+    "purpose": "Detect a vendor exposed by a conventional third-party script URL.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["Google Analytics"],
+    "expectedAbsentVendors": ["Meta Pixel", "TikTok Pixel"],
+    "expectedEvidence": {
+      "Google Analytics": ["script"]
+    },
+    "activation": {
+      "mode": "none"
+    }
+  },
+  {
+    "name": "dynamic-runtime-request",
+    "purpose": "Detect a vendor request created by page JavaScript at runtime.",
+    "architecture": "dynamic",
+    "path": "/",
+    "expectedVendors": ["TikTok Pixel"],
+    "expectedAbsentVendors": ["Google Analytics", "Meta Pixel"],
+    "expectedEvidence": {
+      "TikTok Pixel": ["network"]
+    },
+    "activation": {
+      "mode": "page-load"
+    }
+  },
+  {
+    "name": "embedded-iframe-technology",
+    "purpose": "Detect a tag manager represented by an embedded iframe.",
+    "architecture": "iframe-heavy",
+    "path": "/",
+    "expectedVendors": ["Google Tag Manager"],
+    "expectedAbsentVendors": ["Meta Pixel", "TikTok Pixel"],
+    "expectedEvidence": {
+      "Google Tag Manager": ["source"]
+    },
+    "activation": {
+      "mode": "none"
+    }
+  },
+  {
+    "name": "multiple-evidence-vendors",
+    "purpose": "Aggregate independent vendors exposed through script and network evidence.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["Google Analytics", "Meta Pixel"],
+    "expectedAbsentVendors": ["TikTok Pixel", "The Trade Desk"],
+    "expectedEvidence": {
+      "Google Analytics": ["script"],
+      "Meta Pixel": ["network"]
+    },
+    "activation": {
+      "mode": "none"
+    }
+  },
+  {
+    "name": "negative-lookalike-artifacts",
+    "purpose": "Protect precision when generic IDs and lookalike URLs are present.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": [],
+    "expectedAbsentVendors": ["Google Analytics", "Google Tag Manager", "Meta Pixel", "TikTok Pixel", "The Trade Desk"],
+    "expectedEvidence": {},
+    "activation": {
+      "mode": "none"
+    }
+  }
+]
