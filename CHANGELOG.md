@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Added
+- Structured runtime progress events for scan lifecycle, discovery, page progress, retries, failures, report writing, and completion.
 - Deterministic Markdown report-output regression tests for analyst-facing report sections and edge cases.
 - Recommended Manual Review section in generated Markdown reports.
 - Detected Vendors by Category section in generated Markdown reports.

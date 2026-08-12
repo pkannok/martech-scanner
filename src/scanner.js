@@ -13,6 +13,7 @@ const {
 } = require('./utils');
 const { CliError, getHelpText, getVersionText, parseCliArgs } = require('./cli');
 const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
+const { createProgressEmitter } = require('./progress');
 
 const {
   createRequestEvidenceRecorder,
@@ -61,11 +62,6 @@ function evidenceScore(report) {
     googleSignalCount +
     globalSignalCount
   );
-}
-
-function logProgress(logger, message) {
-  if (!logger || typeof logger.log !== 'function') return;
-  logger.log(`[${nowIso()}] ${message}`);
 }
 
 function shouldRetryThinPage(report) {
@@ -230,7 +226,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
 }
 
 async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsentClick, artifactsDir, options = {}) {
-  const logger = options.logger || null;
+  const progress = options.progress || (() => {});
   const initialReport = await runScanPass(
     browser,
     baseUrl,
@@ -244,7 +240,11 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
   }
 
   const artifactSlug = pageArtifactSlug(targetUrl);
-  logProgress(logger, `Retrying thin page with richer interactions: ${targetUrl}`);
+  progress({
+    type: 'page:retry',
+    url: targetUrl,
+    reason: 'Source IDs were present but no network or third-party script findings were captured.',
+  });
   const retryReport = await runScanPass(
     browser,
     baseUrl,
@@ -278,6 +278,7 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
 
 async function main(argv = process.argv, options = {}) {
   const logger = options.logger === false ? null : options.logger || console;
+  const progress = createProgressEmitter({ logger, onProgress: options.onProgress });
   const args = parseCliArgs(argv);
   if (args.help) {
     if (logger) logger.log(getHelpText());
@@ -299,41 +300,66 @@ async function main(argv = process.argv, options = {}) {
   let discoveredUrls = [];
   let discoveredUrlReport = [];
 
-  logProgress(logger, `Starting scan for ${domain}`);
-  logProgress(logger, `Config: headless=${headless}, timeout=${timeout}ms, maxPages=${maxPages}, consentClick=${enableConsentClick}`);
-  logProgress(logger, 'Launching Chromium...');
+  progress({
+    type: 'scan:start',
+    domain,
+    config: { headless, timeout, maxPages, enableConsentClick },
+  });
+  progress({
+    type: 'scan:config',
+    message: `Config: headless=${headless}, timeout=${timeout}ms, maxPages=${maxPages}, consentClick=${enableConsentClick}`,
+  });
+  progress({ type: 'scan:phase', message: 'Launching Chromium...' });
   const browser = await chromium.launch({ headless });
 
   try {
-    logProgress(logger, 'Discovering pages...');
+    progress({ type: 'discovery:start', domain });
     discoveredUrls = await discoverPages(browser, domain, timeout);
     const scanCandidateUrls = dedupeBy([domain, ...discoveredUrls], canonicalPageKey);
     scanUrls = prioritizeScanUrls(domain, discoveredUrls, maxPages);
     const duplicateCount = Math.max(0, discoveredUrls.length + 1 - scanCandidateUrls.length);
     discoveredUrlReport = buildDiscoveredUrlReport(discoveredUrls, scanUrls);
-    logProgress(logger, `Discovered ${discoveredUrls.length} candidate URL(s); scanning ${scanUrls.length} unique page(s).`);
-    if (duplicateCount) {
-      logProgress(logger, `Skipped ${duplicateCount} duplicate URL variant(s).`);
-    }
+    progress({
+      type: 'discovery:complete',
+      domain,
+      discoveredCount: discoveredUrls.length,
+      queuedCount: scanUrls.length,
+      duplicateCount,
+    });
 
     for (const [index, url] of scanUrls.entries()) {
-      logProgress(logger, `Scanning page ${index + 1}/${scanUrls.length}: ${url}`);
-      const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir, { logger });
+      progress({ type: 'page:start', index: index + 1, total: scanUrls.length, url });
+      const report = await scanSinglePage(browser, domain, url, timeout, enableConsentClick, artifactsDir, { progress });
       pageReports.push(report);
 
       const pageVendorCount = summarizeVendors([report]).length;
       const pageIdCount = collectAllIds([report]).length;
       const httpStatus = report.statusCode === null || report.statusCode === undefined ? 'n/a' : report.statusCode;
-      const retryNote = report.diagnostics?.retriedThinPage ? ', retried=true' : '';
-      const errorNote = report.error ? `, error=${report.error.slice(0, 140)}` : '';
-      logProgress(
-        logger,
-        `Finished page ${index + 1}/${scanUrls.length}: status=${report.status}, http=${httpStatus}, vendors=${pageVendorCount}, ids=${pageIdCount}, network=${report.networkFindings.length}, scripts=${report.scriptFindings.length}${retryNote}${errorNote}`
-      );
+      const pageEvent = {
+        type: 'page:complete',
+        index: index + 1,
+        total: scanUrls.length,
+        url,
+        status: report.status,
+        statusCode: httpStatus === 'n/a' ? null : httpStatus,
+        vendorCount: pageVendorCount,
+        idCount: pageIdCount,
+        networkCount: report.networkFindings.length,
+        scriptCount: report.scriptFindings.length,
+        retried: Boolean(report.diagnostics?.retriedThinPage),
+        error: report.error ? report.error.slice(0, 140) : null,
+      };
+      if (report.status === 'failed') {
+        progress({ type: 'page:failed', url, error: pageEvent.error });
+      }
+      progress(pageEvent);
     }
+  } catch (error) {
+    progress({ type: 'scan:error', error: error.message });
+    throw error;
   } finally {
     await browser.close();
-    logProgress(logger, 'Closed Chromium.');
+    progress({ type: 'scan:phase', message: 'Closed Chromium.' });
   }
 
   const scannedAt = nowIso();
@@ -357,11 +383,19 @@ async function main(argv = process.argv, options = {}) {
 
   const { jsonPath, mdPath } = buildReportPaths(outDir, domain, scannedAt);
 
-  logProgress(logger, 'Writing report files...');
+  progress({ type: 'scan:writing', jsonPath, mdPath });
   fs.writeFileSync(jsonPath, JSON.stringify(finalReport, null, 2), 'utf8');
   fs.writeFileSync(mdPath, buildSummaryMarkdown(finalReport), 'utf8');
-  logProgress(logger, `Wrote JSON report: ${jsonPath}`);
-  logProgress(logger, `Wrote Markdown summary: ${mdPath}`);
+  progress({ type: 'scan:phase', message: `Wrote JSON report: ${jsonPath}`, jsonPath });
+  progress({ type: 'scan:phase', message: `Wrote Markdown summary: ${mdPath}`, mdPath });
+  progress({
+    type: 'scan:complete',
+    pageCount: pageReports.length,
+    vendorCount: finalReport.vendors.length,
+    idCount: finalReport.ids.length,
+    jsonPath,
+    mdPath,
+  });
 
   return {
     finalReport,
@@ -394,6 +428,7 @@ module.exports = {
   buildDiscoveredUrlReport,
   dateStampFromIso,
   buildReportPaths,
+  createProgressEmitter,
   runScanPass,
   scanSinglePage,
   main,

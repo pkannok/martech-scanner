@@ -5,7 +5,7 @@ This file tracks possible future improvements that are not currently committed t
 ## Candidate Improvements
 
 ### CLI Runtime Feedback
-The scanner runtime feedback should show:
+The scanner runtime feedback now emits structured lifecycle events and presents concise CLI progress. Future improvements may add:
 
 - Start time
 - Target URL
@@ -19,7 +19,6 @@ The scanner runtime feedback should show:
 - Completion status
 
 ### Scanner Behavior
-- Add clearer runtime status output.
 - Improve handling of failed pages.
 
 ### Reporting
