@@ -11,6 +11,11 @@ const VENDOR_RULES = Object.freeze([
       request: [{ hosts: ['googletagmanager.com'], paths: [/^\/gtm\.js$/, /^\/gtm\//, /^\/ns\.html$/] }],
       script: [{ hosts: ['googletagmanager.com'], paths: [/^\/gtm\.js$/, /^\/gtm\//] }],
       iframe: [{ hosts: ['googletagmanager.com'], paths: [/^\/ns\.html$/] }],
+      identifiers: {
+        request: [{ hosts: ['googletagmanager.com'], paths: [/^\/gtm\.js$/, /^\/gtm\//, /^\/ns\.html$/], extractors: [{ type: 'GTM Container ID', re: /(?:[?&]|^)id=(GTM-[A-Z0-9]+)/i, group: 1 }] }],
+        script: [{ hosts: ['googletagmanager.com'], paths: [/^\/gtm\.js$/, /^\/gtm\//], extractors: [{ type: 'GTM Container ID', re: /(?:[?&]|^)id=(GTM-[A-Z0-9]+)/i, group: 1 }] }],
+        iframe: [{ hosts: ['googletagmanager.com'], paths: [/^\/ns\.html$/], extractors: [{ type: 'GTM Container ID', re: /(?:[?&]|^)id=(GTM-[A-Z0-9]+)/i, group: 1 }] }],
+      },
     },
   },
   {
@@ -22,6 +27,10 @@ const VENDOR_RULES = Object.freeze([
         { hosts: ['google-analytics.com', 'analytics.google.com'], paths: [/\/collect/, /\/g\/collect/, /\/mp\/collect/] },
       ],
       script: [{ hosts: ['googletagmanager.com'], paths: [/^\/gtag\/js$/], search: [/[?&]id=g-[a-z0-9]+/i] }],
+      identifiers: {
+        request: [{ hosts: ['google-analytics.com', 'analytics.google.com'], paths: [/\/collect/, /\/g\/collect/, /\/mp\/collect/], extractors: [{ type: 'GA4 Measurement ID', re: /(?:[?&]|^)tid=(G-[A-Z0-9]+)/i, group: 1 }] }],
+        script: [{ hosts: ['googletagmanager.com'], paths: [/^\/gtag\/js$/], extractors: [{ type: 'GA4 Measurement ID', re: /(?:[?&]|^)id=(G-[A-Z0-9]+)/i, group: 1 }] }],
+      },
     },
   },
   {
@@ -31,6 +40,9 @@ const VENDOR_RULES = Object.freeze([
     signals: {
       request: [{ hosts: ['facebook.com'], paths: [/^\/tr$/] }],
       script: [{ hosts: ['connect.facebook.net'] }],
+      identifiers: {
+        request: [{ hosts: ['facebook.com'], paths: [/^\/tr$/], extractors: [{ type: 'Facebook Pixel ID', re: /(?:[?&]|^)id=(\d{5,})/i, group: 1 }] }],
+      },
     },
   },
   {
@@ -40,6 +52,17 @@ const VENDOR_RULES = Object.freeze([
     signals: {
       request: [{ hosts: ['analytics.tiktok.com', 'business-api.tiktok.com'] }],
       script: [{ hosts: ['analytics.tiktok.com', 'tiktokcdn.com'] }],
+    },
+  },
+  {
+    id: 'the-trade-desk',
+    name: 'The Trade Desk',
+    category: 'media_pixel',
+    signals: {
+      request: [{ hosts: ['adsrvr.org'], paths: [/^\/track\//] }],
+      identifiers: {
+        request: [{ hosts: ['adsrvr.org'], paths: [/^\/track\//], extractors: [{ type: 'The Trade Desk Advertiser ID', re: /(?:[?&]|^)(?:advertiser_id|ttd_pid)=([A-Z0-9_-]{3,})/i, group: 1 }] }],
+      },
     },
   },
   {
@@ -147,6 +170,28 @@ function evaluateVendorRules(text, options = {}) {
   });
 }
 
+function evaluateIdentifierRules(text, options = {}) {
+  if (!text || typeof text !== 'string') return [];
+
+  let url;
+  try {
+    url = new URL(text);
+  } catch {
+    return [];
+  }
+
+  const source = options.source || null;
+  return VENDOR_RULES.flatMap(rule => (rule.signals?.identifiers?.[source] || [])
+    .filter(signal => ruleSignalMatches(signal, url))
+    .map(signal => ({
+      rule,
+      ids: (signal.extractors || []).flatMap(extractor => [...text.matchAll(new RegExp(extractor.re.source, extractor.re.flags.includes('g') ? extractor.re.flags : `${extractor.re.flags}g`))]
+        .map(match => ({ type: extractor.type, value: match[extractor.group || 0] }))
+        .filter(id => id.value)),
+    }))
+    .filter(match => match.ids.length));
+}
+
 function cookieRuleMatches(cookieName, signal) {
   if (!cookieName || !signal) return false;
   if (signal.type === 'exact') return cookieName === signal.name;
@@ -198,6 +243,7 @@ function dedupeRuleMatches(matches) {
 module.exports = {
   VENDOR_RULES,
   evaluateVendorRules,
+  evaluateIdentifierRules,
   evaluateCookieRules,
   evaluateGlobalRules,
   cookieRuleMatches,

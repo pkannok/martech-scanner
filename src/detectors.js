@@ -1,6 +1,6 @@
 const { ID_RULES, VENDOR_SCOPED_ID_RULES } = require('./config');
 const { dedupeBy } = require('./utils');
-const { evaluateVendorRules, dedupeRuleMatches } = require('./detection/vendorRules');
+const { evaluateVendorRules, evaluateIdentifierRules, dedupeRuleMatches } = require('./detection/vendorRules');
 
 function extractIdsWithRules(text, rules) {
   const findings = [];
@@ -67,7 +67,7 @@ function extractScopedIdsForUrlText(text, url) {
   return dedupeBy(findings, x => `${x.type}|${x.value}`);
 }
 
-function extractIdsFromUrl(text) {
+function extractIdsFromUrl(text, options = {}) {
   if (!text || typeof text !== 'string') return [];
 
   const normalized = normalizeUrlCandidate(text);
@@ -76,6 +76,7 @@ function extractIdsFromUrl(text) {
     [
       ...extractIds(normalized),
       ...extractScopedIdsForUrlText(normalized, url),
+      ...evaluateIdentifierRules(normalized, { source: options.source || 'request' }).flatMap(match => match.ids),
     ],
     x => `${x.type}|${x.value}`
   );
@@ -148,7 +149,7 @@ function extractIdsFromTextBlock(text, options = {}) {
   }
 
   for (const urlText of extractUrlCandidates(input)) {
-    findings.push(...extractIdsFromUrl(urlText));
+    findings.push(...extractIdsFromUrl(urlText, { source: options.source || 'source' }));
   }
 
   return dedupeBy(findings, x => `${x.type}|${x.value}`);

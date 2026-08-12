@@ -1,5 +1,25 @@
 [
   {
+    "name": "context-scoped-identifier-family",
+    "purpose": "Extract representative identifiers only when the URL host and path establish vendor context.",
+    "architecture": "mixed",
+    "path": "/",
+    "expectedVendors": ["google-analytics", "google-tag-manager", "meta-pixel", "the-trade-desk"],
+    "expectedEvidence": {
+      "google-analytics": ["script"],
+      "google-tag-manager": ["script"],
+      "meta-pixel": ["network"],
+      "the-trade-desk": ["network"]
+    },
+    "expectedIdentifiers": {
+      "google-analytics": ["G-CONTEXTQUALITY"],
+      "google-tag-manager": ["GTM-CONTEXTQUALITY"],
+      "meta-pixel": ["123456789012345"],
+      "the-trade-desk": ["CONTEXTQUALITY"]
+    },
+    "activation": { "mode": "page-load" }
+  },
+  {
     "name": "runtime-global-family",
     "purpose": "Detect distinct vendor runtime shapes without matching similarly named globals.",
     "architecture": "traditional",

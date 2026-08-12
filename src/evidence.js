@@ -57,11 +57,11 @@ function buildSourceSignals(sourceSignals, pageGlobals, options = {}) {
   }
 
   for (const iframeSrc of sourceSignals.iframes || []) {
-    htmlIds.push(...extractIdsFromUrl(iframeSrc));
+    htmlIds.push(...extractIdsFromUrl(iframeSrc, { source: 'iframe' }));
   }
 
   for (const extSrc of sourceSignals.externalScripts || []) {
-    htmlIds.push(...extractIdsFromUrl(extSrc));
+    htmlIds.push(...extractIdsFromUrl(extSrc, { source: 'script' }));
   }
 
   if (options.globalPreviewPosition === 'after_urls') {
@@ -86,7 +86,7 @@ function collectRequestEvidenceFromRequest(request, options = {}) {
   const postData = request.postData() || '';
   const ids = dedupeBy(
     [
-      ...extractIdsFromUrl(url),
+      ...extractIdsFromUrl(url, { source: 'request' }),
       ...extractIdsFromTextBlock(postData, { sourceUrl: url }),
     ],
     x => `${x.type}|${x.value}`
@@ -130,7 +130,7 @@ function collectScriptFindingsFromPage(page, baseUrl) {
         .filter(script => script.thirdParty)
         .map(script => {
           const detectedVendors = detectVendorFromUrl(script.src, { source: 'script' });
-          const ids = extractIdsFromUrl(script.src);
+          const ids = extractIdsFromUrl(script.src, { source: 'script' });
 
           return {
             src: script.src,

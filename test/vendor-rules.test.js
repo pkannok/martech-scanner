@@ -7,6 +7,7 @@ const {
   evaluateVendorRules,
   evaluateCookieRules,
   evaluateGlobalRules,
+  evaluateIdentifierRules,
   cookieRuleMatches,
   vendorIdForName,
 } = require('../src/detection/vendorRules');
@@ -66,7 +67,7 @@ test('declarative vendor rules reject lookalike artifacts without vendor context
 });
 
 test('migrated rules preserve public display-name output and stable internal IDs', () => {
-  assert.equal(VENDOR_RULES.length, 11);
+  assert.equal(VENDOR_RULES.length, 12);
   assert.equal(vendorIdForName('Google Analytics'), 'google-analytics');
   assert.deepEqual(
     detectVendorFromUrl('https://www.googletagmanager.com/gtag/js?id=G-RULE123'),
@@ -76,6 +77,24 @@ test('migrated rules preserve public display-name output and stable internal IDs
     detectVendorFromUrl('https://www.facebook.com/tr?id=123456789012345&ev=PageView'),
     [{ name: 'Meta Pixel', category: 'media_pixel' }]
   );
+});
+
+test('identifier rules extract IDs only from matching vendor contexts', () => {
+  const cases = [
+    ['script', 'https://www.googletagmanager.com/gtag/js?id=G-CONTEXT123', 'google-analytics', 'GA4 Measurement ID', 'G-CONTEXT123'],
+    ['iframe', 'https://www.googletagmanager.com/ns.html?id=GTM-CONTEXT123', 'google-tag-manager', 'GTM Container ID', 'GTM-CONTEXT123'],
+    ['request', 'https://www.facebook.com/tr?id=123456789012345&ev=PageView', 'meta-pixel', 'Facebook Pixel ID', '123456789012345'],
+    ['request', 'https://insight.adsrvr.org/track/abc?ttd_pid=CONTEXT123', 'the-trade-desk', 'The Trade Desk Advertiser ID', 'CONTEXT123'],
+  ];
+
+  for (const [source, url, vendorId, type, value] of cases) {
+    const matches = evaluateIdentifierRules(url, { source });
+    assert.equal(matches[0].rule.id, vendorId, url);
+    assert.deepEqual(matches[0].ids, [{ type, value }], url);
+  }
+
+  assert.deepEqual(evaluateIdentifierRules('https://example.com/gtag/js?id=G-CONTEXT123', { source: 'script' }), []);
+  assert.deepEqual(evaluateIdentifierRules('https://example.com/tr?id=123456789012345', { source: 'request' }), []);
 });
 
 test('multiple matching rule signals remain one vendor detection', () => {

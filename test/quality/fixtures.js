@@ -1,4 +1,13 @@
 const scenarioBodies = {
+  'context-scoped-identifier-family': `
+    <!doctype html><html><head><title>Context identifier fixture</title>
+      <script src="https://www.googletagmanager.com/gtag/js?id=G-CONTEXTQUALITY"></script>
+      <script src="https://www.googletagmanager.com/gtm.js?id=GTM-CONTEXTQUALITY"></script>
+    </head><body><script>
+      fetch('https://www.facebook.com/tr?id=123456789012345&ev=PageView').catch(() => {});
+      fetch('https://insight.adsrvr.org/track/abc?ttd_pid=CONTEXTQUALITY').catch(() => {});
+    </script></body></html>
+  `,
   'traditional-direct-script': `
     <!doctype html>
     <html><head><title>Traditional fixture</title>

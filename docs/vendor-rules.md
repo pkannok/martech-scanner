@@ -52,6 +52,14 @@ Stable IDs are internal at this stage; public scan results retain their existing
 
 ## Runtime/global rules
 
+## Context-scoped identifier rules
+
+Identifier extractors live beside the vendor's source-scoped URL signals under `signals.identifiers`. An extractor may run only after its source, host, and path context matches. This keeps values such as `id=`, `tid=`, and `ttd_pid=` from becoming vendor evidence on unrelated URLs.
+
+Identifier output intentionally remains the existing `{ type, value }` shape. Provenance is retained by the enclosing script or network finding, which records the source URL; no new public report field is required.
+
+Use a positive URL case and an unrelated-host negative case for every extractor. Prefer a narrow vendor path and a vendor-specific parameter, and do not add delayed observation, consent flows, or SPA navigation to this rule layer.
+
 Runtime rules inspect a bounded list of exact global paths and record only presence and type. They never invoke vendor functions, enumerate `window`, or copy runtime object contents. For example, HubSpot's queue is represented as:
 
 ```js

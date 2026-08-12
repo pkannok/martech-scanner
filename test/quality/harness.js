@@ -15,8 +15,32 @@ function collectDetectedVendors(report) {
 
   for (const vendor of summarizeVendors([report])) {
     const id = vendorIdForName(vendor.name) || vendor.name;
-    if (!detected.has(id)) detected.set(id, { name: vendor.name, evidence: new Set() });
-    detected.get(id).evidence.add(vendorEvidenceTypes(vendor));
+    if (!detected.has(id)) detected.set(id, { name: vendor.name, evidence: new Set(), identifiers: new Set() });
+    const current = detected.get(id);
+    current.evidence.add(vendorEvidenceTypes(vendor));
+    for (const identifier of vendor.evidence?.ids || []) current.identifiers.add(identifier.value);
+  }
+
+  const addIdentifiers = (vendorName, ids) => {
+    const id = vendorIdForName(vendorName) || vendorName;
+    if (!detected.has(id)) detected.set(id, { name: vendorName, evidence: new Set(), identifiers: new Set() });
+    for (const identifier of ids || []) detected.get(id).identifiers.add(identifier.value);
+  };
+
+  for (const finding of report.networkFindings || []) addIdentifiers(finding.vendor?.name, finding.ids);
+  for (const script of report.scriptFindings || []) {
+    for (const vendor of script.detectedVendors || []) addIdentifiers(vendor.name, script.ids);
+  }
+  const sourceIdentifierVendors = {
+    'GA4 Measurement ID': 'Google Analytics',
+    'GTM Container ID': 'Google Tag Manager',
+    'Facebook Pixel ID': 'Meta Pixel',
+    'The Trade Desk Advertiser ID': 'The Trade Desk',
+  };
+  for (const ids of [report.sourceSignals?.htmlIds, report.sourceSignals?.inlineScriptIds, report.sourceSignals?.noscriptIds]) {
+    for (const identifier of ids || []) {
+      if (sourceIdentifierVendors[identifier.type]) addIdentifiers(sourceIdentifierVendors[identifier.type], [identifier]);
+    }
   }
 
   return detected;
@@ -33,6 +57,7 @@ function evaluateScenario(scenario, report) {
   const missed = sortValues([...expected].filter(vendor => !detected.has(vendor)));
   const unexpected = sortValues([...detected.keys()].filter(vendor => !expected.has(vendor)));
   const evidenceMisses = [];
+  const identifierMisses = [];
 
   for (const [vendor, expectedEvidence] of Object.entries(scenario.expectedEvidence || {})) {
     const observedEvidence = detected.get(vendor)?.evidence || new Set();
@@ -47,16 +72,23 @@ function evaluateScenario(scenario, report) {
     }
   }
 
+  for (const [vendor, expectedIdentifiers] of Object.entries(scenario.expectedIdentifiers || {})) {
+    const observed = detected.get(vendor)?.identifiers || new Set();
+    const missing = sortValues(expectedIdentifiers.filter(identifier => !observed.has(identifier)));
+    if (missing.length) identifierMisses.push({ vendor, expected: sortValues(expectedIdentifiers), observed: sortValues(observed), missing });
+  }
+
   return {
     scenario: scenario.name,
     architecture: scenario.architecture,
-    passed: missed.length === 0 && unexpected.length === 0 && evidenceMisses.length === 0,
+    passed: missed.length === 0 && unexpected.length === 0 && evidenceMisses.length === 0 && identifierMisses.length === 0,
     expected: sortValues(expected),
     detected: sortValues(detected.keys()),
     missed,
     unexpected,
     explicitlyAbsent: sortValues(explicitlyAbsent),
     evidenceMisses,
+    identifierMisses,
     report,
   };
 }
@@ -83,6 +115,12 @@ function formatScenarioFailure(result) {
   if (result.evidenceMisses.length) {
     lines.push('', 'Evidence gaps:');
     for (const gap of result.evidenceMisses) {
+      lines.push(`  ${label(gap.vendor)}`, `    Expected: ${gap.expected.join(', ')}`, `    Observed: ${gap.observed.length ? gap.observed.join(', ') : '(none)'}`);
+    }
+  }
+  if (result.identifierMisses.length) {
+    lines.push('', 'Identifier gaps:');
+    for (const gap of result.identifierMisses) {
       lines.push(`  ${label(gap.vendor)}`, `    Expected: ${gap.expected.join(', ')}`, `    Observed: ${gap.observed.length ? gap.observed.join(', ') : '(none)'}`);
     }
   }
