@@ -6,6 +6,7 @@ const {
   VENDOR_RULES,
   evaluateVendorRules,
   evaluateCookieRules,
+  evaluateGlobalRules,
   cookieRuleMatches,
   vendorIdForName,
 } = require('../src/detection/vendorRules');
@@ -65,7 +66,7 @@ test('declarative vendor rules reject lookalike artifacts without vendor context
 });
 
 test('migrated rules preserve public display-name output and stable internal IDs', () => {
-  assert.equal(VENDOR_RULES.length, 9);
+  assert.equal(VENDOR_RULES.length, 11);
   assert.equal(vendorIdForName('Google Analytics'), 'google-analytics');
   assert.deepEqual(
     detectVendorFromUrl('https://www.googletagmanager.com/gtag/js?id=G-RULE123'),
@@ -109,4 +110,23 @@ test('cookie rules support exact and prefixed names without capturing values', (
 test('supporting-only cookies do not independently create an Adobe Target detection', () => {
   assert.deepEqual(evaluateCookieRules([{ name: 'at_check', value: '1' }]), []);
   assert.deepEqual(evaluateCookieRules([{ name: 'mboxEdgeCluster', value: 'default' }]), []);
+});
+
+test('global rules support function, queue, and namespace shapes', () => {
+  const findings = evaluateGlobalRules([
+    { path: '_hsq', exists: true, type: 'array' },
+    { path: 'utag', exists: true, type: 'object' },
+    { path: 'optimizely', exists: true, type: 'function' },
+    { path: 'FS', exists: true, type: 'function' },
+  ]);
+
+  assert.deepEqual(findings.map(finding => finding.rule.id), ['hubspot', 'fullstory', 'tealium', 'optimizely']);
+});
+
+test('global rules require exact paths and compatible types', () => {
+  assert.deepEqual(evaluateGlobalRules([
+    { path: 'hjSettingsOnly', exists: true, type: 'object' },
+    { path: 'utagHelper', exists: true, type: 'function' },
+    { path: '_hsq', exists: true, type: 'string' },
+  ]), []);
 });

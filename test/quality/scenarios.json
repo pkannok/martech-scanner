@@ -1,5 +1,20 @@
 [
   {
+    "name": "runtime-global-family",
+    "purpose": "Detect distinct vendor runtime shapes without matching similarly named globals.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["hubspot", "fullstory", "tealium", "optimizely"],
+    "expectedAbsentVendors": ["hotjar"],
+    "expectedEvidence": {
+      "hubspot": ["global"],
+      "fullstory": ["global"],
+      "tealium": ["global"],
+      "optimizely": ["global"]
+    },
+    "activation": { "mode": "none" }
+  },
+  {
     "name": "cookie-vendor-family",
     "purpose": "Detect multiple cookie-centric vendors without treating lookalike names as evidence.",
     "architecture": "traditional",

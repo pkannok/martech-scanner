@@ -6,6 +6,7 @@ function vendorEvidenceTypes(vendor) {
   if (vendor.source === 'network' || evidenceType === 'observed_firing') return 'network';
   if (vendor.source === 'script' || evidenceType === 'present_in_source') return 'script';
   if (vendor.source === 'source_code' || evidenceType === 'inferred') return 'source';
+  if (vendor.source === 'global') return 'global';
   return vendor.source || evidenceType || 'unknown';
 }
 

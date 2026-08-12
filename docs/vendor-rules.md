@@ -50,6 +50,21 @@ Avoid contextless rules such as `/analytics/` or broad short-ID patterns. Shared
 
 Stable IDs are internal at this stage; public scan results retain their existing display-name-based shape for compatibility.
 
+## Runtime/global rules
+
+Runtime rules inspect a bounded list of exact global paths and record only presence and type. They never invoke vendor functions, enumerate `window`, or copy runtime object contents. For example, HubSpot's queue is represented as:
+
+```js
+{
+  id: 'hubspot',
+  signals: {
+    globals: [{ path: '_hsq', types: ['array'], strength: 'primary' }]
+  }
+}
+```
+
+Exact paths prevent lookalikes such as `utagHelper` or `hjSettingsOnly` from matching. Type constraints reject defined-but-unrelated values, while allowing documented object/function variations where appropriate. Runtime globals are inspected at the scanner's existing evidence checkpoints; late initialization is not intentionally awaited yet. A global is primary only when the path and type are vendor-specific enough to stand alone.
+
 ## Cookie rules
 
 Cookie signals use exact names, explicit prefixes, or narrowly justified regular expressions. Exact matching is preferred for names such as `mbox`, `hubspotutk`, and `fs_uid`. A prefix is appropriate when the vendor documents a site-specific suffix, as with Hotjar's `_hjSessionUser_{site_id}`. Broad substring matching is unsafe because names such as `mboxPreference` or `fullstory_setting` do not establish the vendor.

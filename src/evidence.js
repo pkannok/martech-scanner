@@ -275,6 +275,11 @@ function mergeSourceEvidence(target, evidence, options = {}) {
     mergeAppearingGlobals(target.pageGlobals.globals, evidence.pageGlobals.globals);
   }
 
+  target.runtimeSignals = dedupeBy(
+    [...(target.runtimeSignals || []), ...(evidence.pageGlobals?.runtimeSignals || [])],
+    signal => `${signal.path}|${signal.type}|${signal.exists}`
+  );
+
   if (options.replaceSourceSignals) {
     replaceSourceSignals(target, evidence.sourceSignals || {});
   } else {

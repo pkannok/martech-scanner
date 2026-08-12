@@ -41,6 +41,7 @@ The harness preserves the full page report in the evaluation result, so future m
 - `multiple-evidence-vendors`: aggregation of independent script and network detections.
 - `negative-lookalike-artifacts`: precision protection against generic IDs and unrelated URLs.
 - `cookie-vendor-family`: browser-pipeline validation for Adobe Target, Hotjar, HubSpot, and FullStory cookie evidence.
+- `runtime-global-family`: browser-pipeline validation for queue, namespace, and function-like globals.
 
 The corpus is intentionally small and does not measure consent-gated behavior, delayed initialization, SPA navigation, subdomain discovery, ecommerce flows, response bodies, server-side tagging, or niche-vendor breadth yet.
 

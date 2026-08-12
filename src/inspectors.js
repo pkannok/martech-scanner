@@ -85,7 +85,19 @@ async function inspectPageGlobals(page) {
       ecommerceHints: {},
       cmsHints: {},
       authHints: {},
+      runtimeSignals: [],
     };
+
+    const inspectRuntimePath = (path, value, types) => {
+      const type = Array.isArray(value) ? 'array' : typeof value;
+      const exists = value !== undefined && value !== null;
+      out.runtimeSignals.push({ path, exists, type, typeAllowed: exists && types.includes(type) });
+    };
+
+    inspectRuntimePath('_hsq', window._hsq, ['array']);
+    inspectRuntimePath('utag', window.utag, ['object', 'function']);
+    inspectRuntimePath('optimizely', window.optimizely, ['object', 'function']);
+    inspectRuntimePath('FS', window.FS, ['object', 'function']);
 
     const dataLayer = window.dataLayer;
     const adobeDataLayer = window.adobeDataLayer;

@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Added
+- Bounded declarative runtime/global detection for HubSpot, FullStory, Tealium, and Optimizely.
 - Cookie-based declarative detection for Adobe Target, Hotjar, HubSpot, and FullStory with scoped exact/prefix matching.
 - Initial hybrid vendor-rule architecture with stable internal IDs, scoped declarative URL signals, and representative migrated vendors.
 - Structured runtime progress events for scan lifecycle, discovery, page progress, retries, failures, report writing, and completion.

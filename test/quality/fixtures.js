@@ -41,6 +41,18 @@ const scenarioBodies = {
     <!doctype html><html><head><title>Cookie vendor fixture</title></head>
     <body><h1>Cookie vendor family</h1></body></html>
   `,
+  'runtime-global-family': `
+    <!doctype html><html><head><title>Runtime global fixture</title>
+      <script>
+        window._hsq = window._hsq || [];
+        window.utag = { view: function() {} };
+        window.optimizely = { get: function() {} };
+        window.FS = function() {};
+        window.hjSettingsOnly = { siteId: 'lookalike' };
+        window.utagHelper = function() {};
+      </script>
+    </head><body><h1>Runtime globals</h1></body></html>
+  `,
 };
 
 function getScenarioBody(scenario) {

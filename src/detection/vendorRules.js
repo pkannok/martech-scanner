@@ -81,6 +81,7 @@ const VENDOR_RULES = Object.freeze([
     name: 'HubSpot',
     category: 'customer_data_platform',
     signals: {
+      globals: [{ path: '_hsq', types: ['array'], strength: 'primary' }],
       cookies: [
         { type: 'exact', name: 'hubspotutk', strength: 'primary' },
         { type: 'exact', name: '__hstc', strength: 'primary' },
@@ -94,12 +95,25 @@ const VENDOR_RULES = Object.freeze([
     name: 'FullStory',
     category: 'session_replay',
     signals: {
+      globals: [{ path: 'FS', types: ['function', 'object'], strength: 'primary' }],
       cookies: [
         { type: 'exact', name: 'fs_uid', strength: 'primary' },
         { type: 'exact', name: 'fs_cid', strength: 'primary' },
         { type: 'exact', name: 'fs_lua', strength: 'primary' },
       ],
     },
+  },
+  {
+    id: 'tealium',
+    name: 'Tealium',
+    category: 'tag_manager',
+    signals: { globals: [{ path: 'utag', types: ['object', 'function'], strength: 'primary' }] },
+  },
+  {
+    id: 'optimizely',
+    name: 'Optimizely',
+    category: 'experimentation',
+    signals: { globals: [{ path: 'optimizely', types: ['object', 'function'], strength: 'primary' }] },
   },
 ]);
 
@@ -153,6 +167,22 @@ function evaluateCookieRules(cookies) {
     }));
 }
 
+function evaluateGlobalRules(runtimeSignals) {
+  const observed = new Map((runtimeSignals || [])
+    .filter(signal => signal?.path && signal.exists && signal.typeAllowed !== false)
+    .map(signal => [signal.path, signal]));
+
+  return VENDOR_RULES
+    .filter(rule => (rule.signals?.globals || []).some(signal => {
+      const runtime = observed.get(signal.path);
+      return signal.strength !== 'supporting' && runtime && (!signal.types?.length || signal.types.includes(runtime.type));
+    }))
+    .map(rule => ({
+      rule,
+      paths: (rule.signals?.globals || []).filter(signal => observed.has(signal.path)).map(signal => signal.path),
+    }));
+}
+
 function vendorIdForName(name) {
   return RULE_BY_NAME.get(name)?.id || null;
 }
@@ -169,6 +199,7 @@ module.exports = {
   VENDOR_RULES,
   evaluateVendorRules,
   evaluateCookieRules,
+  evaluateGlobalRules,
   cookieRuleMatches,
   dedupeRuleMatches,
   vendorIdForName,

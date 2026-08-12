@@ -1,6 +1,6 @@
 const { dedupeBy } = require('./utils');
 const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
-const { evaluateCookieRules } = require('./detection/vendorRules');
+const { evaluateCookieRules, evaluateGlobalRules } = require('./detection/vendorRules');
 
 const COVERAGE_LIST_LIMIT = 20;
 
@@ -86,6 +86,11 @@ const VENDOR_CONFIDENCE = {
     score: 0.55,
     reason: 'A vendor-specific cookie name was visible in the browser context.',
   },
+  global: {
+    level: 'medium',
+    score: 0.7,
+    reason: 'A vendor-specific runtime global was present with a compatible type.',
+  },
 };
 
 const VENDOR_EVIDENCE = {
@@ -108,6 +113,11 @@ const VENDOR_EVIDENCE = {
     type: 'cookie_present',
     label: 'present in cookies',
     reason: 'A vendor-specific cookie name was visible in the browser context.',
+  },
+  global: {
+    type: 'global',
+    label: 'runtime global present',
+    reason: 'A known vendor runtime global was present without invoking it.',
   },
 };
 
@@ -199,6 +209,10 @@ function summarizeVendors(pageReports) {
         'cookie',
         { cookieNames: cookieFinding.cookieNames }
       ));
+    }
+
+    for (const globalFinding of evaluateGlobalRules(report.runtimeSignals || report.pageGlobals?.runtimeSignals)) {
+      all.push(vendorFinding(globalFinding.rule.name, globalFinding.rule.category, 'global', { paths: globalFinding.paths }));
     }
 
     if (
