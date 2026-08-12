@@ -3,6 +3,12 @@
 ## Unreleased
 
 ### Added
+- Context-scoped identifier extraction for representative Google Analytics, Google Tag Manager, Meta Pixel, and The Trade Desk URL signals, with positive/negative quality coverage.
+- Bounded declarative runtime/global detection for HubSpot, FullStory, Tealium, and Optimizely.
+- Cookie-based declarative detection for Adobe Target, Hotjar, HubSpot, and FullStory with scoped exact/prefix matching.
+- Initial hybrid vendor-rule architecture with stable internal IDs, scoped declarative URL signals, and representative migrated vendors.
+- Structured runtime progress events for scan lifecycle, discovery, page progress, retries, failures, report writing, and completion.
+- Initial deterministic detection-quality scenario harness with expected, missed, unexpected, and evidence-gap evaluation.
 - Deterministic Markdown report-output regression tests for analyst-facing report sections and edge cases.
 - Recommended Manual Review section in generated Markdown reports.
 - Detected Vendors by Category section in generated Markdown reports.

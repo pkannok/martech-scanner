@@ -32,7 +32,7 @@ It does **not** currently use:
 
 Current version: `v0.3.0`
 Status: Internal development / teammate testing
-Current focus: Making scan coverage limits clear in generated Markdown reports.
+Current focus: Making scan progress observable for technical users and future diagnostic workflows.
 
 ### Recently completed
 
@@ -42,6 +42,7 @@ Current focus: Making scan coverage limits clear in generated Markdown reports.
 - Added a teammate-first quick start, first-scan walkthrough, troubleshooting guidance, and interpretation notes.
 - Added an analyst-friendly Executive Summary near the top of generated Markdown reports.
 - Added Scan Coverage context for scanned pages, discovered-but-not-scanned URLs, failed/partial pages, and low-evidence pages.
+- Added structured runtime progress events for scan lifecycle, discovery, page progress, retries, failures, report writing, and completion.
 
 MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
 
@@ -222,6 +223,8 @@ node src/scanner.js --domain=https://example.com --maxPages=1
 ```
 
 During the scan, the terminal reports progress and prints the final file paths. By default, expect files similar to:
+
+Progress messages include timestamps, the current phase, discovery and page counts, the active URL, retries or failures, detection counts, report-writing status, and completion totals. Code consumers can receive the same lifecycle information through the scanner's `onProgress` callback without parsing terminal output.
 
 - `output/example.com_results_YYYYMMDD.json`
 - `output/example.com_summary_YYYYMMDD.md`
@@ -527,6 +530,14 @@ To run only the Playwright-backed coverage:
 ```bash
 npm run test:playwright
 ```
+
+To run the deterministic detection-quality scenario harness:
+
+```bash
+npm run test:quality
+```
+
+The quality scenarios declare expected and explicitly absent vendors, expected evidence categories, and site architecture metadata. The harness reports missed detections, unexpected detections, and evidence gaps separately from ordinary regression assertions.
 
 Testing principles and expectations are documented in `docs/testing-strategy.md`.
 

@@ -57,11 +57,11 @@ function buildSourceSignals(sourceSignals, pageGlobals, options = {}) {
   }
 
   for (const iframeSrc of sourceSignals.iframes || []) {
-    htmlIds.push(...extractIdsFromUrl(iframeSrc));
+    htmlIds.push(...extractIdsFromUrl(iframeSrc, { source: 'iframe' }));
   }
 
   for (const extSrc of sourceSignals.externalScripts || []) {
-    htmlIds.push(...extractIdsFromUrl(extSrc));
+    htmlIds.push(...extractIdsFromUrl(extSrc, { source: 'script' }));
   }
 
   if (options.globalPreviewPosition === 'after_urls') {
@@ -80,13 +80,13 @@ function buildSourceSignals(sourceSignals, pageGlobals, options = {}) {
 
 function collectRequestEvidenceFromRequest(request, options = {}) {
   const url = request.url();
-  const vendors = detectVendorFromUrl(url);
+  const vendors = detectVendorFromUrl(url, { source: 'request' });
   if (!vendors.length) return [];
 
   const postData = request.postData() || '';
   const ids = dedupeBy(
     [
-      ...extractIdsFromUrl(url),
+      ...extractIdsFromUrl(url, { source: 'request' }),
       ...extractIdsFromTextBlock(postData, { sourceUrl: url }),
     ],
     x => `${x.type}|${x.value}`
@@ -129,8 +129,8 @@ function collectScriptFindingsFromPage(page, baseUrl) {
       scripts
         .filter(script => script.thirdParty)
         .map(script => {
-          const detectedVendors = detectVendorFromUrl(script.src);
-          const ids = extractIdsFromUrl(script.src);
+          const detectedVendors = detectVendorFromUrl(script.src, { source: 'script' });
+          const ids = extractIdsFromUrl(script.src, { source: 'script' });
 
           return {
             src: script.src,
@@ -274,6 +274,11 @@ function mergeSourceEvidence(target, evidence, options = {}) {
   } else if (evidence.pageGlobals?.globals) {
     mergeAppearingGlobals(target.pageGlobals.globals, evidence.pageGlobals.globals);
   }
+
+  target.runtimeSignals = dedupeBy(
+    [...(target.runtimeSignals || []), ...(evidence.pageGlobals?.runtimeSignals || [])],
+    signal => `${signal.path}|${signal.type}|${signal.exists}`
+  );
 
   if (options.replaceSourceSignals) {
     replaceSourceSignals(target, evidence.sourceSignals || {});

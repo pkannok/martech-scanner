@@ -1,5 +1,6 @@
 const { ID_RULES, VENDOR_SCOPED_ID_RULES } = require('./config');
 const { dedupeBy } = require('./utils');
+const { evaluateVendorRules, evaluateIdentifierRules, dedupeRuleMatches } = require('./detection/vendorRules');
 
 function extractIdsWithRules(text, rules) {
   const findings = [];
@@ -66,7 +67,7 @@ function extractScopedIdsForUrlText(text, url) {
   return dedupeBy(findings, x => `${x.type}|${x.value}`);
 }
 
-function extractIdsFromUrl(text) {
+function extractIdsFromUrl(text, options = {}) {
   if (!text || typeof text !== 'string') return [];
 
   const normalized = normalizeUrlCandidate(text);
@@ -75,6 +76,7 @@ function extractIdsFromUrl(text) {
     [
       ...extractIds(normalized),
       ...extractScopedIdsForUrlText(normalized, url),
+      ...evaluateIdentifierRules(normalized, { source: options.source || 'request' }).flatMap(match => match.ids),
     ],
     x => `${x.type}|${x.value}`
   );
@@ -147,7 +149,7 @@ function extractIdsFromTextBlock(text, options = {}) {
   }
 
   for (const urlText of extractUrlCandidates(input)) {
-    findings.push(...extractIdsFromUrl(urlText));
+    findings.push(...extractIdsFromUrl(urlText, { source: options.source || 'source' }));
   }
 
   return dedupeBy(findings, x => `${x.type}|${x.value}`);
@@ -161,7 +163,7 @@ function hasIdType(ids, typePrefix) {
   return ids.some(x => x.type.startsWith(typePrefix));
 }
 
-function detectVendorFromUrl(text) {
+function detectVendorFromUrl(text, options = {}) {
   if (!text || typeof text !== 'string') return [];
 
   let url;
@@ -177,48 +179,9 @@ function detectVendorFromUrl(text) {
   const full = `${hostname}${pathname}${search}`;
   const ids = extractIdsFromUrl(text);
 
-  const vendors = [];
+  const vendors = dedupeRuleMatches(evaluateVendorRules(text, options))
+    .map(rule => ({ name: rule.name, category: rule.category }));
   const push = (name, category) => vendors.push({ name, category });
-
-    // Google Tag Manager
-  if (
-    hostMatches(hostname, /(^|\.)googletagmanager\.com$/) &&
-    (
-      pathname === '/gtm.js' ||
-      pathname === '/ns.html' ||
-      pathname.startsWith('/gtm/') ||
-      hasIdType(ids, 'GTM Container ID')
-    )
-  ) {
-    push('Google Tag Manager', 'tag_manager');
-  }
-
-  // Google Analytics / GA4
-  if (
-    hostMatches(hostname, /(^|\.)google-analytics\.com$/) ||
-    hostMatches(hostname, /(^|\.)analytics\.google\.com$/) ||
-    (
-      hostMatches(hostname, /(^|\.)googletagmanager\.com$/) &&
-      pathname === '/gtag/js' &&
-      (
-        hasIdType(ids, 'GA4 Measurement ID') ||
-        search.includes('id=g-')
-      )
-    ) ||
-    (
-      hostMatches(hostname, /(^|\.)google-analytics\.com$/) &&
-      (
-        pathname.includes('/g/collect') ||
-        pathname.includes('/mp/collect') ||
-        pathname.includes('/r/collect') ||
-        pathname.includes('/j/collect') ||
-        pathname.includes('/collect')
-      )
-    ) ||
-    search.includes('tid=g-')
-  ) {
-    push('Google Analytics', 'analytics');
-  }
 
   // Google Ads / DoubleClick
   if (
@@ -244,14 +207,6 @@ function detectVendorFromUrl(text) {
     push('Google Ads / DoubleClick', 'media_pixel');
   }
 
-  // Meta
-  if (
-    (hostname === 'www.facebook.com' && pathname === '/tr') ||
-    hostMatches(hostname, /(^|\.)connect\.facebook\.net$/)
-  ) {
-    push('Meta Pixel', 'media_pixel');
-  }
-
   // Microsoft Ads
   if (hostMatches(hostname, /(^|\.)bat\.bing\.com$/)) {
     push('Microsoft Ads', 'media_pixel');
@@ -265,31 +220,9 @@ function detectVendorFromUrl(text) {
     push('LinkedIn Insight', 'media_pixel');
   }
 
-  // TikTok
-  if (
-    hostMatches(hostname, /(^|\.)analytics\.tiktok\.com$/) ||
-    hostMatches(hostname, /(^|\.)business-api\.tiktok\.com$/) ||
-    hostMatches(hostname, /(^|\.)tiktok\.com$/) ||
-    hostMatches(hostname, /(^|\.)tiktokcdn\.com$/) ||
-    hasIdType(ids, 'TikTok Pixel ID')
-  ) {
-    push('TikTok Pixel', 'media_pixel');
-  }
-
   // Pinterest
   if (hostMatches(hostname, /(^|\.)ct\.pinterest\.com$/)) {
     push('Pinterest Tag', 'media_pixel');
-  }
-
-  // Adobe
-  if (
-    hostMatches(hostname, /(^|\.)omtrdc\.net$/) ||
-    hostMatches(hostname, /(^|\.)2o7\.net$/) ||
-    hostMatches(hostname, /(^|\.)demdex\.net$/) ||
-    hostMatches(hostname, /(^|\.)adobedc\.net$/) ||
-    hostMatches(hostname, /(^|\.)everesttech\.net$/)
-  ) {
-    push('Adobe Analytics / Experience Cloud', 'analytics');
   }
 
   // The Trade Desk

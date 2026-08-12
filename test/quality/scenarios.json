@@ -1,0 +1,121 @@
+[
+  {
+    "name": "context-scoped-identifier-family",
+    "purpose": "Extract representative identifiers only when the URL host and path establish vendor context.",
+    "architecture": "mixed",
+    "path": "/",
+    "expectedVendors": ["google-analytics", "google-tag-manager", "meta-pixel", "the-trade-desk"],
+    "expectedEvidence": {
+      "google-analytics": ["script"],
+      "google-tag-manager": ["script"],
+      "meta-pixel": ["network"],
+      "the-trade-desk": ["network"]
+    },
+    "expectedIdentifiers": {
+      "google-analytics": ["G-CONTEXTQUALITY"],
+      "google-tag-manager": ["GTM-CONTEXTQUALITY"],
+      "meta-pixel": ["123456789012345"],
+      "the-trade-desk": ["CONTEXTQUALITY"]
+    },
+    "activation": { "mode": "page-load" }
+  },
+  {
+    "name": "runtime-global-family",
+    "purpose": "Detect distinct vendor runtime shapes without matching similarly named globals.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["hubspot", "fullstory", "tealium", "optimizely"],
+    "expectedAbsentVendors": ["hotjar"],
+    "expectedEvidence": {
+      "hubspot": ["global"],
+      "fullstory": ["global"],
+      "tealium": ["global"],
+      "optimizely": ["global"]
+    },
+    "activation": { "mode": "none" }
+  },
+  {
+    "name": "cookie-vendor-family",
+    "purpose": "Detect multiple cookie-centric vendors without treating lookalike names as evidence.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["adobe-target", "hotjar", "hubspot", "fullstory"],
+    "expectedAbsentVendors": ["adobe-experience-cloud"],
+    "expectedEvidence": {
+      "adobe-target": ["cookie"],
+      "hotjar": ["cookie"],
+      "hubspot": ["cookie"],
+      "fullstory": ["cookie"]
+    },
+    "activation": { "mode": "none" }
+  },
+  {
+    "name": "traditional-direct-script",
+    "purpose": "Detect a vendor exposed by a conventional third-party script URL.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["google-analytics"],
+    "expectedAbsentVendors": ["meta-pixel", "tiktok-pixel"],
+    "expectedEvidence": {
+      "google-analytics": ["script"]
+    },
+    "activation": {
+      "mode": "none"
+    }
+  },
+  {
+    "name": "dynamic-runtime-request",
+    "purpose": "Detect a vendor request created by page JavaScript at runtime.",
+    "architecture": "dynamic",
+    "path": "/",
+    "expectedVendors": ["tiktok-pixel"],
+    "expectedAbsentVendors": ["google-analytics", "meta-pixel"],
+    "expectedEvidence": {
+      "tiktok-pixel": ["network"]
+    },
+    "activation": {
+      "mode": "page-load"
+    }
+  },
+  {
+    "name": "embedded-iframe-technology",
+    "purpose": "Detect a tag manager represented by an embedded iframe.",
+    "architecture": "iframe-heavy",
+    "path": "/",
+    "expectedVendors": ["google-tag-manager"],
+    "expectedAbsentVendors": ["meta-pixel", "tiktok-pixel"],
+    "expectedEvidence": {
+      "google-tag-manager": ["source"]
+    },
+    "activation": {
+      "mode": "none"
+    }
+  },
+  {
+    "name": "multiple-evidence-vendors",
+    "purpose": "Aggregate independent vendors exposed through script and network evidence.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["google-analytics", "meta-pixel"],
+    "expectedAbsentVendors": ["tiktok-pixel", "the-trade-desk"],
+    "expectedEvidence": {
+      "google-analytics": ["script"],
+      "meta-pixel": ["network"]
+    },
+    "activation": {
+      "mode": "none"
+    }
+  },
+  {
+    "name": "negative-lookalike-artifacts",
+    "purpose": "Protect precision when generic IDs and lookalike URLs are present.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": [],
+    "expectedAbsentVendors": ["google-analytics", "google-tag-manager", "meta-pixel", "tiktok-pixel", "the-trade-desk"],
+    "expectedEvidence": {},
+    "activation": {
+      "mode": "none"
+    }
+  }
+]

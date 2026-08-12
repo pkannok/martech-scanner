@@ -1,0 +1,93 @@
+# Vendor-rule architecture
+
+The scanner uses a hybrid detection model:
+
+```text
+browser/source observations
+        ↓
+normalized URLs, scripts, requests, and IDs
+        ↓
+declarative vendor rules + legacy/custom detectors
+        ↓
+existing vendor/evidence result structures
+        ↓
+reporting and quality evaluation
+```
+
+## Rule schema
+
+Declarative rules live in `src/detection/vendorRules.js` and have stable internal IDs, display names, categories, and explicit source-scoped signals:
+
+```js
+{
+  id: 'google-analytics',
+  name: 'Google Analytics',
+  category: 'analytics',
+  signals: {
+    request: [{ hosts: ['google-analytics.com'], paths: [/\\/collect/] }],
+    script: [{ hosts: ['googletagmanager.com'], paths: [/^\\/gtag\\/js$/], search: [/[?&]id=g-/i] }]
+  }
+}
+```
+
+Hosts are matched by exact hostname or subdomain. Paths and query patterns are evaluated only after the host context matches. This prevents a generic word or identifier from acting as a vendor detection on an unrelated site.
+
+## Adding an ordinary vendor
+
+1. Add a lowercase stable ID, display name, category, and source-specific signals to `VENDOR_RULES`.
+2. Keep signals scoped to the request, script, or iframe context where they are valid.
+3. Add positive and negative cases to `test/vendor-rules.test.js`.
+4. Add or extend a quality scenario in `test/quality/scenarios.json` using the stable ID.
+5. Run `npm run test:quality` and `npm test`.
+
+## When to use a custom detector
+
+Use a specialized detector when a vendor requires compound state, unusual payload parsing, multi-step interpretation, custom ID extraction, or behavior that cannot be expressed as source-scoped host/path/query signals. Legacy detectors remain supported for non-migrated vendors.
+
+## Unsafe rules
+
+Avoid contextless rules such as `/analytics/` or broad short-ID patterns. Shared CDNs, common path names, generic query parameters, and short identifiers require a vendor-specific host or stronger primary signal. A supporting identifier should strengthen an existing candidate, not create an unconditional detection by itself.
+
+Stable IDs are internal at this stage; public scan results retain their existing display-name-based shape for compatibility.
+
+## Runtime/global rules
+
+## Context-scoped identifier rules
+
+Identifier extractors live beside the vendor's source-scoped URL signals under `signals.identifiers`. An extractor may run only after its source, host, and path context matches. This keeps values such as `id=`, `tid=`, and `ttd_pid=` from becoming vendor evidence on unrelated URLs.
+
+Identifier output intentionally remains the existing `{ type, value }` shape. Provenance is retained by the enclosing script or network finding, which records the source URL; no new public report field is required.
+
+Use a positive URL case and an unrelated-host negative case for every extractor. Prefer a narrow vendor path and a vendor-specific parameter, and do not add delayed observation, consent flows, or SPA navigation to this rule layer.
+
+Runtime rules inspect a bounded list of exact global paths and record only presence and type. They never invoke vendor functions, enumerate `window`, or copy runtime object contents. For example, HubSpot's queue is represented as:
+
+```js
+{
+  id: 'hubspot',
+  signals: {
+    globals: [{ path: '_hsq', types: ['array'], strength: 'primary' }]
+  }
+}
+```
+
+Exact paths prevent lookalikes such as `utagHelper` or `hjSettingsOnly` from matching. Type constraints reject defined-but-unrelated values, while allowing documented object/function variations where appropriate. Runtime globals are inspected at the scanner's existing evidence checkpoints; late initialization is not intentionally awaited yet. A global is primary only when the path and type are vendor-specific enough to stand alone.
+
+## Cookie rules
+
+Cookie signals use exact names, explicit prefixes, or narrowly justified regular expressions. Exact matching is preferred for names such as `mbox`, `hubspotutk`, and `fs_uid`. A prefix is appropriate when the vendor documents a site-specific suffix, as with Hotjar's `_hjSessionUser_{site_id}`. Broad substring matching is unsafe because names such as `mboxPreference` or `fullstory_setting` do not establish the vendor.
+
+Cookie signals marked `primary` can create a detection. Supporting cookies such as Adobe Target's `at_check` and `mboxEdgeCluster` strengthen context but do not independently create a detection. Cookie evidence stores the matching cookie names, not cookie values; values are intentionally excluded from rule evaluation and vendor findings.
+
+Example:
+
+```js
+{
+  id: 'hotjar',
+  signals: {
+    cookies: [
+      { type: 'prefix', value: '_hjSessionUser_', strength: 'primary' }
+    ]
+  }
+}
+```
