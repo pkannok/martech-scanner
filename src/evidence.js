@@ -80,7 +80,7 @@ function buildSourceSignals(sourceSignals, pageGlobals, options = {}) {
 
 function collectRequestEvidenceFromRequest(request, options = {}) {
   const url = request.url();
-  const vendors = detectVendorFromUrl(url);
+  const vendors = detectVendorFromUrl(url, { source: 'request' });
   if (!vendors.length) return [];
 
   const postData = request.postData() || '';
@@ -129,7 +129,7 @@ function collectScriptFindingsFromPage(page, baseUrl) {
       scripts
         .filter(script => script.thirdParty)
         .map(script => {
-          const detectedVendors = detectVendorFromUrl(script.src);
+          const detectedVendors = detectVendorFromUrl(script.src, { source: 'script' });
           const ids = extractIdsFromUrl(script.src);
 
           return {

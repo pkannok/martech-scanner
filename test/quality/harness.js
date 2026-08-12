@@ -1,4 +1,5 @@
 const { summarizeVendors } = require('../../src/reporting');
+const { vendorIdForName, vendorNameForId } = require('../../src/detection/vendorRules');
 
 function vendorEvidenceTypes(vendor) {
   const evidenceType = vendor.evidence?.type;
@@ -12,8 +13,9 @@ function collectDetectedVendors(report) {
   const detected = new Map();
 
   for (const vendor of summarizeVendors([report])) {
-    if (!detected.has(vendor.name)) detected.set(vendor.name, new Set());
-    detected.get(vendor.name).add(vendorEvidenceTypes(vendor));
+    const id = vendorIdForName(vendor.name) || vendor.name;
+    if (!detected.has(id)) detected.set(id, { name: vendor.name, evidence: new Set() });
+    detected.get(id).evidence.add(vendorEvidenceTypes(vendor));
   }
 
   return detected;
@@ -32,7 +34,7 @@ function evaluateScenario(scenario, report) {
   const evidenceMisses = [];
 
   for (const [vendor, expectedEvidence] of Object.entries(scenario.expectedEvidence || {})) {
-    const observedEvidence = detected.get(vendor) || new Set();
+    const observedEvidence = detected.get(vendor)?.evidence || new Set();
     const missingEvidence = sortValues(expectedEvidence.filter(type => !observedEvidence.has(type)));
     if (missingEvidence.length) {
       evidenceMisses.push({
@@ -59,27 +61,28 @@ function evaluateScenario(scenario, report) {
 }
 
 function formatScenarioFailure(result) {
+  const label = id => vendorNameForId(id) ? `${id} (${vendorNameForId(id)})` : id;
   const lines = [
     `Scenario: ${result.scenario}`,
     `Architecture: ${result.architecture}`,
     '',
     'Expected vendors:',
-    ...(result.expected.length ? result.expected.map(vendor => `  ${vendor}`) : ['  (none)']),
+    ...(result.expected.length ? result.expected.map(vendor => `  ${label(vendor)}`) : ['  (none)']),
     '',
     'Detected vendors:',
-    ...(result.detected.length ? result.detected.map(vendor => `  ${vendor}`) : ['  (none)']),
+    ...(result.detected.length ? result.detected.map(vendor => `  ${label(vendor)}`) : ['  (none)']),
   ];
 
   if (result.missed.length) {
-    lines.push('', 'Missed:', ...result.missed.map(vendor => `  ${vendor}`));
+    lines.push('', 'Missed:', ...result.missed.map(vendor => `  ${label(vendor)}`));
   }
   if (result.unexpected.length) {
-    lines.push('', 'Unexpected:', ...result.unexpected.map(vendor => `  ${vendor}`));
+    lines.push('', 'Unexpected:', ...result.unexpected.map(vendor => `  ${label(vendor)}`));
   }
   if (result.evidenceMisses.length) {
     lines.push('', 'Evidence gaps:');
     for (const gap of result.evidenceMisses) {
-      lines.push(`  ${gap.vendor}`, `    Expected: ${gap.expected.join(', ')}`, `    Observed: ${gap.observed.length ? gap.observed.join(', ') : '(none)'}`);
+      lines.push(`  ${label(gap.vendor)}`, `    Expected: ${gap.expected.join(', ')}`, `    Observed: ${gap.observed.length ? gap.observed.join(', ') : '(none)'}`);
     }
   }
 

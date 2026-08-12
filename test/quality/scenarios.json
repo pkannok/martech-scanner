@@ -4,10 +4,10 @@
     "purpose": "Detect a vendor exposed by a conventional third-party script URL.",
     "architecture": "traditional",
     "path": "/",
-    "expectedVendors": ["Google Analytics"],
-    "expectedAbsentVendors": ["Meta Pixel", "TikTok Pixel"],
+    "expectedVendors": ["google-analytics"],
+    "expectedAbsentVendors": ["meta-pixel", "tiktok-pixel"],
     "expectedEvidence": {
-      "Google Analytics": ["script"]
+      "google-analytics": ["script"]
     },
     "activation": {
       "mode": "none"
@@ -18,10 +18,10 @@
     "purpose": "Detect a vendor request created by page JavaScript at runtime.",
     "architecture": "dynamic",
     "path": "/",
-    "expectedVendors": ["TikTok Pixel"],
-    "expectedAbsentVendors": ["Google Analytics", "Meta Pixel"],
+    "expectedVendors": ["tiktok-pixel"],
+    "expectedAbsentVendors": ["google-analytics", "meta-pixel"],
     "expectedEvidence": {
-      "TikTok Pixel": ["network"]
+      "tiktok-pixel": ["network"]
     },
     "activation": {
       "mode": "page-load"
@@ -32,10 +32,10 @@
     "purpose": "Detect a tag manager represented by an embedded iframe.",
     "architecture": "iframe-heavy",
     "path": "/",
-    "expectedVendors": ["Google Tag Manager"],
-    "expectedAbsentVendors": ["Meta Pixel", "TikTok Pixel"],
+    "expectedVendors": ["google-tag-manager"],
+    "expectedAbsentVendors": ["meta-pixel", "tiktok-pixel"],
     "expectedEvidence": {
-      "Google Tag Manager": ["source"]
+      "google-tag-manager": ["source"]
     },
     "activation": {
       "mode": "none"
@@ -46,11 +46,11 @@
     "purpose": "Aggregate independent vendors exposed through script and network evidence.",
     "architecture": "traditional",
     "path": "/",
-    "expectedVendors": ["Google Analytics", "Meta Pixel"],
-    "expectedAbsentVendors": ["TikTok Pixel", "The Trade Desk"],
+    "expectedVendors": ["google-analytics", "meta-pixel"],
+    "expectedAbsentVendors": ["tiktok-pixel", "the-trade-desk"],
     "expectedEvidence": {
-      "Google Analytics": ["script"],
-      "Meta Pixel": ["network"]
+      "google-analytics": ["script"],
+      "meta-pixel": ["network"]
     },
     "activation": {
       "mode": "none"
@@ -62,7 +62,7 @@
     "architecture": "traditional",
     "path": "/",
     "expectedVendors": [],
-    "expectedAbsentVendors": ["Google Analytics", "Google Tag Manager", "Meta Pixel", "TikTok Pixel", "The Trade Desk"],
+    "expectedAbsentVendors": ["google-analytics", "google-tag-manager", "meta-pixel", "tiktok-pixel", "the-trade-desk"],
     "expectedEvidence": {},
     "activation": {
       "mode": "none"

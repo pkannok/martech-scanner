@@ -21,7 +21,7 @@ Scenario metadata lives in `test/quality/scenarios.json`. Each scenario currentl
 - `expectedEvidence`: evidence categories required for each expected vendor
 - `activation`: reserved metadata for future consent, interaction, or delayed-activation scenarios; it is not executed yet
 
-The current scanner has no stable machine-readable vendor IDs. The initial contract therefore uses current vendor display names. The scalable vendor-rule phase should introduce stable IDs and migrate this metadata without changing the harness model.
+Migrated vendors now use stable internal IDs in scenario metadata. Legacy vendors without rules may continue to use display names temporarily; the vendor-rule phase should migrate those cases without changing the harness model.
 
 ## Evaluation model
 
