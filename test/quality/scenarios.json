@@ -1,5 +1,20 @@
 [
   {
+    "name": "cookie-vendor-family",
+    "purpose": "Detect multiple cookie-centric vendors without treating lookalike names as evidence.",
+    "architecture": "traditional",
+    "path": "/",
+    "expectedVendors": ["adobe-target", "hotjar", "hubspot", "fullstory"],
+    "expectedAbsentVendors": ["adobe-experience-cloud"],
+    "expectedEvidence": {
+      "adobe-target": ["cookie"],
+      "hotjar": ["cookie"],
+      "hubspot": ["cookie"],
+      "fullstory": ["cookie"]
+    },
+    "activation": { "mode": "none" }
+  },
+  {
     "name": "traditional-direct-script",
     "purpose": "Detect a vendor exposed by a conventional third-party script URL.",
     "architecture": "traditional",

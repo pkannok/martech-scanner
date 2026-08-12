@@ -5,6 +5,8 @@ const { detectVendorFromUrl } = require('../src/detectors');
 const {
   VENDOR_RULES,
   evaluateVendorRules,
+  evaluateCookieRules,
+  cookieRuleMatches,
   vendorIdForName,
 } = require('../src/detection/vendorRules');
 
@@ -63,7 +65,7 @@ test('declarative vendor rules reject lookalike artifacts without vendor context
 });
 
 test('migrated rules preserve public display-name output and stable internal IDs', () => {
-  assert.equal(VENDOR_RULES.length, 5);
+  assert.equal(VENDOR_RULES.length, 9);
   assert.equal(vendorIdForName('Google Analytics'), 'google-analytics');
   assert.deepEqual(
     detectVendorFromUrl('https://www.googletagmanager.com/gtag/js?id=G-RULE123'),
@@ -81,4 +83,30 @@ test('multiple matching rule signals remain one vendor detection', () => {
   assert.deepEqual(detectVendorFromUrl('https://www.googletagmanager.com/gtm.js?id=GTM-RULE123'), [
     { name: 'Google Tag Manager', category: 'tag_manager' },
   ]);
+});
+
+test('cookie rules support exact and prefixed names without capturing values', () => {
+  const findings = evaluateCookieRules([
+    { name: 'mbox', value: 'sensitive-target-value', domain: 'example.test' },
+    { name: '_hjSessionUser_123', value: 'sensitive-hotjar-value', domain: 'example.test' },
+    { name: '__hstc', value: 'sensitive-hubspot-value', domain: 'example.test' },
+    { name: 'fs_uid', value: 'sensitive-fullstory-value', domain: 'example.test' },
+    { name: 'fs_uid', value: 'duplicate', domain: 'example.test' },
+  ]);
+
+  assert.deepEqual(findings.map(finding => finding.rule.id), [
+    'adobe-target',
+    'hotjar',
+    'hubspot',
+    'fullstory',
+  ]);
+  assert.deepEqual(findings.find(finding => finding.rule.id === 'hotjar').cookieNames, ['_hjSessionUser_123']);
+  assert.equal(findings.some(finding => Object.hasOwn(finding, 'value')), false);
+  assert.equal(cookieRuleMatches('mboxPreference', { type: 'exact', name: 'mbox' }), false);
+  assert.equal(cookieRuleMatches('my_mbox_setting', { type: 'exact', name: 'mbox' }), false);
+});
+
+test('supporting-only cookies do not independently create an Adobe Target detection', () => {
+  assert.deepEqual(evaluateCookieRules([{ name: 'at_check', value: '1' }]), []);
+  assert.deepEqual(evaluateCookieRules([{ name: 'mboxEdgeCluster', value: 'default' }]), []);
 });

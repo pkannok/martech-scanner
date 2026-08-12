@@ -49,3 +49,22 @@ Use a specialized detector when a vendor requires compound state, unusual payloa
 Avoid contextless rules such as `/analytics/` or broad short-ID patterns. Shared CDNs, common path names, generic query parameters, and short identifiers require a vendor-specific host or stronger primary signal. A supporting identifier should strengthen an existing candidate, not create an unconditional detection by itself.
 
 Stable IDs are internal at this stage; public scan results retain their existing display-name-based shape for compatibility.
+
+## Cookie rules
+
+Cookie signals use exact names, explicit prefixes, or narrowly justified regular expressions. Exact matching is preferred for names such as `mbox`, `hubspotutk`, and `fs_uid`. A prefix is appropriate when the vendor documents a site-specific suffix, as with Hotjar's `_hjSessionUser_{site_id}`. Broad substring matching is unsafe because names such as `mboxPreference` or `fullstory_setting` do not establish the vendor.
+
+Cookie signals marked `primary` can create a detection. Supporting cookies such as Adobe Target's `at_check` and `mboxEdgeCluster` strengthen context but do not independently create a detection. Cookie evidence stores the matching cookie names, not cookie values; values are intentionally excluded from rule evaluation and vendor findings.
+
+Example:
+
+```js
+{
+  id: 'hotjar',
+  signals: {
+    cookies: [
+      { type: 'prefix', value: '_hjSessionUser_', strength: 'primary' }
+    ]
+  }
+}
+```

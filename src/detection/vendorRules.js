@@ -51,6 +51,56 @@ const VENDOR_RULES = Object.freeze([
       script: [{ hosts: ['omtrdc.net', '2o7.net', 'demdex.net', 'adobedc.net', 'everesttech.net'] }],
     },
   },
+  {
+    id: 'adobe-target',
+    name: 'Adobe Target',
+    category: 'experimentation',
+    signals: {
+      cookies: [
+        { type: 'exact', name: 'mbox', strength: 'primary' },
+        { type: 'exact', name: 'at_check', strength: 'supporting' },
+        { type: 'exact', name: 'mboxEdgeCluster', strength: 'supporting' },
+      ],
+    },
+  },
+  {
+    id: 'hotjar',
+    name: 'Hotjar',
+    category: 'session_replay',
+    signals: {
+      cookies: [
+        { type: 'prefix', value: '_hjSessionUser_', strength: 'primary' },
+        { type: 'prefix', value: '_hjSession_', strength: 'primary' },
+        { type: 'exact', name: '_hjHasCachedUserAttributes', strength: 'supporting' },
+        { type: 'exact', name: '_hjUserAttributesHash', strength: 'supporting' },
+      ],
+    },
+  },
+  {
+    id: 'hubspot',
+    name: 'HubSpot',
+    category: 'customer_data_platform',
+    signals: {
+      cookies: [
+        { type: 'exact', name: 'hubspotutk', strength: 'primary' },
+        { type: 'exact', name: '__hstc', strength: 'primary' },
+        { type: 'exact', name: '__hssc', strength: 'primary' },
+        { type: 'exact', name: '__hssrc', strength: 'primary' },
+      ],
+    },
+  },
+  {
+    id: 'fullstory',
+    name: 'FullStory',
+    category: 'session_replay',
+    signals: {
+      cookies: [
+        { type: 'exact', name: 'fs_uid', strength: 'primary' },
+        { type: 'exact', name: 'fs_cid', strength: 'primary' },
+        { type: 'exact', name: 'fs_lua', strength: 'primary' },
+      ],
+    },
+  },
 ]);
 
 const RULE_BY_NAME = new Map(VENDOR_RULES.map(rule => [rule.name, rule]));
@@ -83,6 +133,26 @@ function evaluateVendorRules(text, options = {}) {
   });
 }
 
+function cookieRuleMatches(cookieName, signal) {
+  if (!cookieName || !signal) return false;
+  if (signal.type === 'exact') return cookieName === signal.name;
+  if (signal.type === 'prefix') return cookieName.startsWith(signal.value);
+  if (signal.type === 'regex' && signal.pattern instanceof RegExp) return signal.pattern.test(cookieName);
+  return false;
+}
+
+function evaluateCookieRules(cookies) {
+  const names = new Set((cookies || []).map(cookie => cookie?.name).filter(Boolean));
+  return VENDOR_RULES
+    .filter(rule => (rule.signals?.cookies || []).some(signal =>
+      signal.strength !== 'supporting' && [...names].some(name => cookieRuleMatches(name, signal))
+    ))
+    .map(rule => ({
+      rule,
+      cookieNames: [...names].filter(name => (rule.signals?.cookies || []).some(signal => cookieRuleMatches(name, signal))),
+    }));
+}
+
 function vendorIdForName(name) {
   return RULE_BY_NAME.get(name)?.id || null;
 }
@@ -98,6 +168,8 @@ function dedupeRuleMatches(matches) {
 module.exports = {
   VENDOR_RULES,
   evaluateVendorRules,
+  evaluateCookieRules,
+  cookieRuleMatches,
   dedupeRuleMatches,
   vendorIdForName,
   vendorNameForId,

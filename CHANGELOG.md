@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Added
+- Cookie-based declarative detection for Adobe Target, Hotjar, HubSpot, and FullStory with scoped exact/prefix matching.
 - Initial hybrid vendor-rule architecture with stable internal IDs, scoped declarative URL signals, and representative migrated vendors.
 - Structured runtime progress events for scan lifecycle, discovery, page progress, retries, failures, report writing, and completion.
 - Initial deterministic detection-quality scenario harness with expected, missed, unexpected, and evidence-gap evaluation.

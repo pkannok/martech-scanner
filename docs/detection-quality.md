@@ -40,16 +40,17 @@ The harness preserves the full page report in the evaluation result, so future m
 - `embedded-iframe-technology`: iframe/source-level tag-manager detection.
 - `multiple-evidence-vendors`: aggregation of independent script and network detections.
 - `negative-lookalike-artifacts`: precision protection against generic IDs and unrelated URLs.
+- `cookie-vendor-family`: browser-pipeline validation for Adobe Target, Hotjar, HubSpot, and FullStory cookie evidence.
 
 The corpus is intentionally small and does not measure consent-gated behavior, delayed initialization, SPA navigation, subdomain discovery, ecommerce flows, response bodies, server-side tagging, or niche-vendor breadth yet.
 
 ## Architecture observations
 
-The harness exposed several pressures for the next vendor-rule phase:
+The harness and vendor-rule migration exposed several pressures for future catalog expansion:
 
-- Vendor identity is currently a display name embedded in rule outputs; stable IDs are not available for scenario metadata.
+- Stable IDs now exist for migrated declarative vendors, while legacy vendors still require transitional display-name mapping.
 - Detection rules and identifier extraction are concentrated in a large detector module, so adding many vendors will increase branching and false-positive risk.
 - Evidence categories are represented across source labels and evidence-type fields, requiring the harness to normalize them before comparison.
 - Generic identifier patterns need strong vendor-context scoping, as shown by the negative scenario's lookalike artifacts.
 
-The next phase should establish a declarative vendor-rule shape with stable IDs, explicit evidence sources, scoped identifier patterns, and independently testable positive/negative examples. This harness is ready to consume that model without changing scanner result compatibility.
+Cookie rules validate exact and prefixed matching without changing scanner result compatibility. The next controlled expansion should cover runtime/global JavaScript signals, followed by context-scoped identifier signals.

@@ -37,12 +37,30 @@ const scenarioBodies = {
       <p>GTMX-NOT-A-REAL-CONTAINER and measurement=not-a-vendor</p>
     </body></html>
   `,
+  'cookie-vendor-family': `
+    <!doctype html><html><head><title>Cookie vendor fixture</title></head>
+    <body><h1>Cookie vendor family</h1></body></html>
+  `,
 };
 
 function getScenarioBody(scenario) {
   const body = scenarioBodies[scenario.name];
   if (!body) throw new Error(`No fixture body registered for scenario: ${scenario.name}`);
   return body;
+}
+
+function getScenarioHeaders(scenario) {
+  if (scenario.name !== 'cookie-vendor-family') return {};
+  return {
+    'set-cookie': [
+      'mbox=target-cookie; Path=/',
+      '_hjSessionUser_123=hotjar-cookie; Path=/',
+      '__hstc=hubspot-cookie; Path=/',
+      '__hssc=hubspot-session; Path=/',
+      'fs_uid=fullstory-cookie; Path=/',
+      'fs_cid=fullstory-consent; Path=/',
+    ],
+  };
 }
 
 async function prepareScenarioContext(context) {
@@ -56,5 +74,6 @@ async function prepareScenarioContext(context) {
 
 module.exports = {
   getScenarioBody,
+  getScenarioHeaders,
   prepareScenarioContext,
 };

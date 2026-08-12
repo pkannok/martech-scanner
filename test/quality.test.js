@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
 
 const { runScanPass } = require('../src/scanner');
 const { evaluateScenario, formatScenarioFailure } = require('./quality/harness');
-const { getScenarioBody, prepareScenarioContext } = require('./quality/fixtures');
+const { getScenarioBody, getScenarioHeaders, prepareScenarioContext } = require('./quality/fixtures');
 
 const scenarios = JSON.parse(fs.readFileSync(path.join(__dirname, 'quality', 'scenarios.json'), 'utf8'));
 let browser;
@@ -37,7 +37,7 @@ async function withScenarioServer(scenario, callback) {
       return;
     }
 
-    response.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+    response.writeHead(200, { 'content-type': 'text/html; charset=utf-8', ...getScenarioHeaders(scenario) });
     response.end(getScenarioBody(scenario));
   });
 

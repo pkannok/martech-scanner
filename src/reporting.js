@@ -1,5 +1,6 @@
 const { dedupeBy } = require('./utils');
 const { SCANNER_VERSION, REPORT_TEMPLATE_VERSION } = require('./version');
+const { evaluateCookieRules } = require('./detection/vendorRules');
 
 const COVERAGE_LIST_LIMIT = 20;
 
@@ -80,6 +81,11 @@ const VENDOR_CONFIDENCE = {
     score: 0.65,
     reason: 'Vendor-specific ID or global was present in page source.',
   },
+  cookie: {
+    level: 'low',
+    score: 0.55,
+    reason: 'A vendor-specific cookie name was visible in the browser context.',
+  },
 };
 
 const VENDOR_EVIDENCE = {
@@ -97,6 +103,11 @@ const VENDOR_EVIDENCE = {
     type: 'inferred',
     label: 'inferred',
     reason: 'The vendor was inferred from vendor-specific IDs or globals found in page source.',
+  },
+  cookie: {
+    type: 'cookie_present',
+    label: 'present in cookies',
+    reason: 'A vendor-specific cookie name was visible in the browser context.',
   },
 };
 
@@ -120,12 +131,12 @@ function evidenceForSource(source) {
   };
 }
 
-function vendorFinding(name, category, source) {
+function vendorFinding(name, category, source, details = {}) {
   return {
     name,
     category,
     source,
-    evidence: evidenceForSource(source),
+    evidence: { ...evidenceForSource(source), ...details },
     confidence: confidenceForSource(source),
   };
 }
@@ -179,6 +190,15 @@ function summarizeVendors(pageReports) {
 
     if (hasTradeDeskId) {
       all.push(vendorFinding('The Trade Desk', 'media_pixel', 'source_code'));
+    }
+
+    for (const cookieFinding of evaluateCookieRules(report.cookies)) {
+      all.push(vendorFinding(
+        cookieFinding.rule.name,
+        cookieFinding.rule.category,
+        'cookie',
+        { cookieNames: cookieFinding.cookieNames }
+      ));
     }
 
     if (
