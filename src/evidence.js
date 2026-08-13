@@ -274,10 +274,26 @@ function mergeSourceEvidence(target, evidence, options = {}) {
     phases: [],
     firstObserved: [],
   };
-  observation.phases.push({ phase, completedAt: nowIso() });
+  observation.phases.push({
+    phase,
+    completedAt: nowIso(),
+    ...(evidence.routeFrom ? { routeFrom: evidence.routeFrom } : {}),
+    ...(evidence.routeTo ? { routeTo: evidence.routeTo } : {}),
+    ...(evidence.interactionType ? { interactionType: evidence.interactionType } : {}),
+    ...(evidence.interactionLabel ? { interactionLabel: evidence.interactionLabel } : {}),
+  });
   const recordFirstObserved = (kind, key, vendor) => {
     if (!key || observation.firstObserved.some(item => item.kind === kind && item.key === key)) return;
-    observation.firstObserved.push({ kind, key, vendor: vendor || null, phase });
+    observation.firstObserved.push({
+      kind,
+      key,
+      vendor: vendor || null,
+      phase,
+      ...(evidence.routeFrom ? { routeFrom: evidence.routeFrom } : {}),
+      ...(evidence.routeTo ? { routeTo: evidence.routeTo } : {}),
+      ...(evidence.interactionType ? { interactionType: evidence.interactionType } : {}),
+      ...(evidence.interactionLabel ? { interactionLabel: evidence.interactionLabel } : {}),
+    });
   };
 
   for (const finding of evidence.networkFindings || []) {

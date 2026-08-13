@@ -60,7 +60,7 @@ for (const scenario of scenarios) {
         url,
         url,
         5000,
-        false,
+        ['consent-accepted', 'spa-navigation', 'interaction'].includes(scenario.activation?.mode),
         {
           prepareContext: prepareScenarioContext,
           delayedObservationMs: scenario.observation?.delayedWindowMs,

@@ -25,7 +25,6 @@ const { discoverPages, prioritizeScanUrls } = require('./discovery');
 const {
   createScanContext,
   safeGoto,
-  clickConsentButtons,
   stimulatePageActivity,
 } = require('./browser');
 
@@ -35,6 +34,9 @@ const {
   buildSummaryMarkdown,
 } = require('./reporting');
 const { DEFAULT_DELAYED_OBSERVATION_MS } = require('./config');
+const { acceptConsent } = require('./consent');
+const { observeSpaRoute } = require('./spa');
+const { performSafeInteraction } = require('./interaction');
 
 function pageArtifactSlug(urlString) {
   const url = new URL(urlString);
@@ -133,6 +135,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
       retryMode: options.retryMode || null,
       tracePath: options.tracePath || null,
       harPath: options.harPath || null,
+      consent: { detected: false, attempted: false, success: false },
     },
     networkFindings: [],
     scriptFindings: [],
@@ -152,6 +155,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
       googleGlobals: {},
     },
   };
+  let activeRoute = null;
 
   try {
     if (typeof options.prepareContext === 'function') {
@@ -183,22 +187,7 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     });
     progressObservation(options.progress, { phase: 'baseline', url: targetUrl });
 
-    if (enableConsentClick) {
-      const consentClicks = await clickConsentButtons(page);
-      pageReport.consentClicks = consentClicks;
-
-      if (consentClicks.length) {
-        await sleep(3000);
-
-        const postConsentEvidence = await collectSourceEvidence(page, context, {
-          baseUrl,
-          phase: 'post-consent',
-        });
-        mergeSourceEvidence(pageReport, postConsentEvidence);
-      }
-    }
-
-    await stimulatePageActivity(page, { rich: options.richInteractions === true });
+    await stimulatePageActivity(page);
 
     const delayedObservationMs = Number.isFinite(options.delayedObservationMs)
       ? Math.max(0, options.delayedObservationMs)
@@ -216,6 +205,83 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     });
     mergeSourceEvidence(pageReport, postActivityEvidence);
     progressObservation(options.progress, { phase: 'delayed', url: targetUrl, observing: false, durationMs: delayedObservationMs });
+
+    if (enableConsentClick) {
+      const consent = await acceptConsent(page, { clickTimeoutMs: options.consentClickTimeoutMs });
+      pageReport.diagnostics.consent = consent;
+      pageReport.consentClicks = consent.success ? [consent.controlText] : [];
+      if (consent.detected) progressObservation(options.progress, { phase: 'consent', url: targetUrl, action: consent.success ? 'accepted' : 'failed', consent });
+      if (consent.success) {
+        const postConsentMs = Number.isFinite(options.consentObservationMs) ? Math.max(0, options.consentObservationMs) : delayedObservationMs;
+        progressObservation(options.progress, { phase: 'consent-accepted', url: targetUrl, observing: true, durationMs: postConsentMs });
+        await sleep(postConsentMs);
+        const postConsentEvidence = await collectSourceEvidence(page, context, {
+          baseUrl,
+          phase: 'consent-accepted',
+          includeScripts: true,
+          includeCookies: true,
+          includeNetwork: true,
+          requestEvents: requestRecorder.events,
+        });
+        mergeSourceEvidence(pageReport, postConsentEvidence);
+        progressObservation(options.progress, { phase: 'consent-accepted', url: targetUrl, observing: false, durationMs: postConsentMs });
+      }
+    }
+
+    if (options.enableSpaObservation !== false) {
+      const spa = await observeSpaRoute(page, {
+        clickTimeoutMs: options.spaClickTimeoutMs,
+        routeTimeoutMs: options.spaRouteTimeoutMs,
+      });
+      pageReport.diagnostics.spa = spa;
+      if (spa.success) {
+        activeRoute = { routeFrom: spa.routeFrom, routeTo: spa.routeTo };
+        const postRouteMs = Number.isFinite(options.spaObservationMs) ? Math.max(0, options.spaObservationMs) : delayedObservationMs;
+        progressObservation(options.progress, { phase: 'spa-navigation', url: targetUrl, routeFrom: spa.routeFrom, routeTo: spa.routeTo, observing: true, durationMs: postRouteMs });
+        await sleep(postRouteMs);
+        const routeEvidence = await collectSourceEvidence(page, context, {
+          baseUrl,
+          phase: 'spa-navigation',
+          routeFrom: spa.routeFrom,
+          routeTo: spa.routeTo,
+          includeScripts: true,
+          includeCookies: true,
+          includeNetwork: true,
+          requestEvents: requestRecorder.events,
+        });
+        routeEvidence.routeFrom = spa.routeFrom;
+        routeEvidence.routeTo = spa.routeTo;
+        mergeSourceEvidence(pageReport, routeEvidence);
+        progressObservation(options.progress, { phase: 'spa-navigation', url: targetUrl, routeFrom: spa.routeFrom, routeTo: spa.routeTo, observing: false, durationMs: postRouteMs });
+      }
+    }
+
+    if (options.enableInteractionObservation !== false) {
+      const interaction = await performSafeInteraction(page, { clickTimeoutMs: options.interactionClickTimeoutMs });
+      pageReport.diagnostics.interaction = interaction;
+      if (interaction.success) {
+        const postInteractionMs = Number.isFinite(options.interactionObservationMs) ? Math.max(0, options.interactionObservationMs) : delayedObservationMs;
+        progressObservation(options.progress, { phase: 'interaction', url: targetUrl, interactionType: interaction.type, interactionLabel: interaction.label, observing: true, durationMs: postInteractionMs });
+        await sleep(postInteractionMs);
+        const interactionEvidence = await collectSourceEvidence(page, context, {
+          baseUrl,
+          phase: 'interaction',
+          ...(activeRoute || {}),
+          includeScripts: true,
+          includeCookies: true,
+          includeNetwork: true,
+          requestEvents: requestRecorder.events,
+        });
+        interactionEvidence.interactionType = interaction.type;
+        interactionEvidence.interactionLabel = interaction.label;
+        if (activeRoute) {
+          interactionEvidence.routeFrom = activeRoute.routeFrom;
+          interactionEvidence.routeTo = activeRoute.routeTo;
+        }
+        mergeSourceEvidence(pageReport, interactionEvidence);
+        progressObservation(options.progress, { phase: 'interaction', url: targetUrl, interactionType: interaction.type, interactionLabel: interaction.label, observing: false, durationMs: postInteractionMs });
+      }
+    }
 
     if (options.tracePath) {
       await context.tracing.stop({ path: options.tracePath }).catch(() => {});
