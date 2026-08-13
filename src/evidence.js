@@ -212,6 +212,7 @@ function ensureReportEvidenceContainers(report) {
   report.sourceSignals.htmlIds = report.sourceSignals.htmlIds || [];
   report.sourceSignals.noscriptIds = report.sourceSignals.noscriptIds || [];
   report.sourceSignals.googleGlobals = report.sourceSignals.googleGlobals || {};
+  report.diagnostics = report.diagnostics || {};
 }
 
 function mergeAppearingGlobals(targetGlobals, incomingGlobals) {
@@ -267,6 +268,33 @@ function mergeSourceSignals(target, sourceSignals, options = {}) {
 
 function mergeSourceEvidence(target, evidence, options = {}) {
   ensureReportEvidenceContainers(target);
+
+  const phase = evidence.phase || options.phase || 'unknown';
+  const observation = target.diagnostics.observation || {
+    phases: [],
+    firstObserved: [],
+  };
+  observation.phases.push({ phase, completedAt: nowIso() });
+  const recordFirstObserved = (kind, key, vendor) => {
+    if (!key || observation.firstObserved.some(item => item.kind === kind && item.key === key)) return;
+    observation.firstObserved.push({ kind, key, vendor: vendor || null, phase });
+  };
+
+  for (const finding of evidence.networkFindings || []) {
+    recordFirstObserved('network', `${finding.vendor?.name}|${finding.method}|${finding.url}`, finding.vendor?.name);
+  }
+  for (const finding of evidence.scriptFindings || []) {
+    for (const vendor of finding.detectedVendors || []) recordFirstObserved('script', finding.src, vendor.name);
+  }
+  const cookieVendors = { mbox: 'Adobe Target', hubspotutk: 'HubSpot', __hstc: 'HubSpot', __hssc: 'HubSpot', __hssrc: 'HubSpot' };
+  for (const cookie of evidence.cookies || []) {
+    recordFirstObserved('cookie', `${cookie.name}|${cookie.domain}|${cookie.path}`, cookieVendors[cookie.name]);
+  }
+  const globalVendors = { _hsq: 'HubSpot', utag: 'Tealium', optimizely: 'Optimizely', FS: 'FullStory' };
+  for (const signal of evidence.pageGlobals?.runtimeSignals || []) {
+    if (signal.exists && signal.typeAllowed !== false) recordFirstObserved('global', signal.path, globalVendors[signal.path]);
+  }
+  target.diagnostics.observation = observation;
 
   if (options.replacePageGlobals) {
     target.pageGlobals = evidence.pageGlobals || target.pageGlobals;

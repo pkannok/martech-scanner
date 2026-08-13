@@ -154,3 +154,30 @@ test('mergeSourceEvidence replaces baseline evidence and merges later evidence d
   assert.equal(report.cookies.length, 1);
   assert.equal(report.networkFindings.length, 1);
 });
+
+test('mergeSourceEvidence retains first-observed phase without duplicating evidence', () => {
+  const report = makePageReport();
+  const network = {
+    vendor: { name: 'TikTok Pixel', category: 'media_pixel' },
+    method: 'GET',
+    url: 'https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=PHASE123456',
+  };
+
+  mergeSourceEvidence(report, {
+    phase: 'baseline',
+    pageGlobals: { runtimeSignals: [{ path: 'utag', exists: true, type: 'object', typeAllowed: true }] },
+    sourceSignals: {},
+    networkFindings: [network],
+  });
+  mergeSourceEvidence(report, {
+    phase: 'delayed',
+    pageGlobals: { runtimeSignals: [{ path: 'utag', exists: true, type: 'object', typeAllowed: true }] },
+    sourceSignals: {},
+    networkFindings: [network],
+  });
+
+  assert.equal(report.networkFindings.length, 1);
+  assert.equal(report.diagnostics.observation.firstObserved.find(item => item.kind === 'network').phase, 'baseline');
+  assert.equal(report.diagnostics.observation.firstObserved.find(item => item.kind === 'global').phase, 'baseline');
+  assert.deepEqual(report.diagnostics.observation.phases.map(item => item.phase), ['baseline', 'delayed']);
+});

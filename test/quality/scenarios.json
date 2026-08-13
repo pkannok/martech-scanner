@@ -1,5 +1,28 @@
 [
   {
+    "name": "delayed-observation-family",
+    "purpose": "Distinguish baseline evidence from bounded delayed network, global, and cookie initialization.",
+    "architecture": "delayed",
+    "path": "/",
+    "expectedVendors": ["google-analytics", "tiktok-pixel", "hubspot", "adobe-target"],
+    "expectedAbsentVendors": ["meta-pixel"],
+    "expectedEvidence": {
+      "google-analytics": ["network"],
+      "tiktok-pixel": ["network"],
+      "hubspot": ["global"],
+      "adobe-target": ["cookie"]
+    },
+    "expectedFirstObserved": {
+      "Google Analytics": "baseline",
+      "TikTok Pixel": "delayed",
+      "HubSpot": "delayed",
+      "Adobe Target": "delayed"
+    },
+    "expectedIdentifiers": {},
+    "observation": { "delayedWindowMs": 2500 },
+    "activation": { "mode": "delayed" }
+  },
+  {
     "name": "context-scoped-identifier-family",
     "purpose": "Extract representative identifiers only when the URL host and path establish vendor context.",
     "architecture": "mixed",
