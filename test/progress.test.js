@@ -46,6 +46,7 @@ test('progress formatting covers scan lifecycle, failure, retry, and completion'
     'discovery:complete',
     'page:start',
     'page:retry',
+    'page:observation',
     'page:complete',
     'page:failed',
     'scan:writing',
@@ -55,6 +56,8 @@ test('progress formatting covers scan lifecycle, failure, retry, and completion'
   assert.match(formatProgressEvent({ type: 'scan:start', domain: 'https://example.test' }), /Starting scan/);
   assert.match(formatProgressEvent({ type: 'page:start', index: 1, total: 2, url: 'https://example.test' }), /Scanning page 1\/2/);
   assert.match(formatProgressEvent({ type: 'page:retry', url: 'https://example.test' }), /Retrying thin page/);
+  assert.match(formatProgressEvent({ type: 'page:observation', phase: 'delayed', observing: true, url: 'https://example.test' }), /Observing delayed activity/);
+  assert.match(formatProgressEvent({ type: 'page:observation', phase: 'delayed', observing: false, url: 'https://example.test' }), /Completed delayed observation/);
   assert.match(formatProgressEvent({ type: 'page:failed', url: 'https://example.test', error: 'timeout' }), /Page failed.*timeout/);
   assert.match(formatProgressEvent({ type: 'scan:complete', pageCount: 2, vendorCount: 3, idCount: 4 }), /pages=2, vendors=3, ids=4/);
 });

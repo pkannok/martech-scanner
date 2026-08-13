@@ -14,6 +14,8 @@ existing vendor/evidence result structures
 reporting and quality evaluation
 ```
 
+Observation is checkpoint-based: the scanner records a baseline snapshot after navigation, keeps request listeners active, then takes a bounded delayed snapshot. Network requests are event-driven; globals, cookies, scripts, DOM/source, and iframe state are snapshot-based. Detection runs after the snapshots are merged, while internal observation metadata records the first phase that saw each finding.
+
 ## Rule schema
 
 Declarative rules live in `src/detection/vendorRules.js` and have stable internal IDs, display names, categories, and explicit source-scoped signals:

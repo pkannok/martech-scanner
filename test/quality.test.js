@@ -61,7 +61,10 @@ for (const scenario of scenarios) {
         url,
         5000,
         false,
-        { prepareContext: prepareScenarioContext }
+        {
+          prepareContext: prepareScenarioContext,
+          delayedObservationMs: scenario.observation?.delayedWindowMs,
+        }
       );
       const result = evaluateScenario(scenario, report);
 

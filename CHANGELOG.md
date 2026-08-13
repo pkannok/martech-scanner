@@ -3,6 +3,7 @@
 ## Unreleased
 
 ### Added
+- Bounded delayed observation with baseline/delayed checkpoints, first-observed internal provenance, and deterministic delayed quality fixtures.
 - Context-scoped identifier extraction for representative Google Analytics, Google Tag Manager, Meta Pixel, and The Trade Desk URL signals, with positive/negative quality coverage.
 - Bounded declarative runtime/global detection for HubSpot, FullStory, Tealium, and Optimizely.
 - Cookie-based declarative detection for Adobe Target, Hotjar, HubSpot, and FullStory with scoped exact/prefix matching.

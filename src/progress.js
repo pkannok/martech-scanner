@@ -9,6 +9,7 @@ const PROGRESS_EVENT_TYPES = Object.freeze([
   'discovery:complete',
   'page:start',
   'page:retry',
+  'page:observation',
   'page:complete',
   'page:failed',
   'scan:writing',
@@ -32,6 +33,8 @@ function formatProgressEvent(event) {
       return `Scanning page ${event.index}/${event.total}: ${event.url}`;
     case 'page:retry':
       return `Retrying thin page with richer interactions: ${event.url}`;
+    case 'page:observation':
+      return `${event.phase === 'delayed' && event.observing ? 'Observing delayed activity' : `Completed ${event.phase} observation`}${event.url ? `: ${event.url}` : ''}`;
     case 'page:failed':
       return `Page failed: ${event.url}${event.error ? `, error=${event.error}` : ''}`;
     case 'page:complete': {

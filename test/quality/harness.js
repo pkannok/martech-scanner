@@ -58,6 +58,10 @@ function evaluateScenario(scenario, report) {
   const unexpected = sortValues([...detected.keys()].filter(vendor => !expected.has(vendor)));
   const evidenceMisses = [];
   const identifierMisses = [];
+  const firstObserved = new Map();
+  for (const item of report.diagnostics?.observation?.firstObserved || []) {
+    if (item.vendor && !firstObserved.has(item.vendor)) firstObserved.set(item.vendor, item.phase);
+  }
 
   for (const [vendor, expectedEvidence] of Object.entries(scenario.expectedEvidence || {})) {
     const observedEvidence = detected.get(vendor)?.evidence || new Set();
@@ -78,10 +82,17 @@ function evaluateScenario(scenario, report) {
     if (missing.length) identifierMisses.push({ vendor, expected: sortValues(expectedIdentifiers), observed: sortValues(observed), missing });
   }
 
+  const observationMisses = [];
+  for (const [vendor, expectedPhase] of Object.entries(scenario.expectedFirstObserved || {})) {
+    if (firstObserved.get(vendor) !== expectedPhase) {
+      observationMisses.push({ vendor, expected: expectedPhase, observed: firstObserved.get(vendor) || '(none)' });
+    }
+  }
+
   return {
     scenario: scenario.name,
     architecture: scenario.architecture,
-    passed: missed.length === 0 && unexpected.length === 0 && evidenceMisses.length === 0 && identifierMisses.length === 0,
+    passed: missed.length === 0 && unexpected.length === 0 && evidenceMisses.length === 0 && identifierMisses.length === 0 && observationMisses.length === 0,
     expected: sortValues(expected),
     detected: sortValues(detected.keys()),
     missed,
@@ -89,6 +100,7 @@ function evaluateScenario(scenario, report) {
     explicitlyAbsent: sortValues(explicitlyAbsent),
     evidenceMisses,
     identifierMisses,
+    observationMisses,
     report,
   };
 }
@@ -123,6 +135,10 @@ function formatScenarioFailure(result) {
     for (const gap of result.identifierMisses) {
       lines.push(`  ${label(gap.vendor)}`, `    Expected: ${gap.expected.join(', ')}`, `    Observed: ${gap.observed.length ? gap.observed.join(', ') : '(none)'}`);
     }
+  }
+  if (result.observationMisses.length) {
+    lines.push('', 'Observation gaps:');
+    for (const gap of result.observationMisses) lines.push(`  ${label(gap.vendor)}`, `    Expected first observed: ${gap.expected}`, `    Observed: ${gap.observed}`);
   }
 
   return lines.join('\n');

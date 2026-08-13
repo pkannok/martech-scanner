@@ -1,4 +1,20 @@
 const scenarioBodies = {
+  'delayed-observation-family': `
+    <!doctype html><html><head><title>Delayed observation fixture</title></head><body>
+      <script>
+        fetch('https://www.google-analytics.com/g/collect?tid=G-BASELINEQUALITY').catch(() => {});
+        setTimeout(() => {
+          fetch('https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=DELAYEDQUALITY1').catch(() => {});
+          window._hsq = [];
+          document.cookie = 'mbox=delayed-target; path=/';
+        }, 5000);
+        setTimeout(() => {
+          const lateHost = ['www', 'facebook', 'com'].join('.');
+          fetch('https://' + lateHost + '/tr?id=' + '123456789012345' + '&ev=Late').catch(() => {});
+        }, 30000);
+      </script>
+    </body></html>
+  `,
   'context-scoped-identifier-family': `
     <!doctype html><html><head><title>Context identifier fixture</title>
       <script src="https://www.googletagmanager.com/gtag/js?id=G-CONTEXTQUALITY"></script>

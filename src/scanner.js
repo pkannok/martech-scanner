@@ -34,6 +34,7 @@ const {
   collectAllIds,
   buildSummaryMarkdown,
 } = require('./reporting');
+const { DEFAULT_DELAYED_OBSERVATION_MS } = require('./config');
 
 function pageArtifactSlug(urlString) {
   const url = new URL(urlString);
@@ -171,11 +172,16 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
     const baselineEvidence = await collectSourceEvidence(page, context, {
       baseUrl,
       phase: 'baseline',
+      includeScripts: true,
+      includeCookies: true,
+      includeNetwork: true,
+      requestEvents: requestRecorder.events,
     });
     mergeSourceEvidence(pageReport, baselineEvidence, {
       replacePageGlobals: true,
       replaceSourceSignals: true,
     });
+    progressObservation(options.progress, { phase: 'baseline', url: targetUrl });
 
     if (enableConsentClick) {
       const consentClicks = await clickConsentButtons(page);
@@ -194,15 +200,22 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
 
     await stimulatePageActivity(page, { rich: options.richInteractions === true });
 
+    const delayedObservationMs = Number.isFinite(options.delayedObservationMs)
+      ? Math.max(0, options.delayedObservationMs)
+      : DEFAULT_DELAYED_OBSERVATION_MS;
+    progressObservation(options.progress, { phase: 'delayed', url: targetUrl, observing: true, durationMs: delayedObservationMs });
+    await sleep(delayedObservationMs);
+
     const postActivityEvidence = await collectSourceEvidence(page, context, {
       baseUrl,
-      phase: 'post-activity',
+      phase: 'delayed',
       includeScripts: true,
       includeCookies: true,
       includeNetwork: true,
       requestEvents: requestRecorder.events,
     });
     mergeSourceEvidence(pageReport, postActivityEvidence);
+    progressObservation(options.progress, { phase: 'delayed', url: targetUrl, observing: false, durationMs: delayedObservationMs });
 
     if (options.tracePath) {
       await context.tracing.stop({ path: options.tracePath }).catch(() => {});
@@ -225,6 +238,10 @@ async function runScanPass(browser, baseUrl, targetUrl, timeout, enableConsentCl
   }
 }
 
+function progressObservation(progress, event) {
+  if (typeof progress === 'function') progress({ type: 'page:observation', ...event });
+}
+
 async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsentClick, artifactsDir, options = {}) {
   const progress = options.progress || (() => {});
   const initialReport = await runScanPass(
@@ -232,7 +249,8 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
     baseUrl,
     targetUrl,
     timeout,
-    enableConsentClick
+    enableConsentClick,
+    options
   );
 
   if (!shouldRetryThinPage(initialReport)) {
@@ -257,6 +275,8 @@ async function scanSinglePage(browser, baseUrl, targetUrl, timeout, enableConsen
       retryReason: 'Source IDs were present but no network or third-party script findings were captured.',
       tracePath: path.join(artifactsDir, `${artifactSlug}_retry_trace.zip`),
       harPath: path.join(artifactsDir, `${artifactSlug}_retry.har`),
+      delayedObservationMs: options.delayedObservationMs,
+      progress,
     }
   );
 
