@@ -59,8 +59,12 @@ function evaluateScenario(scenario, report) {
   const evidenceMisses = [];
   const identifierMisses = [];
   const firstObserved = new Map();
+  const firstObservedItems = new Map();
   for (const item of report.diagnostics?.observation?.firstObserved || []) {
-    if (item.vendor && !firstObserved.has(item.vendor)) firstObserved.set(item.vendor, item.phase);
+    if (item.vendor && !firstObserved.has(item.vendor)) {
+      firstObserved.set(item.vendor, item.phase);
+      firstObservedItems.set(item.vendor, item);
+    }
   }
 
   for (const [vendor, expectedEvidence] of Object.entries(scenario.expectedEvidence || {})) {
@@ -88,11 +92,28 @@ function evaluateScenario(scenario, report) {
       observationMisses.push({ vendor, expected: expectedPhase, observed: firstObserved.get(vendor) || '(none)' });
     }
   }
+  const routeMisses = [];
+  for (const [vendor, expectedPath] of Object.entries(scenario.expectedFirstObservedRoute || {})) {
+    const item = firstObservedItems.get(vendor);
+    let observedPath = '(none)';
+    try { observedPath = item?.routeTo ? new URL(item.routeTo).pathname : '(none)'; } catch { observedPath = item?.routeTo || '(none)'; }
+    if (observedPath !== expectedPath) routeMisses.push({ vendor, expected: expectedPath, observed: observedPath });
+  }
+  const interactionMisses = [];
+  for (const [vendor, expectedType] of Object.entries(scenario.expectedInteractionType || {})) {
+    const observedType = firstObservedItems.get(vendor)?.interactionType;
+    if (observedType !== expectedType) interactionMisses.push({ vendor, expected: expectedType, observed: observedType || '(none)' });
+  }
+  const interactionAttemptMisses = [];
+  if (scenario.expectedInteractionAttempted !== undefined) {
+    const observed = Boolean(report.diagnostics?.interaction?.attempted);
+    if (observed !== scenario.expectedInteractionAttempted) interactionAttemptMisses.push({ expected: scenario.expectedInteractionAttempted, observed });
+  }
 
   return {
     scenario: scenario.name,
     architecture: scenario.architecture,
-    passed: missed.length === 0 && unexpected.length === 0 && evidenceMisses.length === 0 && identifierMisses.length === 0 && observationMisses.length === 0,
+    passed: missed.length === 0 && unexpected.length === 0 && evidenceMisses.length === 0 && identifierMisses.length === 0 && observationMisses.length === 0 && routeMisses.length === 0 && interactionMisses.length === 0 && interactionAttemptMisses.length === 0,
     expected: sortValues(expected),
     detected: sortValues(detected.keys()),
     missed,
@@ -101,6 +122,9 @@ function evaluateScenario(scenario, report) {
     evidenceMisses,
     identifierMisses,
     observationMisses,
+    routeMisses,
+    interactionMisses,
+    interactionAttemptMisses,
     report,
   };
 }
@@ -139,6 +163,18 @@ function formatScenarioFailure(result) {
   if (result.observationMisses.length) {
     lines.push('', 'Observation gaps:');
     for (const gap of result.observationMisses) lines.push(`  ${label(gap.vendor)}`, `    Expected first observed: ${gap.expected}`, `    Observed: ${gap.observed}`);
+  }
+  if (result.routeMisses.length) {
+    lines.push('', 'Route provenance gaps:');
+    for (const gap of result.routeMisses) lines.push(`  ${label(gap.vendor)}`, `    Expected route: ${gap.expected}`, `    Observed route: ${gap.observed}`);
+  }
+  if (result.interactionMisses.length) {
+    lines.push('', 'Interaction provenance gaps:');
+    for (const gap of result.interactionMisses) lines.push(`  ${label(gap.vendor)}`, `    Expected interaction: ${gap.expected}`, `    Observed interaction: ${gap.observed}`);
+  }
+  if (result.interactionAttemptMisses.length) {
+    lines.push('', 'Interaction safety gaps:');
+    for (const gap of result.interactionAttemptMisses) lines.push(`  Expected attempted: ${gap.expected}`, `  Observed attempted: ${gap.observed}`);
   }
 
   return lines.join('\n');

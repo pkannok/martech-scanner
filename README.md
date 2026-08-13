@@ -32,7 +32,7 @@ It does **not** currently use:
 
 Current version: `v0.3.0`
 Status: Internal development / teammate testing
-Current focus: Making scan progress observable for technical users and future diagnostic workflows.
+Current focus: Architecture-aware discovery after completing bounded observation and safe interaction phases.
 
 ### Recently completed
 
@@ -43,6 +43,9 @@ Current focus: Making scan progress observable for technical users and future di
 - Added an analyst-friendly Executive Summary near the top of generated Markdown reports.
 - Added Scan Coverage context for scanned pages, discovered-but-not-scanned URLs, failed/partial pages, and low-evidence pages.
 - Added structured runtime progress events for scan lifecycle, discovery, page progress, retries, failures, report writing, and completion.
+- Added bounded consent-gated observation with context-aware acceptance, post-consent snapshots, and consent diagnostics.
+- Added bounded SPA observation with safe same-origin route activation, client-side navigation detection, route provenance, and deterministic fixtures.
+- Added bounded safe interaction observation for one meaningful scroll and one semantic tab, accordion, or content-reveal control per page.
 
 MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
 
@@ -154,7 +157,16 @@ package.json
   Captures page-level evidence such as scripts, globals, cookies, HTML, and inline source signals.
 
 - `src/browser.js`
-  Handles Playwright-specific browser actions such as creating contexts, navigating pages, clicking consent buttons, and stimulating pages so deferred tags can fire.
+  Handles Playwright-specific browser context creation and navigation lifecycle.
+
+- `src/consent.js`
+  Recognizes likely consent contexts and safely accepts one narrowly classified consent control.
+
+- `src/spa.js`
+  Selects one safe same-origin route candidate and distinguishes client-side routing from full navigation.
+
+- `src/interaction.js`
+  Performs the bounded scroll and semantic safe-control interactions used for observability.
 
 - `src/reporting.js`
   Builds the final summaries, vendor rollups, ID rollups, and Markdown output.
@@ -296,7 +308,7 @@ node src/scanner.js --version
   Changes the per-navigation timeout in milliseconds. The default is `45000`; the minimum is `1000`.
 
 - `--enableConsentClick=false`
-  Disables the generic consent-button click behavior.
+  Disables bounded context-aware consent acceptance. Safe SPA and interaction observation remain separate phases.
 
 - `--out=./scan-output`
   Changes the output folder.
@@ -317,6 +329,8 @@ The Markdown summary also includes a Scan Coverage section that explains which p
 The Markdown summary includes an Evidence Type Guide and evidence type labels so analysts can distinguish runtime network evidence from script, source, cookie, iframe/noscript, global, and inferred rule-match signals.
 
 The Markdown summary groups detected vendors by analyst-friendly categories such as tag management, analytics, media / advertising, consent / CMP, ecommerce / platform, personalization / experimentation, customer data / CDP, and other / uncategorized.
+
+Evidence is observed through a phase lifecycle: `baseline`, `delayed`, `consent-accepted`, `spa-navigation`, and `interaction`. JSON diagnostics preserve first-observed phase, and route or interaction metadata when available, without duplicating vendor detections.
 
 The Markdown summary ends with Recommended Manual Review guidance so analysts have a concise checklist for coverage, source-only evidence, consent behavior, failed or thin pages, detected IDs, conversion paths, and non-browser-visible systems.
 
@@ -398,12 +412,15 @@ Discovery stays within the seed site and same-site subdomains. URLs are ranked b
 2. Discover and rank same-site pages, including useful subdomains
 3. Open each page in a fresh browser context
 4. Capture requests and source signals
-5. Optionally click common consent buttons
-6. Re-check the page after consent
-7. Stimulate the page with lightweight interactions so deferred tags have a chance to fire
-8. Retry especially thin pages with richer interactions and artifact capture when needed
-9. Extract IDs and classify vendors
-10. Write JSON and Markdown output
+5. Complete bounded delayed observation
+6. Optionally recognize and accept one consent control, then observe `consent-accepted`
+7. Optionally activate one safe same-origin SPA route, then observe `spa-navigation`
+8. Perform at most one bounded scroll and one semantic safe interaction, then observe `interaction`
+9. Retry especially thin pages with artifact capture when needed
+10. Extract IDs and classify vendors
+11. Write JSON and Markdown output
+
+The safe interaction phase is intentionally conservative. It supports one meaningful scroll and at most one semantic tab, accordion/disclosure, or clearly labeled content-reveal control per page. It refuses forms, purchases, authentication, downloads, permissions, arbitrary links, and ambiguous buttons.
 
 ## Detection notes
 
@@ -436,7 +453,8 @@ Treat findings as first-pass technical evidence. An analyst should review the sc
 - Source-code evidence and runtime network evidence are not equivalent; source presence does not prove observed firing.
 - The scanner can miss tools hidden behind login, geo targeting, or unscanned user journeys.
 - It does not yet analyze response bodies or comprehensively parse every vendor request payload.
-- It does not run fully separated baseline, post-consent, and conversion scenarios.
+- It does not run authenticated, conversion, preference-center, or multi-step interaction workflows.
+- SPA route activation and safe interaction are bounded enrichment steps; they do not expand the normal crawl queue.
 - Confidence scoring and evidence classification are rule-based rather than probabilistic.
 - Thin-page retries may create HAR and trace artifacts, but artifacts are not exported for every page by default.
 
@@ -545,12 +563,12 @@ Testing principles and expectations are documented in `docs/testing-strategy.md`
 
 Good next improvements for team use:
 
-- add scenario-based scans
+- expand architecture-aware page and route selection
 - add an explicit CLI switch for forced HAR/trace export on healthy scans
 - add screenshots for fixture/debug capture
 - make vendor rules easier to maintain
 - standardize report schema for onboarding use
-- improve CLI runtime feedback
+- evaluate standard versus deep scan modes after architecture-aware discovery
 
 The scanner runtime feedback should show:
 

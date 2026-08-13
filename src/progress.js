@@ -34,7 +34,13 @@ function formatProgressEvent(event) {
     case 'page:retry':
       return `Retrying thin page with richer interactions: ${event.url}`;
     case 'page:observation':
-      return `${event.phase === 'delayed' && event.observing ? 'Observing delayed activity' : `Completed ${event.phase} observation`}${event.url ? `: ${event.url}` : ''}`;
+      if (event.phase === 'consent' && event.action === 'accepted') return `Consent accepted: ${event.consent?.controlText || 'selected control'}${event.url ? `: ${event.url}` : ''}`;
+      if (event.phase === 'consent' && event.action === 'failed') return `Consent attempt failed${event.url ? `: ${event.url}` : ''}`;
+      if (event.phase === 'spa-navigation' && event.observing) return `Observing SPA route ${event.routeFrom || '?'} → ${event.routeTo || '?'}${event.url ? `: ${event.url}` : ''}`;
+      if (event.phase === 'spa-navigation' && !event.observing) return `Completed SPA observation ${event.routeFrom || '?'} → ${event.routeTo || '?'}${event.url ? `: ${event.url}` : ''}`;
+      if (event.phase === 'interaction' && event.observing) return `Observing safe interaction${event.interactionType ? ` (${event.interactionType})` : ''}${event.interactionLabel ? `: ${event.interactionLabel}` : ''}`;
+      if (event.phase === 'interaction' && !event.observing) return `Completed interaction observation${event.url ? `: ${event.url}` : ''}`;
+      return `${event.observing ? `Observing ${event.phase} activity` : `Completed ${event.phase} observation`}${event.url ? `: ${event.url}` : ''}`;
     case 'page:failed':
       return `Page failed: ${event.url}${event.error ? `, error=${event.error}` : ''}`;
     case 'page:complete': {

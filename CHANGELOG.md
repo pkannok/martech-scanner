@@ -3,6 +3,11 @@
 ## Unreleased
 
 ### Added
+- Bounded safe interaction observation with one meaningful scroll and one semantic tab, accordion, or content-reveal activation per page.
+- Interaction provenance and diagnostics, including interaction type, label, activation result, and route context where available.
+- Deterministic interaction quality fixtures covering scroll, tabs, accordions, unsafe controls, and ambiguous buttons.
+- Bounded SPA-triggered observation with safe same-origin route activation, client-side route confirmation, route provenance, and full-navigation comparison fixtures.
+- Bounded consent-gated observation with context-aware acceptance, post-consent evidence sampling, and consent diagnostics.
 - Bounded delayed observation with baseline/delayed checkpoints, first-observed internal provenance, and deterministic delayed quality fixtures.
 - Context-scoped identifier extraction for representative Google Analytics, Google Tag Manager, Meta Pixel, and The Trade Desk URL signals, with positive/negative quality coverage.
 - Bounded declarative runtime/global detection for HubSpot, FullStory, Tealium, and Optimizely.
@@ -17,6 +22,7 @@
 - Evidence type labels for vendor and ID findings where the scanner can derive them from existing report data.
 
 ### Changed
+- Removed implicit page stimulation, hover loops, and broad retry clicking from ordinary observation; activation is now owned by explicit bounded phases.
 - Updated report template version from `2.7` to `2.8` for the Markdown manual review guidance change.
 - Updated report template version from `2.6` to `2.7` for the Markdown vendor category grouping change.
 - Updated report template version from `2.5` to `2.6` for the Markdown evidence explanation change.
