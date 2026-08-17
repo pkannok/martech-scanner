@@ -52,15 +52,15 @@ Avoid contextless rules such as `/analytics/` or broad short-ID patterns. Shared
 
 Stable IDs are internal at this stage; public scan results retain their existing display-name-based shape for compatibility.
 
-## Runtime/global rules
-
 ## Context-scoped identifier rules
 
 Identifier extractors live beside the vendor's source-scoped URL signals under `signals.identifiers`. An extractor may run only after its source, host, and path context matches. This keeps values such as `id=`, `tid=`, and `ttd_pid=` from becoming vendor evidence on unrelated URLs.
 
 Identifier output intentionally remains the existing `{ type, value }` shape. Provenance is retained by the enclosing script or network finding, which records the source URL; no new public report field is required.
 
-Use a positive URL case and an unrelated-host negative case for every extractor. Prefer a narrow vendor path and a vendor-specific parameter, and do not add delayed observation, consent flows, or SPA navigation to this rule layer.
+Use a positive URL case and an unrelated-host negative case for every extractor. Prefer a narrow vendor path and a vendor-specific parameter, and do not add observation timing, consent flows, or SPA navigation to this rule layer.
+
+## Runtime/global rules
 
 Runtime rules inspect a bounded list of exact global paths and record only presence and type. They never invoke vendor functions, enumerate `window`, or copy runtime object contents. For example, HubSpot's queue is represented as:
 
@@ -73,7 +73,7 @@ Runtime rules inspect a bounded list of exact global paths and record only prese
 }
 ```
 
-Exact paths prevent lookalikes such as `utagHelper` or `hjSettingsOnly` from matching. Type constraints reject defined-but-unrelated values, while allowing documented object/function variations where appropriate. Runtime globals are inspected at the scanner's existing evidence checkpoints; late initialization is not intentionally awaited yet. A global is primary only when the path and type are vendor-specific enough to stand alone.
+Exact paths prevent lookalikes such as `utagHelper` or `hjSettingsOnly` from matching. Type constraints reject defined-but-unrelated values, while allowing documented object/function variations where appropriate. Runtime globals are re-inspected at each observation checkpoint, including delayed, consent-accepted, SPA-navigation, and interaction phases. A global is primary only when the path and type are vendor-specific enough to stand alone.
 
 ## Cookie rules
 

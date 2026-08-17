@@ -30,9 +30,9 @@ It does **not** currently use:
 
 ## Version
 
-Current version: `v0.3.0`
-Status: Internal development / teammate testing
-Current focus: Architecture-aware discovery after completing bounded observation and safe interaction phases.
+Current version: `v0.4.0`
+Status: Architectural checkpoint / internal development
+Current focus: Architecture-aware discovery, beginning with richer candidate collection.
 
 ### Recently completed
 
@@ -46,8 +46,9 @@ Current focus: Architecture-aware discovery after completing bounded observation
 - Added bounded consent-gated observation with context-aware acceptance, post-consent snapshots, and consent diagnostics.
 - Added bounded SPA observation with safe same-origin route activation, client-side navigation detection, route provenance, and deterministic fixtures.
 - Added bounded safe interaction observation for one meaningful scroll and one semantic tab, accordion, or content-reveal control per page.
+- Established stable vendor IDs, declarative vendor rules, cookie/global/context-scoped identifier signals, and scenario-based quality evaluation.
 
-MarTech Scanner is not yet considered production-ready. The current version should be treated as a working development baseline for future scanner improvements.
+MarTech Scanner is not yet production-ready. The current version is a working observation-architecture baseline for future scanner improvements.
 
 Version history is tracked in `CHANGELOG.md`.
 
@@ -278,11 +279,13 @@ Use the equivalent npm script:
 npm run scan -- --domain=https://example.com --maxPages=1
 ```
 
-Run all tests, fast tests only, or browser-backed tests only:
+Run all tests, unit/regression tests, vendor-rule tests, quality scenarios, or browser-backed tests only:
 
 ```bash
 npm test
 npm run test:unit
+npm run test:vendor-rules
+npm run test:quality
 npm run test:playwright
 ```
 
@@ -533,9 +536,7 @@ Run the test suite with:
 npm test
 ```
 
-The default suite includes fast unit/regression tests plus Playwright-backed tests
-that run Chromium against local HTTP fixtures. The Playwright-backed tests require
-the Chromium browser to be installed with `npx playwright install chromium`.
+The default suite includes unit, regression, vendor-rule, quality, and Playwright-backed tests that run Chromium against local HTTP fixtures. Install the required browser with `npx playwright install chromium` when the executable is missing.
 
 To run only the fast unit/regression coverage:
 
@@ -555,7 +556,7 @@ To run the deterministic detection-quality scenario harness:
 npm run test:quality
 ```
 
-The quality scenarios declare expected and explicitly absent vendors, expected evidence categories, and site architecture metadata. The harness reports missed detections, unexpected detections, and evidence gaps separately from ordinary regression assertions.
+The quality scenarios declare expected and explicitly absent vendors, expected evidence categories, observation phases, provenance, activation metadata, and site architecture. The harness reports missed detections, unexpected detections, evidence gaps, and phase-specific failures separately from ordinary regression assertions.
 
 Testing principles and expectations are documented in `docs/testing-strategy.md`.
 
@@ -563,12 +564,17 @@ Testing principles and expectations are documented in `docs/testing-strategy.md`
 
 Good next improvements for team use:
 
-- expand architecture-aware page and route selection
+- Architecture-aware discovery — richer candidate collection, surface classification, diversity/information-gain selection, then coverage diagnostics
+- Incremental niche-vendor catalog expansion
+- Add CI/CD test automation
+- Deeper network and payload analysis
+- Evidence/confidence modeling
+- Build a larger real-world benchmark corpus
 - add an explicit CLI switch for forced HAR/trace export on healthy scans
 - add screenshots for fixture/debug capture
 - make vendor rules easier to maintain
-- standardize report schema for onboarding use
-- evaluate standard versus deep scan modes after architecture-aware discovery
+
+The observation architecture is intentionally bounded. It does not yet provide comprehensive architecture-aware page selection, authenticated flows, complex SPA route graphs, multi-step preference centers, infinite-scroll exploration, server-side tagging analysis, response-body analysis, or probabilistic confidence scoring.
 
 The scanner runtime feedback should show:
 
