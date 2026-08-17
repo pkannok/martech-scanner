@@ -20,7 +20,7 @@ Use the `package.json` version as the single source of truth for the MarTech Sca
 
 The current identities are:
 
-- Scanner version: `0.3.0`
+- Scanner version: `0.4.0`
 - Report template version: `2.8`
 
 Generated JSON and Markdown reports include both values. Fixture filenames ending in `_v2_8` refer to the report-template version, not the scanner release.
@@ -32,3 +32,17 @@ A scanner release can add CLI or validation behavior without changing report str
 - Version meaning is explicit in CLI output and generated reports.
 - Package releases and report-template revisions can evolve independently.
 - Maintainers must update the report-template constant and related fixtures when report structure changes.
+
+## ADR-003: Observation architecture checkpoint
+
+### Decision
+
+The `0.4.0` baseline treats baseline, delayed, consent-accepted, SPA-triggered, and safe-interaction observation as bounded phases over a shared evidence pipeline. Network listeners remain active while stateful evidence is re-sampled at phase checkpoints. Evidence is merged once per page and retains internal first-observed phase, route, consent, and interaction provenance without duplicating vendor findings.
+
+### Boundary
+
+The scanner intentionally does not claim complete coverage. Consent recognition is conservative, SPA observation activates one safe same-origin route, and interaction observation is limited to safe, bounded controls. Authenticated journeys, complex route graphs, preference centers, infinite scroll, server-side tagging, response-body analysis, and architecture-aware page selection remain outside this checkpoint.
+
+### Next phase
+
+Architecture-aware discovery is next: richer candidate collection, surface classification, diversity/information-gain selection, and coverage diagnostics. Vendor expansion, CI, deeper payload analysis, confidence modeling, and real-world benchmarking continue as parallel workstreams.

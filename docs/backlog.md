@@ -1,43 +1,37 @@
 # Backlog
 
-This file tracks possible future improvements that are not currently committed to a release.
+This file tracks work after the `0.4.0` observation-architecture checkpoint. The next major product phase is architecture-aware discovery; no discovery implementation is included in this checkpoint.
 
-## Candidate Improvements
+## Completed checkpoint
 
-### CLI Runtime Feedback
-The scanner runtime feedback now emits structured lifecycle events and presents concise CLI progress. Future improvements may add:
+- Baseline and delayed observation.
+- Consent-accepted observation.
+- SPA-triggered observation with route provenance.
+- Bounded safe interaction.
+- Evidence merging with first-observed provenance.
+- Stable vendor IDs and declarative/custom detector coexistence.
+- Cookie, runtime/global, and context-scoped identifier signals.
+- Deterministic scenario-based quality evaluation.
 
-- Start time
-- Target URL
-- Current page being scanned
-- Number of URLs discovered
-- Number of URLs queued
-- Number of URLs scanned
-- Number of detections found
-- Retry/failure messages
-- Output file location
-- Completion status
+## Next: architecture-aware discovery
 
-### Scanner Behavior
-- Improve handling of failed pages.
+1. Richer candidate collection across links, sitemaps, subdomains, and known technical surfaces.
+2. Surface classification for content, commerce, application, support, account, and static/asset hosts.
+3. Diversity and information-gain selection under the existing page budget.
+4. Coverage diagnostics explaining selected, skipped, and underrepresented surfaces.
 
-### Reporting
-- Extract analyst-facing vendor category mapping into a shared configuration module.
-- Normalize evidence-origin metadata across all ID extraction paths.
-- Derive recommended manual review items from richer scan scenarios when those are available.
-- Track explicit skip reasons for discovered URLs that are not selected.
+## Parallel workstreams
 
-### Testing
-- Expand Playwright fixture coverage.
-- Add regression tests for known detection patterns.
+- Incremental niche-vendor catalog expansion.
+- CI/CD automation.
+- Deeper network, payload, and response analysis.
+- Evidence/confidence modeling.
+- Larger real-world benchmark corpus.
+- Explicit skip reasons and richer analyst-facing review guidance.
 
-### Team Usability
-- Add example scan outputs.
-- Add configuration options.
+## Deferred
 
-## Deferred / Not Yet Planned
-
-- CI/CD pipeline
-- npm package publishing
-- GUI/dashboard
-- Scheduled scans
+- Authenticated and multi-step conversion journeys.
+- Complex SPA route graphs and infinite-scroll exploration.
+- Cross-origin CMP preference centers and non-English consent recognition.
+- Server-side tagging, backend systems, GUI/dashboard, scheduled scans, and npm publishing.

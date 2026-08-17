@@ -391,7 +391,7 @@ test('buildSummaryMarkdown formats detected, empty, and failed page output', () 
   const markdown = buildSummaryMarkdown(finalReport);
 
   assert.match(markdown, /^# MarTech Scan Summary/);
-  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.3\.0/);
+  assert.match(markdown, /- \*\*Scanner version:\*\* 0\.4\.0/);
   assert.match(markdown, /- \*\*Report template version:\*\* 2\.8/);
   assert.match(markdown, /- \*\*Domain:\*\* https:\/\/example\.test/);
   assert.match(markdown, /## Executive Summary/);
